@@ -6,7 +6,7 @@ class Player extends Group {
         let {radius, segments, playerPos} = data;
         super();
         const geometry = new SphereBufferGeometry(radius, segments, segments);
-        const material = new MeshPhongMaterial( { color: 0xff1124, specular: 0x666666, emissive: 0xff0000, shininess: 100, opacity: 1, transparent: false } );
+        const material = new MeshPhongMaterial( { color: 0xff1124, specular: 0x666666, emissive: 0xff0000, shininess: 100, opacity: 0, transparent: true } );
 
         let playerMesh = new Mesh(geometry, material);
 

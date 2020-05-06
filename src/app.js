@@ -23,21 +23,23 @@ var params = {
     
 };
 
+var bloomPass = new UnrealBloomPass( new Vector2(window.innerWidth, window.innerHeight),  1, 0.4,0.1);
+bloomPass.threshold = params.bloomThreshold;
+bloomPass.strength = params.bloomStrength;
+bloomPass.radius = params.bloomRadius;
 
-
-var clock = new Clock();
 
 // Initialize core ThreeJS components
-const scene = new SimpleScene();
+const scene = new SimpleScene((prop, val) => {
+    debugger;
+    bloomPass[prop] = val
+});
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 
 const renderScene = new RenderPass( scene, camera);
 
-var bloomPass = new UnrealBloomPass( new Vector2(window.innerWidth, window.innerHeight),  1, 0.4,0.1);
-bloomPass.threshold = params.bloomThreshold;
-bloomPass.strength = params.bloomStrength;
-bloomPass.radius = params.bloomRadius;
+
 
 var composer = new EffectComposer( renderer );
 composer.addPass( renderScene );

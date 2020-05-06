@@ -1,14 +1,14 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, Plane } from 'three';
 import { SphereBufferGeometry, MeshPhongMaterial, BufferAttribute, Mesh, DoubleSide, ShaderMaterial} from 'three';
-import { Flower, Land, Wall, Player } from 'objects';
+import { Flower, IonDrive, Wall, Player } from 'objects';
+
 import { BasicLights } from 'lights';
 import { CustomShader } from 'shaders'
-import { Vector4, Vector3, PlaneBufferGeometry, BoxBufferGeometry, AxesHelper} from 'three';
-
+import { Vector4, Vector3, PlaneBufferGeometry, Box3, AxesHelper} from 'three';
 
 class SimpleScene extends Scene {
-    constructor() {
+    constructor(onBloomParamsUpdated) {
         // Call parent Scene() constructor
         super();
 
@@ -19,20 +19,24 @@ class SimpleScene extends Scene {
             playerInputs: {left:false, right:false, jumped:false},
             updateList: [],
             color: new Color('white'),
+            bloomStrength: 0.7,
+            bloomRadius: 0.2,
+            bloomThreshold: 0.1,
         };
 
         const lights = new BasicLights();
 
 
-        this.add( new AxesHelper(3));
+        //this.add( new AxesHelper(3));
 
 
 
         let width = 40;
         let height = 7;
         let spacing = 7;
-        let wall1 = new Wall({width: width, height:height, segments:32, color: 0x000000, wallPos: new Vector3(-width*0.35, 0, spacing), margin: 0.3, padding: 0.2, n:8});
-        let wall2 = new Wall({width: width, height:height, segments:32, color: 0x000000, wallPos: new Vector3(-width*0.35, 0, -spacing), margin: 0.3, padding: 0.2, n:8});
+        let n = 7;
+        let wall1 = new Wall({width: width, height:height, segments:32, color: 0x000000, wallPos: new Vector3(-width*0.35, 0, spacing), margin: 0.3, padding: 0.2, n:n});
+        let wall2 = new Wall({width: width, height:height, segments:32, color: 0x000000, wallPos: new Vector3(-width*0.35, 0, -spacing), margin: 0.3, padding: 0.2, n:n});
 
         this.wall1 = wall1;
         this.wall2 = wall2;
@@ -43,13 +47,23 @@ class SimpleScene extends Scene {
 
 
         // Set background to a nice color
-        this.background = new Color(0x7ec0ee);
+        this.background = new Color(0x001111);
 
         // Add player
+
+        const ionDrive = new IonDrive(()=>{
+            // let bb = new Box3().setFromObject(ionDrive);
+            // let size = bb.getSize();
+            // ionDrive.position.y -= height/2 - size.y/2;
+        });
+
+
         let playerPos = new Vector3(0, 0, 0);
         let player = new Player({radius:1, segments:16, playerPos:playerPos});
         this.player = player;
+        this.player.add(ionDrive);
         this.addToUpdateList(player);
+
 
         // now populate the array of attributes
 
@@ -76,8 +90,15 @@ class SimpleScene extends Scene {
         this.delta = 0;
         this.intDel = 0;
         this.add( player );
+
+        this.addToUpdateList(ionDrive);
+        //this.add( sphere );
+
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
+        this.state.gui.add(this.state, 'bloomStrength', -2, 2).onChange( (val) => { onBloomParamsUpdated('strength', val)})
+        this.state.gui.add(this.state, 'bloomRadius', 0, 5).onChange( (val) => { onBloomParamsUpdated('radius', val)})
+        this.state.gui.add(this.state, 'bloomThreshold', 0, 1).onChange( (val) => { onBloomParamsUpdated('threshold', val)})
         this.state.gui.addColor(new ColorGUIHelper(this.state, 'color'), 'value').name('color')
     }
 

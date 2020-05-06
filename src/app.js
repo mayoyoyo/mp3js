@@ -12,7 +12,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { SeedScene,SimpleScene } from 'scenes';
+import { SeedScene, SimpleScene } from 'scenes';
 import { ShaderPass} from 'three/examples/jsm/postprocessing/ShaderPass';
 import {CopyShader} from 'three/examples/jsm/shaders/CopyShader';
 
@@ -20,10 +20,8 @@ var params = {
     bloomStrength: 0.7,
     bloomRadius: 0.2,
     bloomThreshold: 0.1,
-    
+
 };
-
-
 
 var clock = new Clock();
 
@@ -73,10 +71,81 @@ controls.minDistance = 4;
 controls.maxDistance = 16;
 controls.update();
 
+// Key Actions
+const keyActions = [];
+function addKeyAction(keySpec, onDown, onUp) {
+    const action = {
+        keySpec,
+        onDown,
+        onUp,
+        isRepeat: false,
+    };
+    keyActions.push(action);
+}
+
+const aka = addKeyAction;
+// https://keycode.info
+const ArrowLeft = { key: "ArrowLeft", keyCode: 37, isPressed: false };
+const ArrowRight = { key: "ArrowRight", keyCode: 39, isPressed: false };
+const Space = { key: "Space", keyCode: 32, isPressed: false };
+const boundKeys = [
+    ArrowLeft,
+    ArrowRight,
+    Space
+];
+
+function watchKey(keyObj) {
+    aka(
+        keyObj,
+        event => { keyObj.isPressed = true },
+        event => { keyObj.isPressed = false },
+    );
+}
+boundKeys.forEach(watchKey);
+
+document.addEventListener('keydown', (event) => {
+    keyActions.forEach((action) => {
+        const { keySpec, onDown, isRepeat } = action;
+        const { key, keyCode } = keySpec;
+        if (event.key == key || event.keyCode == keyCode) {
+            event.preventDefault();
+            if (isRepeat) {
+                return;
+            } else {
+                action.isRepeat = true;
+            }
+            onDown(event);
+        }
+    });
+});
+
+document.addEventListener('keyup', (event) => {
+    keyActions.forEach((action) => {
+        const { keySpec, onUp } = action;
+        const { key, keyCode } = keySpec;
+        if (event.key == key || event.keyCode == keyCode) {
+            action.isRepeat = false;
+            event.preventDefault();
+            onUp(event);
+        }
+    })
+});
+
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
     composer.render();
+
+    scene.state.playerInputs = {left:false, right:false, jumped:false};
+    if (Space.isPressed) {
+      scene.state.playerInputs.jumped = true;
+    }
+    if (ArrowLeft.isPressed) {
+      scene.state.playerInputs.left = true;
+    }
+    if (ArrowRight.isPressed) {
+      scene.state.playerInputs.right = true;
+    }
 
     //renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);

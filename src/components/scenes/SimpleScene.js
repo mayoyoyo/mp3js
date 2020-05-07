@@ -48,7 +48,7 @@ class SimpleScene extends Scene {
                               wallPos: new Vector3(-width*0.35, 0, -this.state.spacing),
                               margin: 0.3, padding: 0.2, n, size: 0.2});
 
-        let floor = new Floor({width, height:spacing*2,
+        let floor = new Floor({width, height:this.state.spacing*2,
                                segments:32, colorNum: 0xffd1dc,
                                pos: new Vector3(-width*0.35, -height/2, 0),
                                size: 0.2});
@@ -97,12 +97,10 @@ class SimpleScene extends Scene {
 
         // now populate the array of attributes
 
-
-
         this.delta = 0;
         this.intDel = 0;
         this.add( player );
-
+        this.ionDrive = ionDrive;
         this.addToUpdateList(ionDrive);
 
 
@@ -142,15 +140,6 @@ class SimpleScene extends Scene {
                 /* Logic For setting */
             }
         }
-
-        this.delta = 0;
-        this.intDel = 0;
-
-        // Populate GUI
-        this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
-        this.state.gui.add(this.state, 'bloomStrength', -2, 2).onChange( (val) => { onBloomParamsUpdated('strength', val)})
-        this.state.gui.add(this.state, 'bloomRadius', 0, 5).onChange( (val) => { onBloomParamsUpdated('radius', val)})
-        this.state.gui.add(this.state, 'bloomThreshold', 0, 1).onChange( (val) => { onBloomParamsUpdated('threshold', val)})
 
         this.state.gui.addColor(new ColorGUIHelper(this.state, 'color'), 'value').name('color')
     }
@@ -206,7 +195,7 @@ class SimpleScene extends Scene {
 
         }
 
-        if (deltaInt % (this.getRandomInt(15) + 20) == 0){
+        if (deltaInt % (Math.round(Math.random() * 15) + 20) == 0){
             //debugger;
             this.ionDrive.reactToBeat(2);
             //this.floor.setIntensity(0.2);

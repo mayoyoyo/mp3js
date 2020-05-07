@@ -47,8 +47,8 @@ class IonDrive extends Group {
 
             this.targetScale = decayed;
             this.deltaInt += 1;
-          
-            if (this.deltaInt % (this.getRandomInt(15) + 20) == 0){
+
+            if (this.deltaInt % (Math.round(Math.random() * 15) + 20) == 0){
                 //debugger;
                 this.reactToBeat(2);
             }

@@ -4,13 +4,16 @@
    varying: Vars that we can pass from the vertex to fragment shaders...
 /* attributes are per vertex properties */ 
 attribute float vertexDisplacement;
+
+varying vec3 pos;
+varying vec4 posWRTCam;
 void main() {
-  //vUv = position;
+  pos = position;
   //vOpacity = vertexDisplacement;
   //vec3 p = position;
 
   // p.x += sin(vertexDisplacement) * 2.0;
   // p.y += cos(vertexDisplacement) * 2.0;
-
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  posWRTCam = modelViewMatrix * vec4(position, 1.0);
+  gl_Position = projectionMatrix * posWRTCam;
 }

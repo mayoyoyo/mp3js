@@ -6,15 +6,21 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3, Vector2, Clock, AmbientLight, PointLight} from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3, Vector2, Clock, AmbientLight, PointLight } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-
+import { Audio, AudioListener, AudioLoader, AudioAnalyser } from 'three';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { SeedScene, SimpleScene } from 'scenes';
-import { ShaderPass} from 'three/examples/jsm/postprocessing/ShaderPass';
-import {CopyShader} from 'three/examples/jsm/shaders/CopyShader';
+import MUSIC from './components/music/techno.mp3';
+//import MUSIC from './components/music/song.mp3';
+import { AudioData } from './components/music/Audio.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
+import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
+
+// global variables for audio
+var audio, analyser;
 
 var params = {
     bloomStrength: 0.7,
@@ -23,7 +29,7 @@ var params = {
 
 };
 
-var bloomPass = new UnrealBloomPass( new Vector2(window.innerWidth, window.innerHeight),  1, 0.4,0.1);
+var bloomPass = new UnrealBloomPass(new Vector2(window.innerWidth, window.innerHeight), 1, 0.4, 0.1);
 bloomPass.threshold = params.bloomThreshold;
 bloomPass.strength = params.bloomStrength;
 bloomPass.radius = params.bloomRadius;
@@ -36,13 +42,13 @@ const scene = new SimpleScene((prop, val) => {
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 
-const renderScene = new RenderPass( scene, camera);
+const renderScene = new RenderPass(scene, camera);
 
 
 
-var composer = new EffectComposer( renderer );
-composer.addPass( renderScene );
-composer.addPass( bloomPass );
+var composer = new EffectComposer(renderer);
+composer.addPass(renderScene);
+composer.addPass(bloomPass);
 
 let copyShader = new ShaderPass(CopyShader);
 copyShader.renderToScreen = true;
@@ -53,10 +59,10 @@ composer.addPass(copyShader);
 camera.position.set(10, 0, 0);
 camera.lookAt(new Vector3(0, 0, 0));
 
-scene.add( new AmbientLight( 0x404040 ) );
+scene.add(new AmbientLight(0x404040));
 
-let pointLight = new PointLight( 0xffffff, 1 );
-camera.add( pointLight );
+let pointLight = new PointLight(0xffffff, 1);
+camera.add(pointLight);
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -134,20 +140,53 @@ document.addEventListener('keyup', (event) => {
     })
 });
 
+var listener = new AudioListener();
+
+// create a global audio source
+var audio = new Audio(listener);
+
+// load a sound and set it as the Audio object's buffer
+var audioLoader = new AudioLoader();
+audioLoader.load(MUSIC, function (buffer) {
+    audio.setBuffer(buffer);
+    audio.setLoop(false);
+    audio.setVolume(0.5);
+    audio.play();
+});
+// create an AudioAnalyser sampled at 1024 bins
+var analyser = new AudioAnalyser(audio, 2048);
+var visualanalyser = new AudioAnalyser(audio, 32);
+
+// pause/play by clicking anywhere
+document.body.addEventListener('click', function () {
+    if (audio) {
+        if (audio.isPlaying) {
+            audio.pause();
+        } else {
+            audio.play();
+        }
+    }
+});
+
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
     composer.render();
 
-    scene.state.playerInputs = {left:false, right:false, jumped:false};
+    scene.state.playerInputs = { left: false, right: false, jumped: false };
     if (Space.isPressed) {
-      scene.state.playerInputs.jumped = true;
+        scene.state.playerInputs.jumped = true;
     }
     if (ArrowLeft.isPressed) {
-      scene.state.playerInputs.left = true;
+        scene.state.playerInputs.left = true;
     }
     if (ArrowRight.isPressed) {
-      scene.state.playerInputs.right = true;
+        scene.state.playerInputs.right = true;
+    }
+
+    if (analyser) {
+        scene.freqData = visualanalyser.getFrequencyData();
+        scene.avgFreq = analyser.getAverageFrequency();
     }
 
     //renderer.render(scene, camera);
@@ -160,7 +199,7 @@ window.requestAnimationFrame(onAnimationFrameHandler);
 const windowResizeHandler = () => {
     const { innerHeight, innerWidth } = window;
     renderer.setSize(innerWidth, innerHeight);
-    composer.setSize( innerWidth, innerHeight );
+    composer.setSize(innerWidth, innerHeight);
     camera.aspect = innerWidth / innerHeight;
     camera.updateProjectionMatrix();
 };

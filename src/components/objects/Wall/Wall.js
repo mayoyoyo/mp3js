@@ -3,12 +3,12 @@ import { CustomShader } from 'shaders';
 import { PlaneBufferGeometry, MeshBasicMaterial, DoubleSide, Mesh, BoxBufferGeometry, AxesHelper, ShaderMaterial } from 'three';
 
 class Wall extends Group {
-    constructor(data){
-        let {width, height, segments, color, wallPos, padding, margin, n, size} = data;
+    constructor(data) {
+        let { width, height, segments, color, wallPos, padding, margin, n, size } = data;
         super();
         let wallGeometry = new PlaneBufferGeometry(width, height, segments);
 
-        var material = new MeshBasicMaterial( {color: color, side: DoubleSide});
+        var material = new MeshBasicMaterial({ color: color, side: DoubleSide });
 
         let meshWall = new Mesh(wallGeometry, material);
 
@@ -22,30 +22,30 @@ class Wall extends Group {
         }
 
         this.stripNum = n;
-        
-        
 
-        let heightMinusMargins = height - 2*margin;
 
-        let totHeight = heightMinusMargins - ((n-1) *padding);
+
+        let heightMinusMargins = height - 2 * margin;
+
+        let totHeight = heightMinusMargins - ((n - 1) * padding);
         let boxHeight = totHeight / n;
 
-        let angleSteps = 360.0/ n;
-        for (let i = 0; i < n; i++){
+        let angleSteps = 360.0 / n;
+        for (let i = 0; i < n; i++) {
             // add a box at its position of height box Height and width width....
             var geometry = new BoxBufferGeometry(width, boxHeight, 0.3);
             let color = new Color(`hsl(${i * angleSteps}, 100%, 50%)`)
 
             let uniforms = {
-                color : {
+                color: {
                     type: "v4",
                     value: new Vector4(color.r, color.g, color.b, 1.0)
                 },
                 intensity: {
                     type: 'f',
                     value: 0
-                }, 
-                size:{ 
+                },
+                size: {
                     type: "f",
                     value: size
                 },
@@ -59,18 +59,18 @@ class Wall extends Group {
             const custom = new CustomShader();
             custom.processUniforms(uniforms);
             let shaderMaterial = new ShaderMaterial({
-                vertexShader:  custom.vertexShader,
+                vertexShader: custom.vertexShader,
                 fragmentShader: custom.fragmentShader,
                 uniforms: custom.uniforms,
                 side: DoubleSide,
-                
+
             });
 
 
             var cube = new Mesh(geometry, shaderMaterial);
 
 
-            let startY = (height/2) - margin - boxHeight/2;
+            let startY = (height / 2) - margin - boxHeight / 2;
             let pos = new Vector3();
             pos.y = startY;
 
@@ -86,8 +86,8 @@ class Wall extends Group {
     }
 
     setStripIntensities(intensities) {
-        let {strips} = this.state;
-        for (let i = 0; i< intensities.length; i++) {
+        let { strips } = this.state;
+        for (let i = 0; i < intensities.length; i++) {
             // set the strip intensity uniform to the value...
 
             let strip = strips[i];
@@ -97,7 +97,7 @@ class Wall extends Group {
     }
 
     setStripSize(size) {
-        let {strips} = this.state;
+        let { strips } = this.state;
 
         for (let i = 0; i < strips.length; i++) {
             let strip = strips[i];
@@ -107,7 +107,7 @@ class Wall extends Group {
     }
 
     setStripOffset(size) {
-        let {strips} = this.state;
+        let { strips } = this.state;
 
         for (let i = 0; i < strips.length; i++) {
             let strip = strips[i];
@@ -122,17 +122,17 @@ class Wall extends Group {
 
     update(timeStamp) {
         let { strips, delta, deltaInt, decayFactor, speed } = this.state;
-        
-        
-        if (deltaInt % 3 == 0) {
+
+
+        if (deltaInt % 2 == 0) {
             strips.forEach((strip) => {
                 let uniforms = strip.material.uniforms; // gets the uniform to set. 
                 let oldVal = uniforms['intensity']['value'];
-                oldVal = Math.max(0.05,  decayFactor * oldVal);
+                oldVal = Math.max(0.05, decayFactor * oldVal);
                 uniforms['intensity']['value'] = oldVal;
             });
 
-            
+
         }
 
         this.setStripOffset(this.state.delta);

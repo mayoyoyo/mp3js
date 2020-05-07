@@ -4,7 +4,7 @@ import { PlaneBufferGeometry, MeshBasicMaterial, DoubleSide, Mesh, BoxBufferGeom
 
 class Wall extends Group {
     constructor(data){
-        let {width, height, segments, color, wallPos, padding, margin, n} = data;
+        let {width, height, segments, color, wallPos, padding, margin, n, size} = data;
         super();
         let wallGeometry = new PlaneBufferGeometry(width, height, segments);
 
@@ -14,7 +14,11 @@ class Wall extends Group {
 
         this.state = {
             strips: [],
-            delta: 0
+            delta: 0,
+            deltaInt: 0,
+            decayFactor: 0.92,
+            displacement: 0,
+            speed: 0.1
         }
 
         this.stripNum = n;
@@ -30,7 +34,6 @@ class Wall extends Group {
         for (let i = 0; i < n; i++){
             // add a box at its position of height box Height and width width....
             var geometry = new BoxBufferGeometry(width, boxHeight, 0.3);
-            var material = new MeshBasicMaterial( {color:0x00ff00});
             let color = new Color(`hsl(${i * angleSteps}, 100%, 50%)`)
 
             let uniforms = {
@@ -38,12 +41,16 @@ class Wall extends Group {
                     type: "v4",
                     value: new Vector4(color.r, color.g, color.b, 1.0)
                 },
-                delta: {
-                    type: "f",
-                    value: 0
-                },
                 intensity: {
                     type: 'f',
+                    value: 0
+                }, 
+                size:{ 
+                    type: "f",
+                    value: size
+                },
+                offset: {
+                    type: "f",
                     value: 0
                 }
             }
@@ -76,8 +83,6 @@ class Wall extends Group {
 
         this.add(meshWall);
         this.position.set(wallPos.x, wallPos.y, wallPos.z);
-        this.decayFactor = 0.92;
-        this.deltaInt = 0;
     }
 
     setStripIntensities(intensities) {
@@ -91,39 +96,51 @@ class Wall extends Group {
         }
     }
 
+    setStripSize(size) {
+        let {strips} = this.state;
 
-
-    update(timeStamp) {
-        let { strips, delta } = this.state;
-        this.state.delta = delta + 1; 
-        
-        this.deltaInt += 1;
-
-        if (this.deltaInt % 3 == 0) {
-            strips.forEach((strip) => {
-            
-                let uniforms = strip.material.uniforms; // gets the uniform to set. 
-                let oldVal = uniforms['intensity']['value'];
-                oldVal = this.decayFactor* oldVal;
-                uniforms['intensity']['value'] = oldVal;
-            });
+        for (let i = 0; i < strips.length; i++) {
+            let strip = strips[i];
+            let uniforms = strip.material.uniforms;
+            uniforms['size']['value'] = size;
         }
     }
-}
 
+    setStripOffset(size) {
+        let {strips} = this.state;
 
-        // let vertexDisplacement = new Float32Array(geometry.attributes.position.count);
+        for (let i = 0; i < strips.length; i++) {
+            let strip = strips[i];
+            let uniforms = strip.material.uniforms;
+            uniforms['offset']['value'] = size;
+        }
+    }
 
-        // for (let i = 0; i < vertexDisplacement.length; i++) {
-        //     vertexDisplacement[i] = Math.random()/10.0;
-        // }
+    setSpeed(newSpeed) {
+        this.state.speed = newSpeed;
+    }
 
-        // geometry.setAttribute('vertexDisplacement', new BufferAttribute(vertexDisplacement, 1));
+    update(timeStamp) {
+        let { strips, delta, deltaInt, decayFactor, speed } = this.state;
         
-        // let shaderMaterial = new ShaderMaterial({
-        //     vertexShader:  custom.vertexShader,
-        //     fragmentShader: custom.fragmentShader,
-        //     uniforms: uniforms,
-        //     side: DoubleSide,
-        // });
+        
+        if (deltaInt % 3 == 0) {
+            strips.forEach((strip) => {
+                let uniforms = strip.material.uniforms; // gets the uniform to set. 
+                let oldVal = uniforms['intensity']['value'];
+                oldVal = Math.max(0.05,  decayFactor * oldVal);
+                uniforms['intensity']['value'] = oldVal;
+            });
+
+            
+        }
+
+        this.setStripOffset(this.state.delta);
+
+        deltaInt += 1;
+        delta += speed;
+        // takes everything in state and then adds deltaInt and delta (overwritting it);
+        this.state = { ...this.state, deltaInt, delta };
+    }
+}
 export default Wall;

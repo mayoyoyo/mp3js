@@ -33,10 +33,6 @@ class IonDrive extends Group {
         this.targetScale = magnitude;
     }
 
-    getRandomInt(max) {
-        return Math.floor(Math.random() * Math.floor(max));
-    }
-
     update(timeStamp) {
         if (this.mixer){
             const delta = this.clock.getDelta() / 2;
@@ -51,7 +47,7 @@ class IonDrive extends Group {
 
             this.targetScale = decayed;
             this.deltaInt += 1;
-
+          
             if (this.deltaInt % (this.getRandomInt(15) + 20) == 0){
                 //debugger;
                 this.reactToBeat(2);

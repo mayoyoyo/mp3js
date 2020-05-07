@@ -1,7 +1,7 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, Plane } from 'three';
 import { SphereBufferGeometry, MeshPhongMaterial, BufferAttribute, Mesh, DoubleSide, ShaderMaterial} from 'three';
-import { Flower, IonDrive, Wall, Player } from 'objects';
+import { Flower, IonDrive, Wall, Player, Orb } from 'objects';
 
 import { BasicLights } from 'lights';
 import { CustomShader } from 'shaders'
@@ -17,6 +17,9 @@ class SimpleScene extends Scene {
             gui: new Dat.GUI(), // Create GUI for scene
             rotationSpeed: 0,
             playerInputs: {left:false, right:false, jumped:false},
+            prevOrbZ: 0,
+            orbSpeed: 0.4,
+            spacing: 7,
             updateList: [],
             color: new Color('white'),
             bloomStrength: 0.7,
@@ -24,19 +27,16 @@ class SimpleScene extends Scene {
             bloomThreshold: 0.1,
         };
 
+        // Add lights
         const lights = new BasicLights();
 
 
-        //this.add( new AxesHelper(3));
-
-
-
+        // Add walls
         let width = 40;
         let height = 7;
-        let spacing = 7;
         let n = 7;
-        let wall1 = new Wall({width: width, height:height, segments:32, color: 0x000000, wallPos: new Vector3(-width*0.35, 0, spacing), margin: 0.3, padding: 0.2, n:n});
-        let wall2 = new Wall({width: width, height:height, segments:32, color: 0x000000, wallPos: new Vector3(-width*0.35, 0, -spacing), margin: 0.3, padding: 0.2, n:n});
+        let wall1 = new Wall({width: width, height:height, segments:32, color: 0x000000, wallPos: new Vector3(-width*0.35, 0, this.state.spacing), margin: 0.3, padding: 0.2, n:n});
+        let wall2 = new Wall({width: width, height:height, segments:32, color: 0x000000, wallPos: new Vector3(-width*0.35, 0, -this.state.spacing), margin: 0.3, padding: 0.2, n:n});
 
         this.wall1 = wall1;
         this.wall2 = wall2;
@@ -49,20 +49,38 @@ class SimpleScene extends Scene {
         // Set background to a nice color
         this.background = new Color(0x001111);
 
-        // Add player
 
+        // Add player
         const ionDrive = new IonDrive(()=>{
             // let bb = new Box3().setFromObject(ionDrive);
             // let size = bb.getSize();
             // ionDrive.position.y -= height/2 - size.y/2;
         });
 
-
-        let playerPos = new Vector3(0, 0, 0);
-        let player = new Player({radius:1, segments:16, playerPos:playerPos});
+        let playerPos = new Vector3(2, 0, 0);
+        let player = new Player({radius:1.3, segments:1, playerPos:playerPos, skin:ionDrive, bounds:this.state.spacing});
         this.player = player;
-        this.player.add(ionDrive);
         this.addToUpdateList(player);
+        this.add(player);
+        this.addToUpdateList(ionDrive);
+
+
+        // Add orbs
+
+
+        this.orbs = []
+
+        const NUM_STARTING_ORBS = 8;
+        this.orbIncrement = 8;
+        for (let i = 0; i < NUM_STARTING_ORBS; ++i) {
+          let orbXPos = -i * this.orbIncrement;
+          let orb = new Orb({xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.orbSpeed, bounds: this.state.spacing});
+          this.addToUpdateList(orb);
+          this.add(orb);
+          this.orbs.push(orb);
+
+          this.state.prevOrbZ = orb.position.z;
+        }
 
 
         // now populate the array of attributes
@@ -89,10 +107,6 @@ class SimpleScene extends Scene {
 
         this.delta = 0;
         this.intDel = 0;
-        this.add( player );
-
-        this.addToUpdateList(ionDrive);
-        //this.add( sphere );
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -124,6 +138,23 @@ class SimpleScene extends Scene {
         if (this.state.playerInputs.right) {
           this.player.state.right = true;
         }
+
+        // destroy orbs behind the camera / add new ones
+        const CAMERA_X = 10;
+        while (this.orbs[0] && this.orbs[0].position.x > CAMERA_X) {
+            // add new barrier to replace the old one
+            let orbXPos = this.orbs[this.orbs.length - 1].position.x - this.orbIncrement;
+            const newOrb = new Orb({xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.orbSpeed, bounds: this.state.spacing});
+            this.orbs.push(newOrb);
+            this.addToUpdateList(newOrb);
+            this.add(newOrb);
+
+            this.state.prevOrbZ = newOrb.position.z;
+
+            // dispose of old orb
+            this.orbs.shift();
+        }
+
 
         this.intDel += 1;
         if (this.intDel % 30 == 0){

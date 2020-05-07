@@ -3,7 +3,7 @@ import { Scene, Color, Plane } from 'three';
 import { SphereBufferGeometry, MeshPhongMaterial, BufferAttribute, Mesh, DoubleSide, ShaderMaterial } from 'three';
 import { Flower, IonDrive, Wall, Floor, Player, Orb } from 'objects';
 import { Audio, AudioListener, AudioLoader, AudioAnalyser } from 'three';
-import { AudioData } from '../music/Audio.js';
+import { AudioData } from 'music';
 import { BasicLights } from 'lights';
 import { Vector3 } from 'three';
 
@@ -32,8 +32,7 @@ class SimpleScene extends Scene {
         };
 
         // audio frequency data 
-        this.freqData = [];
-        this.avgFreq = 0;
+        this.audiodata = new AudioData();
 
         // Add lights
         const lights = new BasicLights();
@@ -180,7 +179,7 @@ class SimpleScene extends Scene {
 
         // check collision with first orb
         if (this.player.collideWithOrb(this.orbs[0])) {
-          this.state.score += 100;
+            this.state.score += 100;
         }
 
         // destroy orbs behind the camera / add new ones
@@ -204,7 +203,7 @@ class SimpleScene extends Scene {
 
             var levels = [];
             for (var i = 0; i < 16; i++) {
-                levels.push(this.freqData[i] / 256);
+                levels.push(this.audiodata.data[i] / 256);
             }
             levels.reverse();
             this.wall1.setStripIntensities(levels);

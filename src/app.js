@@ -15,7 +15,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { SeedScene, SimpleScene } from 'scenes';
 import MUSIC from './components/music/techno.mp3';
 //import MUSIC from './components/music/song.mp3';
-import { AudioData } from './components/music/Audio.js';
+import { AudioData } from 'music';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 
@@ -185,8 +185,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
 
     if (analyser) {
-        scene.freqData = visualanalyser.getFrequencyData();
-        scene.avgFreq = analyser.getAverageFrequency();
+        scene.audiodata = new AudioData(visualanalyser.getFrequencyData(), analyser.getAverageFrequency());
     }
 
     // TODO: Make this into a display or something

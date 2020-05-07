@@ -1,16 +1,9 @@
 class AudioData {
-    constructor() {
-        this.data = [];
-        this.avgFreq = 0;
-    }
-
-    addData(data) {
+    constructor(data, avgFreq) {
         this.data = data;
-    }
-
-    addAvgFreq(avgFreq) {
         this.avgFreq = avgFreq;
     }
+
 
     getLevels(bins) {
         var freqPerBin = 1024 / bins;
@@ -93,3 +86,5 @@ class Buffer {
     }
 
 }
+
+export default AudioData;

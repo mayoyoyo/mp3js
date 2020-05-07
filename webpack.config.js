@@ -47,6 +47,7 @@ module.exports = {
             objects$: path.resolve(__dirname, 'src/components/objects'),
             scenes$: path.resolve(__dirname, 'src/components/scenes'),
             shaders$: path.resolve(__dirname, 'src/components/shaders'),
+            music$: path.resolve(__dirname, 'src/components/music'),
         },
     },
     plugins: [

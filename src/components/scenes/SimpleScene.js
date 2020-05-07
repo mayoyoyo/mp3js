@@ -3,7 +3,7 @@ import { Scene, Color, Plane } from 'three';
 import { SphereBufferGeometry, MeshPhongMaterial, BufferAttribute, Mesh, DoubleSide, ShaderMaterial } from 'three';
 import { Flower, IonDrive, Wall, Floor, Player, Orb } from 'objects';
 import { Audio, AudioListener, AudioLoader, AudioAnalyser } from 'three';
-import { AudioData } from '../music/Audio.js';
+import { AudioData } from 'music';
 import { BasicLights } from 'lights';
 import { Vector3 } from 'three';
 
@@ -20,6 +20,7 @@ class SimpleScene extends Scene {
             playerInputs: { left: false, right: false, jumped: false },
             prevOrbZ: 0,
             orbSpeed: 0.4,
+            score: 0,
             spacing: 7,
             updateList: [],
             color: new Color('white'),
@@ -27,12 +28,12 @@ class SimpleScene extends Scene {
             bloomRadius: 0.2,
             bloomThreshold: 0.1,
             speed: 0.1,
-            deltaInt: 0
+            deltaInt: 0,
+            avgFreq: 1
         };
 
         // audio frequency data 
-        this.freqData = [];
-        this.avgFreq = 0;
+        this.audiodata = new AudioData([], 0);
 
         // Add lights
         const lights = new BasicLights();
@@ -177,6 +178,11 @@ class SimpleScene extends Scene {
             this.player.state.right = true;
         }
 
+        // check collision with first orb
+        if (this.player.collideWithOrb(this.orbs[0])) {
+            this.state.score += 100;
+        }
+
         // destroy orbs behind the camera / add new ones
         const CAMERA_X = 10;
         while (this.orbs[0] && this.orbs[0].position.x > CAMERA_X) {
@@ -190,6 +196,7 @@ class SimpleScene extends Scene {
             this.state.prevOrbZ = newOrb.position.z;
 
             // dispose of old orb
+            this.remove(this.orbs[0])
             this.orbs.shift();
         }
 
@@ -198,7 +205,7 @@ class SimpleScene extends Scene {
 
             var levels = [];
             for (var i = 0; i < 16; i++) {
-                levels.push(this.freqData[i] / 256);
+                levels.push(this.audiodata.data[i] / 256);
             }
             levels.reverse();
             this.wall1.setStripIntensities(levels);
@@ -208,8 +215,8 @@ class SimpleScene extends Scene {
 
 
         if (deltaInt % (Math.round(Math.random() * 15) + 20) == 0) {
-            //debugger;
-            this.ionDrive.reactToBeat(4 * this.avgFreq / 256);
+            let {avgFreq} = this.state;
+            //this.ionDrive.reactToBeat(4 * avgFreq/ 256);
             //this.floor.setIntensity(0.2);
         }
 

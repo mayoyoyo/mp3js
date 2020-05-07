@@ -12,10 +12,10 @@ import { Audio, AudioListener, AudioLoader, AudioAnalyser } from 'three';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { SimpleScene } from 'scenes';
-//import MUSIC from './components/music/techno.mp3';
-import MUSIC from './components/music/song.mp3';
-import { AudioData } from './components/music/Audio.js';
+import { SeedScene, SimpleScene } from 'scenes';
+import MUSIC from './components/music/techno.mp3';
+//import MUSIC from './components/music/song.mp3';
+import { AudioData } from 'music';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 
@@ -96,11 +96,11 @@ const aka = addKeyAction;
 // https://keycode.info
 const ArrowLeft = { key: "ArrowLeft", keyCode: 37, isPressed: false };
 const ArrowRight = { key: "ArrowRight", keyCode: 39, isPressed: false };
-const Space = { key: "Space", keyCode: 32, isPressed: false };
+const ArrowUp = { key: "ArrowUp", keyCode: 38, isPressed: false };
 const boundKeys = [
     ArrowLeft,
     ArrowRight,
-    Space
+    ArrowUp
 ];
 
 function watchKey(keyObj) {
@@ -168,13 +168,17 @@ document.body.addEventListener('click', function () {
     }
 });
 
+let score = document.getElementById("Score");
+
+let prevScore = 0;
+
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
     composer.render();
 
     scene.state.playerInputs = { left: false, right: false, jumped: false };
-    if (Space.isPressed) {
+    if (ArrowUp.isPressed) {
         scene.state.playerInputs.jumped = true;
     }
     if (ArrowLeft.isPressed) {
@@ -185,8 +189,13 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
 
     if (analyser) {
-        scene.freqData = visualanalyser.getFrequencyData();
-        scene.avgFreq = analyser.getAverageFrequency();
+        scene.audiodata = new AudioData(visualanalyser.getFrequencyData(), analyser.getAverageFrequency());
+    }
+
+    if (scene.state.score != prevScore) {
+        prevScore = scene.state.score;
+
+        score.innerHTML = `Score ${prevScore}`;
     }
 
     //renderer.render(scene, camera);

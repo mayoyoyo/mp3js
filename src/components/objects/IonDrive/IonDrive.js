@@ -15,7 +15,7 @@ class IonDrive extends Group {
         this.clock = new Clock();
         loader.load(MODEL, (gltf) => {
             this.add(gltf.scene);
-            this.ringObj = gltf.scene.getChildByName('circle');
+            this.ringObj = gltf.scene.getObjectByName('circle');
             gltf.scene.rotation.y = Math.PI/ 2;
             gltf.scene.scale.multiplyScalar(0.6);
             this.mixer = new AnimationMixer( gltf.scene);
@@ -42,16 +42,21 @@ class IonDrive extends Group {
 
         if (this.ringObj){
             let targetVec = new Vector3(0.8, this.targetScale, this.targetScale);
-            this.ringObj.scale.lerp(targetVec, 0.2);
-            let decayed = Math.max(0.8, this.decay * this.targetScale);
-
-            this.targetScale = decayed;
+            if (this.ringObj.scale.distanceTo(targetVec) < 0.001) {
+                
+            } else {
+                this.ringObj.scale.lerp(targetVec, 0.2);
+                let decayed = Math.max(0.8, this.decay * this.targetScale);
+    
+                this.targetScale = decayed; 
+            }
+            
             this.deltaInt += 1;
 
-            if (this.deltaInt % (Math.round(Math.random() * 15) + 20) == 0){
-                //debugger;
-                this.reactToBeat(2);
-            }
+            // if (this.deltaInt % (Math.round(Math.random() * 15) + 20) == 0){
+            //     //debugger;
+            //     this.reactToBeat(2);
+            // }
         }
 
     }

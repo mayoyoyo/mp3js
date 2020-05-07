@@ -96,11 +96,11 @@ const aka = addKeyAction;
 // https://keycode.info
 const ArrowLeft = { key: "ArrowLeft", keyCode: 37, isPressed: false };
 const ArrowRight = { key: "ArrowRight", keyCode: 39, isPressed: false };
-const Space = { key: "Space", keyCode: 32, isPressed: false };
+const ArrowUp = { key: "ArrowUp", keyCode: 38, isPressed: false };
 const boundKeys = [
     ArrowLeft,
     ArrowRight,
-    Space
+    ArrowUp
 ];
 
 function watchKey(keyObj) {
@@ -174,7 +174,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     composer.render();
 
     scene.state.playerInputs = { left: false, right: false, jumped: false };
-    if (Space.isPressed) {
+    if (ArrowUp.isPressed) {
         scene.state.playerInputs.jumped = true;
     }
     if (ArrowLeft.isPressed) {

@@ -4,22 +4,20 @@ import { PlaneBufferGeometry, MeshBasicMaterial, DoubleSide, Mesh, BoxBufferGeom
 
 class Floor extends Group {
     constructor(data){
-        let {width, height, segments, color, pos, size} = data;
+        let {width, height, segments, colorNum, pos, size} = data;
         super();
         let floorGeom = new PlaneBufferGeometry(width, height, segments);
         floorGeom.rotateX(Math.PI/2);
-
-
-        
-
         this.state = {
             delta: 0,
             displacement: 0,
             speed: 0.1,
+            deltaInt: 0,
+            decayFactor: 0.999
         }
 
         //let color = new Color(`hsl(${0}, 100%, 50%)`)
-
+        let color = new Color(colorNum);
         let uniforms = {
             color : {
                 type: "v4",
@@ -55,6 +53,16 @@ class Floor extends Group {
         this.position.set(pos.x, pos.y, pos.z);
     }
 
+    setIntensity(val) {
+        let uniforms = this.floor.material.uniforms;
+        uniforms['intensity']['value'] = val;
+    }
+
+    getIntensity() {
+        let uniforms = this.floor.material.uniforms;
+        return uniforms['intensity']['value'];
+    }
+
     setSize(size) {
         let uniforms = this.floor.material.uniforms;
         uniforms['size']['value'] = size;
@@ -71,7 +79,13 @@ class Floor extends Group {
 
 
     update(timeStamp) {
-        let {delta, speed} = this.state;
+        let {delta, speed, deltaInt, decayFactor} = this.state;
+        
+        if (deltaInt % 3 == 0) {
+            let oldVal = this.getIntensity();
+            oldVal = Math.max(0.05, decayFactor * oldVal)
+            this.setIntensity(oldVal);
+        }
         
         this.setOffset(this.state.delta);
 

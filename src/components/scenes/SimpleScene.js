@@ -21,7 +21,8 @@ class SimpleScene extends Scene {
             bloomStrength: 0.7,
             bloomRadius: 0.2,
             bloomThreshold: 0.1,
-            speed: 0.1
+            speed: 0.1,
+            deltaInt: 0
         };
 
         const lights = new BasicLights();
@@ -46,7 +47,7 @@ class SimpleScene extends Scene {
                               margin: 0.3, padding: 0.2, n, size: 0.2});
 
         let floor = new Floor({width, height:spacing*2,
-                               segments:32, color: 0x332211,
+                               segments:32, colorNum: 0xffd1dc,
                                pos: new Vector3(-width*0.35, -height/2, 0),
                                size: 0.2});
         this.wall1 = wall1;
@@ -71,6 +72,7 @@ class SimpleScene extends Scene {
         let player = new Player({radius:1, segments:16, playerPos:playerPos});
         this.player = player;
         this.player.add(ionDrive);
+        this.ionDrive = ionDrive;
         this.addToUpdateList(player);
 
 
@@ -128,8 +130,12 @@ class SimpleScene extends Scene {
         this.state.updateList.push(object);
     }
 
+    getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
+
     update(timeStamp) {
-        const {updateList} = this.state;
+        let {updateList, deltaInt} = this.state;
 
         if (this.state.playerInputs.jumped) {
           this.player.state.jumped = true;
@@ -143,8 +149,9 @@ class SimpleScene extends Scene {
           this.player.state.right = true;
         }
 
-        this.intDel += 1;
-        if (this.intDel % 60 == 0){
+        
+        if (deltaInt % 60 == 0){
+
             let newInts = new Float32Array(this.wall1.stripNum);
             for (let i = 0; i < this.wall1.stripNum; i++ ) {
                 newInts[i] = Math.random();
@@ -152,6 +159,13 @@ class SimpleScene extends Scene {
 
             this.wall1.setStripIntensities(newInts);
             this.wall2.setStripIntensities(newInts);
+            
+        }
+
+        if (deltaInt % (this.getRandomInt(15) + 20) == 0){
+            //debugger;
+            this.ionDrive.reactToBeat(2);
+            //this.floor.setIntensity(0.2);
         }
 
 
@@ -159,6 +173,9 @@ class SimpleScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
+
+        deltaInt += 1;
+        this.state = {...this.state, deltaInt};
     }
 }
 

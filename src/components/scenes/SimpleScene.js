@@ -196,6 +196,7 @@ class SimpleScene extends Scene {
             this.state.prevOrbZ = newOrb.position.z;
 
             // dispose of old orb
+            this.remove(this.orbs[0])
             this.orbs.shift();
         }
 

@@ -189,6 +189,9 @@ const onAnimationFrameHandler = (timeStamp) => {
         scene.avgFreq = analyser.getAverageFrequency();
     }
 
+    // TODO: Make this into a display or something
+    console.log(scene.state.score);
+
     //renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);

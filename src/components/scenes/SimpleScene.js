@@ -20,6 +20,7 @@ class SimpleScene extends Scene {
             playerInputs: { left: false, right: false, jumped: false },
             prevOrbZ: 0,
             orbSpeed: 0.4,
+            score: 0,
             spacing: 7,
             updateList: [],
             color: new Color('white'),
@@ -175,6 +176,11 @@ class SimpleScene extends Scene {
 
         if (this.state.playerInputs.right) {
             this.player.state.right = true;
+        }
+
+        // check collision with first orb
+        if (this.player.collideWithOrb(this.orbs[0])) {
+          this.state.score += 100;
         }
 
         // destroy orbs behind the camera / add new ones

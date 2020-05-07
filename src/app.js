@@ -20,7 +20,7 @@ var params = {
     bloomStrength: 0.7,
     bloomRadius: 0.2,
     bloomThreshold: 0.1,
-    
+
 };
 
 var bloomPass = new UnrealBloomPass( new Vector2(window.innerWidth, window.innerHeight),  1, 0.4,0.1);
@@ -50,7 +50,7 @@ composer.addPass(copyShader);
 
 
 // Set up camera
-camera.position.set(6, 1, 0);
+camera.position.set(10, 0, 0);
 camera.lookAt(new Vector3(0, 0, 0));
 
 scene.add( new AmbientLight( 0x404040 ) );

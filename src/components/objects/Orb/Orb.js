@@ -6,8 +6,9 @@ class Orb extends Group {
         let {xPos, zPrev, speed, bounds} = data;
         super();
 
-        const geometry = new SphereBufferGeometry(0.5, 8, 8);
-        const material = new MeshPhongMaterial( { color: 0xFFFFFF, opacity: 0.25, transparent: true } );
+        this.radius = 0.5;
+        const geometry = new SphereBufferGeometry(this.radius, 8, 8);
+        const material = new MeshPhongMaterial( { color: 0xFFFFFF, opacity: 0.25, transparent: true} );
 
         let orbMesh = new Mesh(geometry, material);
 
@@ -35,6 +36,9 @@ class Orb extends Group {
     update() {
       // console.log(this.position.x)
       this.position.x += this.state.speed;
+      if (!this.state.visible) {
+        this.children[0].material.opacity = 0;
+      }
     }
 }
 

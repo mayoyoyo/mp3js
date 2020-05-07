@@ -15,7 +15,7 @@ class IonDrive extends Group {
         this.clock = new Clock();
         loader.load(MODEL, (gltf) => {
             this.add(gltf.scene);
-            this.ringObj = gltf.scene.getChildByName('circle');
+            this.ringObj = gltf.scene.getObjectByName('circle');
             gltf.scene.rotation.y = Math.PI/ 2;
             gltf.scene.scale.multiplyScalar(0.6);
             this.mixer = new AnimationMixer( gltf.scene);

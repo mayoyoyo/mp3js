@@ -150,6 +150,9 @@ const onAnimationFrameHandler = (timeStamp) => {
       scene.state.playerInputs.right = true;
     }
 
+    // TODO: Make this into a display or something
+    console.log(scene.state.score);
+
     //renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);

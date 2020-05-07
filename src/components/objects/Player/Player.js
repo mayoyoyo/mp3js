@@ -29,6 +29,20 @@ class Player extends Group {
         this.position.set(playerPos.x, playerPos.y, playerPos.z);
     }
 
+    collideWithOrb(orb) {
+      if (!orb.state.visible) return false;
+
+      let oPos = orb.position;
+      let pPos = this.position;
+      if (oPos.x > 2 - this.radius) {
+        if (oPos.z > pPos.z - this.radius && oPos.z < pPos.z + this.radius) {
+          orb.state.visible = false;
+          return true;
+        }
+        return false;
+      }
+    }
+
     collideWithWalls() {
       const min = -this.bounds + this.radius;
       const max = this.bounds - this.radius;
@@ -120,7 +134,7 @@ class Player extends Group {
     update() {
       this.simulateForces();
       this.collideWithFloor();
-      this.collideWithWalls()
+      this.collideWithWalls();
     }
 }
 

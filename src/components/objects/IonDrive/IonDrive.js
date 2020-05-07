@@ -35,7 +35,7 @@ class IonDrive extends Group {
 
     update(timeStamp) {
         if (this.mixer){
-            const delta = this.clock.getDelta() / 2;
+            const delta = this.clock.getDelta();
             this.mixer.update(delta);
         }
 

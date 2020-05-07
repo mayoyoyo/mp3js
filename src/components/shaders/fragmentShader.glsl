@@ -16,7 +16,7 @@ uniform float offset;
 
 void main() {
 
-  vec2 coord = vec2(pos.x - offset, pos.z + 0.5) * size ;
+  vec2 coord = vec2(pos.x - offset, pos.z) * size ;
 
   // Compute anti-aliased world-space grid lines
   vec2 grid = abs(fract(coord - 0.5) - 0.5) / fwidth(coord);

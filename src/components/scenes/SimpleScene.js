@@ -32,7 +32,7 @@ class SimpleScene extends Scene {
         };
 
         // audio frequency data 
-        this.audiodata = new AudioData();
+        this.audiodata = new AudioData([], 0);
 
         // Add lights
         const lights = new BasicLights();

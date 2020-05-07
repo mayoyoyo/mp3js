@@ -1,7 +1,7 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, Plane } from 'three';
 import { SphereBufferGeometry, MeshPhongMaterial, BufferAttribute, Mesh, DoubleSide, ShaderMaterial} from 'three';
-import { Flower, IonDrive, Wall, Player, Orb } from 'objects';
+import { Flower, IonDrive, Wall, Floor, Player, Orb } from 'objects';
 
 import { BasicLights } from 'lights';
 import { Vector3 } from 'three';
@@ -42,7 +42,7 @@ class SimpleScene extends Scene {
                              segments:32, color: 0x000000,
                              wallPos: new Vector3(-width*0.35, 0, this.state.spacing),
                              margin: 0.3, padding: 0.2, n, size: 0.2});
-                             
+
         let wall2 = new Wall({width, height,
                               segments:32, color: 0x000000,
                               wallPos: new Vector3(-width*0.35, 0, -this.state.spacing),
@@ -113,17 +113,17 @@ class SimpleScene extends Scene {
             this.wall2.setSpeed(val);
             this.floor.setSpeed(val);
         })
-        this.state.gui.add(this.state, 'size', 0, 5).onChange( (val) => { 
+        this.state.gui.add(this.state, 'size', 0, 5).onChange( (val) => {
             this.wall1.setStripSize(val);
             this.wall2.setStripSize(val);
             this.floor.setSize(val);
-        
+
         });
 
-        this.state.gui.add(this.state, 'offset', 0, 5).onChange( (val) => { 
+        this.state.gui.add(this.state, 'offset', 0, 5).onChange( (val) => {
             this.wall1.setStripOffset(val);
             this.wall2.setStripOffset(val);
-        
+
         });
         this.state.gui.add(this.state, 'bloomStrength', -2, 2).onChange( (val) => { onBloomParamsUpdated('strength', val)})
         this.state.gui.add(this.state, 'bloomRadius', 0, 5).onChange( (val) => { onBloomParamsUpdated('radius', val)})
@@ -203,7 +203,7 @@ class SimpleScene extends Scene {
 
             this.wall1.setStripIntensities(newInts);
             this.wall2.setStripIntensities(newInts);
-            
+
         }
 
         if (deltaInt % (this.getRandomInt(15) + 20) == 0){

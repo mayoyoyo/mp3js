@@ -1,4 +1,19 @@
-<html><head><title>COS 426 Final Project - Audiophile</title><style>.UIBox {
+<html><head><title>COS 426 Final Project - Audiophile</title><style>#custom-button {
+            padding: 10px;
+            color: white;
+            background-color: #009578;
+            border: 1px solid #000;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #custom-text {
+            margin-left: 10px;
+            font-family: sans-serif;
+            color: #aaa;
+        }
+
+        .UIBox {
             width: 300px;
             left: 50%;
             top: 20px;
@@ -21,7 +36,7 @@
             width: 300px;
             left: 50%;
             top: 20px;
-            display: flex;
+            display: none;
             justify-content: space-between;
             position: absolute;
             background-color: grey;
@@ -50,4 +65,31 @@
 
         .content input {
             margin-top: 10px;
-        }</style><link rel="shortcut icon" href="/finalproj/favicon.ico"></head><body><div class="UIBox"><div class="content"><div>Upload your Music!</div><input type="file" id="fileInput" name="file" accept=".mp3"><audio id="audio" controls></audio></div></div><div class="UIBox2"><div class="content"><div id="Score">SCORE: 0</div></div><script src="/finalproj/main.75eaf6ae44924b4e9f12.js"></script></div></body></html>
+        }</style><link rel="shortcut icon" href="/finalproj/favicon.ico"></head><body><div class="UIBox" id="upload"><div class="content"><div>Upload your Music!</div><input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden"> <button type="button" id="custom-button">CHOOSE AN .MP3 FILE</button> <span id="custom-text">No file chosen yet</span><audio id="audio"></audio><button type="button" id="playAudio" onclick="exit()">Play Now</button></div></div><div class="UIBox2" id="displayscore"><div class="content"><div id="Score">SCORE: 0</div></div></div><script src="/finalproj/main.8858a7d725ebeebdee22.js"></script></body><script>const realFileBtn = document.getElementById("fileInput");
+    const customBtn = document.getElementById("custom-button");
+    const customTxt = document.getElementById("custom-text");
+
+    customBtn.addEventListener("click", function () {
+        realFileBtn.click();
+    });
+
+    realFileBtn.addEventListener("change", function () {
+        if (realFileBtn.value) {
+            customTxt.innerHTML = realFileBtn.value.match(
+                /[\/\\]([\w\d\s\.\-\(\)]+)$/
+            )[1];
+        } else {
+            customTxt.innerHTML = "No file chosen, yet.";
+        }
+    });
+
+    function exit() {
+        var box = document.getElementById('upload');
+        box.style.display = 'none';
+        var score = document.getElementById('displayscore');
+        score.style.display = 'flex';
+        var audio = document.getElementById('audio');
+        audio.play();
+        var pausebutton = document.getElementById('pausebutton');
+        pausebutton.style.display = 'flex';
+    }</script></html>

@@ -71,17 +71,17 @@ class SimpleScene extends Scene {
         this.wall2 = wall2;
         this.floor = floor;
         let sunGeom = new SphereBufferGeometry(60, 32, 32);
-        let sunMat = new MeshBasicMaterial({color:0x56467F})
+        let sunMat = new MeshBasicMaterial({ color: 0x56467F })
         let sun = new Mesh(sunGeom, sunMat);
         sun.position.set(-250, 80, -20);
-        this.add(wall1, wall2, lights, floor,sun);
+        this.add(wall1, wall2, lights, floor, sun);
 
         this.addToUpdateList(wall1);
         this.addToUpdateList(wall2);
         this.addToUpdateList(floor);
 
 
-        
+
 
 
         const ionDrive = new IonDrive(() => { });
@@ -182,11 +182,13 @@ class SimpleScene extends Scene {
         if (this.state.playerInputs.right) {
             this.player.state.right = true;
         }
-
         // check collision with first orb
         if (this.player.collideWithOrb(this.orbs[0])) {
             this.state.score += 100;
         }
+        //else {
+        //    this.orbs[0].setColor(0xfb2b11);
+        //}
 
         // destroy orbs behind the camera / add new ones
         const CAMERA_X = 10;
@@ -208,12 +210,10 @@ class SimpleScene extends Scene {
 
         if (deltaInt % 2 == 0) {
 
-            var levels = this.audiodata.getLevels(this.strips);
-
-            //var levels = [];
-            //for (var i = 0; i < this.audiodata.data.length; i++) {
-            //  levels.push(this.audiodata.data[i] / 256);
-            //}
+            var levels = [];
+            for (var i = 0; i < this.strips; i++) {
+                levels.push(this.audiodata.data[i] / 256);
+            }
             levels.reverse();
             this.wall1.setStripIntensities(levels);
             this.wall2.setStripIntensities(levels);

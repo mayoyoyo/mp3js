@@ -1,1 +1,95 @@
-<!doctype html><html><head><meta charset="utf-8"><title>COS 426 Final Project - Audiophile</title><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut icon" href="/finalproj/favicon.ico"></head><body><script src="/finalproj/main.bdd2ed9582e0e4f9e59f.js"></script></body></html>
+<html><head><title>COS 426 Final Project - Audiophile</title><style>#custom-button {
+            padding: 10px;
+            color: white;
+            background-color: #009578;
+            border: 1px solid #000;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #custom-text {
+            margin-left: 10px;
+            font-family: sans-serif;
+            color: #aaa;
+        }
+
+        .UIBox {
+            width: 300px;
+            left: 50%;
+            top: 20px;
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            -webkit-transform: translate(-50%, 0);
+            background-color: grey;
+            border-color: white;
+            opacity: 0.5;
+            border-radius: 10px;
+            padding: 10px;
+
+            font-family: georgia, garamond, serif;
+            font-size: 16px;
+            font-style: italic;
+        }
+
+        .UIBox2 {
+            width: 300px;
+            left: 50%;
+            top: 20px;
+            display: none;
+            justify-content: space-between;
+            position: absolute;
+            background-color: grey;
+            border-color: white;
+            opacity: 0.5;
+            border-radius: 10px;
+            padding: 10px;
+
+            font-family: georgia, garamond, serif;
+            font-size: 16px;
+        }
+
+        .content {
+            margin: auto;
+            text-align: center;
+            justify-content: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content div {
+            margin-top: 10px;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .content input {
+            margin-top: 10px;
+        }</style><link rel="shortcut icon" href="/finalproj/favicon.ico"></head><body><div class="UIBox" id="upload"><div class="content"><div>Upload your Music!</div><input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden"> <button type="button" id="custom-button">CHOOSE AN .MP3 FILE</button> <span id="custom-text">No file chosen yet</span><audio id="audio"></audio><button type="button" id="playAudio" onclick="exit()">Play Now</button></div></div><div class="UIBox2" id="displayscore"><div class="content"><div id="Score">SCORE: 0</div></div></div><script src="/finalproj/main.8858a7d725ebeebdee22.js"></script></body><script>const realFileBtn = document.getElementById("fileInput");
+    const customBtn = document.getElementById("custom-button");
+    const customTxt = document.getElementById("custom-text");
+
+    customBtn.addEventListener("click", function () {
+        realFileBtn.click();
+    });
+
+    realFileBtn.addEventListener("change", function () {
+        if (realFileBtn.value) {
+            customTxt.innerHTML = realFileBtn.value.match(
+                /[\/\\]([\w\d\s\.\-\(\)]+)$/
+            )[1];
+        } else {
+            customTxt.innerHTML = "No file chosen, yet.";
+        }
+    });
+
+    function exit() {
+        var box = document.getElementById('upload');
+        box.style.display = 'none';
+        var score = document.getElementById('displayscore');
+        score.style.display = 'flex';
+        var audio = document.getElementById('audio');
+        audio.play();
+        var pausebutton = document.getElementById('pausebutton');
+        pausebutton.style.display = 'flex';
+    }</script></html>

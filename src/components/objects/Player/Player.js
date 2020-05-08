@@ -7,7 +7,7 @@ class Player extends Group {
     super();
     const geometry = new SphereBufferGeometry(radius, segments, segments);
     const material = new MeshPhongMaterial({ opacity: 0, transparent: true });
-    this.forceMag = 0.15;
+    this.forceMag = 0.20;
     let playerMesh = new Mesh(geometry, material);
 
     this.state = {
@@ -18,7 +18,7 @@ class Player extends Group {
       jumped: false,
     }
     this.bounds = bounds;
-    skin.scale.set(radius*0.9, radius*0.9, radius*0.9);
+    skin.scale.set(radius * 0.9, radius * 0.9, radius * 0.9);
     this.radius = radius;
 
 

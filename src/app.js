@@ -13,8 +13,6 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { SeedScene, SimpleScene } from 'scenes';
-import MUSIC from './components/music/techno.mp3';
-//import MUSIC from './components/music/song.mp3';
 import { AudioData } from 'music';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
@@ -37,8 +35,8 @@ const scene = new SimpleScene((prop, val) => {
     bloomPass[prop] = val
 });
 const camera = new PerspectiveCamera(45);
-const renderer = new WebGLRenderer({ antialias: true});
-renderer.toneMappingExposure = Math.pow( 1.0, 2.0 );
+const renderer = new WebGLRenderer({ antialias: true });
+renderer.toneMappingExposure = Math.pow(1.0, 2.0);
 
 const renderScene = new RenderPass(scene, camera);
 
@@ -140,17 +138,9 @@ document.addEventListener('keyup', (event) => {
     })
 });
 
-//var listener = new AudioListener();
-
-// create a global audio source
-//var audio = new Audio(listener);
 
 var file = document.getElementById("fileInput");
 var audioinput = document.getElementById("audio");
-
-document.onload = function () {
-    audioinput.play();
-}
 
 file.onchange = function () {
     if (!context) {
@@ -159,8 +149,9 @@ file.onchange = function () {
     var files = this.files;
 
     audioinput.src = URL.createObjectURL(files[0]);
-    audioinput.play();
+    audioinput.pause();
 }
+
 
 var context = new AudioContext();  // create context
 var src = context.createMediaElementSource(audioinput); //create src inside ctx
@@ -170,16 +161,6 @@ analyser.connect(context.destination); // connect the destination
 // node to the analyser
 
 
-// pause/play by clicking anywhere
-document.body.addEventListener('click', function () {
-    if (audioinput) {
-        if (audioinput.isPlaying) {
-            audioinput.pause();
-        } else {
-            audioinput.play();
-        }
-    }
-});
 
 let score = document.getElementById("Score");
 
@@ -203,7 +184,7 @@ const onAnimationFrameHandler = (timeStamp) => {
 
     if (analyser) {
 
-        analyser.fftSize = 2048;
+        analyser.fftSize = 64;
         var dataArray = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(dataArray);
         scene.audiodata = new AudioData(dataArray);
@@ -212,12 +193,12 @@ const onAnimationFrameHandler = (timeStamp) => {
     if (scene.state.score != prevScore) {
         prevScore = scene.state.score;
 
-        score.innerHTML = `Score ${prevScore}`;
+        score.innerHTML = `Score: ${prevScore}`;
     }
 
     //renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
-    
+
     window.requestAnimationFrame(onAnimationFrameHandler);
 };
 window.requestAnimationFrame(onAnimationFrameHandler);

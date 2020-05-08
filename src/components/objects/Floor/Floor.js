@@ -1,7 +1,8 @@
 import { Group, Vector3, Vector4, Color } from 'three';
 import { CustomShader } from 'shaders';
 import { PlaneBufferGeometry, MeshBasicMaterial, DoubleSide, Mesh, BoxBufferGeometry, AxesHelper, ShaderMaterial } from 'three';
-
+import MODEL from './mountains.glb';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 class Floor extends Group {
     constructor(data){
         let {width, height, segments, colorNum, pos, size} = data;
@@ -25,7 +26,7 @@ class Floor extends Group {
             },
             intensity: {
                 type: 'f',
-                value: 0
+                value: 1.0
             }, 
             size:{ 
                 type: "f",
@@ -45,6 +46,20 @@ class Floor extends Group {
             uniforms: custom.uniforms,
             side: DoubleSide,
             
+        });
+        const loader = new GLTFLoader();
+        loader.load(MODEL, (gltf) => {
+            gltf.scene.scale.set(0.05, 0.05, 0.05);
+            gltf.scene.position.set(4, 0, 0);
+            gltf.scene.rotateY(Math.PI/2);
+            this.add(gltf.scene);
+            // this.ringObj = gltf.scene.getObjectByName('circle');
+            // gltf.scene.rotation.y = Math.PI/ 2;
+            // gltf.scene.scale.multiplyScalar(0.6);
+            // this.mixer = new AnimationMixer( gltf.scene);
+            // var clip = gltf.animations[0];
+            // this.mixer.clipAction( clip.optimize()).play();
+            // onLoad();
         });
 
         let floor = new Mesh(floorGeom, shaderMaterial);

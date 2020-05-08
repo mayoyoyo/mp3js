@@ -21,7 +21,7 @@ class SimpleScene extends Scene {
             prevOrbZ: 0,
             orbSpeed: 0.4,
             score: 0,
-            spacing: 7,
+            spacing: 20,
             updateList: [],
             color: new Color('white'),
             bloomStrength: 0.7,
@@ -40,7 +40,7 @@ class SimpleScene extends Scene {
 
 
         // Add walls
-        let width = 60;
+        let width = 80;
         let height = 12;
         let n = 16;
         this.strips = n;
@@ -61,7 +61,7 @@ class SimpleScene extends Scene {
 
         let floor = new Floor({
             width, height: this.state.spacing * 2,
-            segments: 32, colorNum: 0xffd1dc,
+            segments: 32, colorNum: 0x060410,
             pos: new Vector3(-width * 0.35, -height / 2, 0),
             size: 0.2
         });
@@ -77,7 +77,7 @@ class SimpleScene extends Scene {
 
 
         // Set background to a nice color
-        this.background = new Color(0x001111);
+        this.background = new Color(0xaaaaaa);
 
 
         const ionDrive = new IonDrive(() => { });

@@ -141,6 +141,13 @@ document.addEventListener('keyup', (event) => {
 
 var file = document.getElementById("fileInput");
 var audioinput = document.getElementById("audio");
+var AudioContext = window.AudioContext || window.webkitAudioContext;
+var context = new AudioContext();  // create context
+var src = context.createMediaElementSource(audioinput); //create src inside ctx
+var analyser = context.createAnalyser(); //create analyser in ctx
+src.connect(analyser);         //connect analyser node to the src
+analyser.connect(context.destination); // connect the destination 
+// node to the analyser
 
 file.onchange = function () {
     if (!context) {
@@ -151,15 +158,6 @@ file.onchange = function () {
     audioinput.src = URL.createObjectURL(files[0]);
     audioinput.pause();
 }
-
-
-var context = new AudioContext();  // create context
-var src = context.createMediaElementSource(audioinput); //create src inside ctx
-var analyser = context.createAnalyser(); //create analyser in ctx
-src.connect(analyser);         //connect analyser node to the src
-analyser.connect(context.destination); // connect the destination 
-// node to the analyser
-
 
 
 let score = document.getElementById("Score");

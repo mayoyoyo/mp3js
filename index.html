@@ -7,7 +7,22 @@
             cursor: pointer;
         }
 
+        #pausebutton {
+            padding: 10px;
+            color: white;
+            background-color: #009578;
+            border: 1px solid #000;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
         #custom-text {
+            margin-left: 10px;
+            font-family: sans-serif;
+            color: #aaa;
+        }
+
+        #custom-text2 {
             margin-left: 10px;
             font-family: sans-serif;
             color: #aaa;
@@ -16,14 +31,13 @@
         .UIBox {
             width: 300px;
             left: 50%;
-            top: 20px;
+            top: 30%;
             display: flex;
             justify-content: space-between;
             position: absolute;
             -webkit-transform: translate(-50%, 0);
             background-color: grey;
             border-color: white;
-            opacity: 0.5;
             border-radius: 10px;
             padding: 10px;
 
@@ -38,6 +52,22 @@
             top: 20px;
             display: none;
             justify-content: space-between;
+            position: absolute;
+            background-color: grey;
+            border-color: white;
+            opacity: 0.5;
+            border-radius: 10px;
+            padding: 10px;
+
+            font-family: georgia, garamond, serif;
+            font-size: 16px;
+        }
+
+        .Pause {
+            width: 300px;
+            top: 20px;
+            display: none;
+            justify-content: left;
             position: absolute;
             background-color: grey;
             border-color: white;
@@ -65,9 +95,10 @@
 
         .content input {
             margin-top: 10px;
-        }</style><link rel="shortcut icon" href="/finalproj/favicon.ico"></head><body><div class="UIBox" id="upload"><div class="content"><div>Upload your Music!</div><input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden"> <button type="button" id="custom-button">CHOOSE AN .MP3 FILE</button> <span id="custom-text">No file chosen yet</span><audio id="audio"></audio><button type="button" id="playAudio" onclick="exit()">Play Now</button></div></div><div class="UIBox2" id="displayscore"><div class="content"><div id="Score">SCORE: 0</div></div></div><script src="/finalproj/main.cecf0051070a3aa308f7.js"></script></body><script>const realFileBtn = document.getElementById("fileInput");
+        }</style><link rel="shortcut icon" href="/finalproj/favicon.ico"></head><body><div class="UIBox" id="upload"><div class="content"><div>Upload your Music!</div><input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden"> <button type="button" id="custom-button">CHOOSE AN .MP3 FILE</button> <span id="custom-text">No file chosen yet</span><audio id="audio"></audio><button type="button" id="playAudio" onclick="exit()">Play Now</button></div></div><div class="UIBox2" id="displayscore"><div class="content"><div id="Score">SCORE: 0</div></div></div><div class="Pause" id="pausediv"><button type="button" id="pausebutton" style="display:none;" onclick="pause()">Pause</button> <span id="custom-text2"></span></div><script src="/finalproj/main.aec4135ceb4c585269e6.js"></script></body><script>const realFileBtn = document.getElementById("fileInput");
     const customBtn = document.getElementById("custom-button");
     const customTxt = document.getElementById("custom-text");
+    const customTxt2 = document.getElementById("custom-text2");
 
     customBtn.addEventListener("click", function () {
         realFileBtn.click();
@@ -75,15 +106,13 @@
 
     realFileBtn.addEventListener("change", function () {
         if (realFileBtn.value) {
-            let matches = realFileBtn.value.match(
+            customTxt.innerHTML = realFileBtn.value.match(
                 /[\/\\]([\w\d\s\.\-\(\)]+)$/
-            );
-            if (matches) {
-                customTxt.innerHTML = matches[1];
-            }
+            )[1];
         } else {
-            customTxt.innerHTML = "No file chosen, yet.";
+            customTxt.innerHTML = "No file chosen yet";
         }
+        customTxt2.innerHTML = customTxt.innerHTML;
     });
 
     function exit() {
@@ -94,5 +123,14 @@
         var audio = document.getElementById('audio');
         audio.play();
         var pausebutton = document.getElementById('pausebutton');
+        var pausediv = document.getElementById('pausediv');
+        pausediv.style.display = 'flex';
         pausebutton.style.display = 'flex';
+    }
+
+    function pause() {
+        var box = document.getElementById('upload');
+        box.style.display = 'flex';
+        var audio = document.getElementById('audio');
+        audio.pause();
     }</script></html>

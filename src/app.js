@@ -150,6 +150,9 @@ document.onload = function () {
 }
 
 file.onchange = function () {
+    if (!context) {
+        context = new AudioContext();
+    }
     var files = this.files;
 
     audioinput.src = URL.createObjectURL(files[0]);

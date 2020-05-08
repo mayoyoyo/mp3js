@@ -42,21 +42,21 @@ class SimpleScene extends Scene {
         // Add walls
         let width = 60;
         let height = 12;
-        let n = 128;
+        let n = 16;
         this.strips = n;
 
         let wall1 = new Wall({
             width, height,
             segments: 32, color: 0x000000,
             wallPos: new Vector3(-width * 0.35, 0, this.state.spacing),
-            margin: 0.3, padding: 0.2, n, size: 0.2
+            margin: 0.3, padding: 0.0, n, size: 0.2
         });
 
         let wall2 = new Wall({
             width, height,
             segments: 32, color: 0x000000,
             wallPos: new Vector3(-width * 0.35, 0, -this.state.spacing),
-            margin: 0.3, padding: 0.2, n, size: 0.2
+            margin: 0.3, padding: 0.0, n, size: 0.2
         });
 
         let floor = new Floor({

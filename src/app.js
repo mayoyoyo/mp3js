@@ -153,7 +153,6 @@ file.onchange = function () {
     var files = this.files;
 
     audioinput.src = URL.createObjectURL(files[0]);
-    audioinput.load();
     audioinput.play();
 }
 

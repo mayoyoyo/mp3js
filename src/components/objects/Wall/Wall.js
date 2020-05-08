@@ -18,7 +18,8 @@ class Wall extends Group {
             deltaInt: 0,
             decayFactor: 0.92,
             displacement: 0,
-            speed: 0.1
+            speed: 0.1,
+            resting: 0.0
         }
 
         this.stripNum = n;
@@ -43,7 +44,7 @@ class Wall extends Group {
                 },
                 intensity: {
                     type: 'f',
-                    value: 0.15
+                    value: this.state.resting
                 },
                 size: {
                     type: "f",
@@ -128,7 +129,7 @@ class Wall extends Group {
             strips.forEach((strip) => {
                 let uniforms = strip.material.uniforms; // gets the uniform to set. 
                 let oldVal = uniforms['intensity']['value'];
-                oldVal = Math.max(0.15, decayFactor * oldVal);
+                oldVal = Math.max(this.state.resting, decayFactor * oldVal);
                 uniforms['intensity']['value'] = oldVal;
             });
 

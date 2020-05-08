@@ -20,7 +20,7 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 
 var params = {
-    bloomStrength: 0.7,
+    bloomStrength: 0.4,
     bloomRadius: 0.2,
     bloomThreshold: 0.1,
 
@@ -37,8 +37,9 @@ const scene = new SimpleScene((prop, val) => {
     bloomPass[prop] = val
 });
 const camera = new PerspectiveCamera(45);
-const renderer = new WebGLRenderer({ antialias: true });
+const renderer = new WebGLRenderer({ antialias: true});
 renderer.toneMappingExposure = Math.pow( 1.0, 2.0 );
+
 const renderScene = new RenderPass(scene, camera);
 
 
@@ -216,6 +217,7 @@ const onAnimationFrameHandler = (timeStamp) => {
 
     //renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
+    
     window.requestAnimationFrame(onAnimationFrameHandler);
 };
 window.requestAnimationFrame(onAnimationFrameHandler);

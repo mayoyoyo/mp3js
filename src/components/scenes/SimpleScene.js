@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, Plane } from 'three';
+import { Scene, Color, Plane, SphereGeometry, MeshBasicMaterial } from 'three';
 import { SphereBufferGeometry, MeshPhongMaterial, BufferAttribute, Mesh, DoubleSide, ShaderMaterial } from 'three';
 import { Flower, IonDrive, Wall, Floor, Player, Orb } from 'objects';
 import { Audio, AudioListener, AudioLoader, AudioAnalyser } from 'three';
@@ -24,7 +24,7 @@ class SimpleScene extends Scene {
             spacing: 15,
             updateList: [],
             color: new Color('white'),
-            bloomStrength: 0.7,
+            bloomStrength: 0.4,
             bloomRadius: 0.2,
             bloomThreshold: 0.1,
             speed: 0.1,
@@ -49,14 +49,14 @@ class SimpleScene extends Scene {
             width, height,
             segments: 32, color: 0x000000,
             wallPos: new Vector3(-width * 0.35, 0, this.state.spacing),
-            margin: 0.3, padding: 0.0, n, size: 0.2
+            margin: 0.3, padding: 0.12, n, size: 0.2
         });
 
         let wall2 = new Wall({
             width, height,
             segments: 32, color: 0x000000,
             wallPos: new Vector3(-width * 0.35, 0, -this.state.spacing),
-            margin: 0.3, padding: 0.0, n, size: 0.2
+            margin: 0.3, padding: 0.12, n, size: 0.2
         });
 
         let floor = new Floor({
@@ -69,7 +69,11 @@ class SimpleScene extends Scene {
         this.wall1 = wall1;
         this.wall2 = wall2;
         this.floor = floor;
-        this.add(wall1, wall2, lights, floor);
+        let sunGeom = new SphereBufferGeometry(60, 32, 32);
+        let sunMat = new MeshBasicMaterial({color:0xb967ff})
+        let sun = new Mesh(sunGeom, sunMat);
+        sun.position.set(-250, 80, -20);
+        this.add(wall1, wall2, lights, floor,sun);
 
         this.addToUpdateList(wall1);
         this.addToUpdateList(wall2);
@@ -77,7 +81,7 @@ class SimpleScene extends Scene {
 
 
         // Set background to a nice color
-        this.background = new Color(0x999999);
+        this.background = new Color(0x5d8d9f);
 
 
         const ionDrive = new IonDrive(() => { });

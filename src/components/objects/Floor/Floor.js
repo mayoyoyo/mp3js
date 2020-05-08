@@ -59,19 +59,9 @@ class Floor extends Group {
                     m.material = new MeshBasicMaterial({color: colorNum})
                 } else {
                     m.material = new MeshPhongMaterial({emissive:0xffffff})
-                }
-                
+                }   
             }
-            let m1 = gltf.scene.getObjectByName('mesh_0');
-            debugger
             this.add(gltf.scene);
-            // this.ringObj = gltf.scene.getObjectByName('circle');
-            // gltf.scene.rotation.y = Math.PI/ 2;
-            // gltf.scene.scale.multiplyScalar(0.6);
-            // this.mixer = new AnimationMixer( gltf.scene);
-            // var clip = gltf.animations[0];
-            // this.mixer.clipAction( clip.optimize()).play();
-            // onLoad();
         });
 
         let floor = new Mesh(floorGeom, shaderMaterial);

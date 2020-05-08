@@ -65,7 +65,7 @@
 
         .content input {
             margin-top: 10px;
-        }</style><link rel="shortcut icon" href="/finalproj/favicon.ico"></head><body><div class="UIBox" id="upload"><div class="content"><div>Upload your Music!</div><input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden"> <button type="button" id="custom-button">CHOOSE AN .MP3 FILE</button> <span id="custom-text">No file chosen yet</span><audio id="audio"></audio><button type="button" id="playAudio" onclick="exit()">Play Now</button></div></div><div class="UIBox2" id="displayscore"><div class="content"><div id="Score">SCORE: 0</div></div></div><script src="/finalproj/main.8858a7d725ebeebdee22.js"></script></body><script>const realFileBtn = document.getElementById("fileInput");
+        }</style><link rel="shortcut icon" href="/finalproj/favicon.ico"></head><body><div class="UIBox" id="upload"><div class="content"><div>Upload your Music!</div><input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden"> <button type="button" id="custom-button">CHOOSE AN .MP3 FILE</button> <span id="custom-text">No file chosen yet</span><audio id="audio"></audio><button type="button" id="playAudio" onclick="exit()">Play Now</button></div></div><div class="UIBox2" id="displayscore"><div class="content"><div id="Score">SCORE: 0</div></div></div><script src="/finalproj/main.cecf0051070a3aa308f7.js"></script></body><script>const realFileBtn = document.getElementById("fileInput");
     const customBtn = document.getElementById("custom-button");
     const customTxt = document.getElementById("custom-text");
 
@@ -75,9 +75,12 @@
 
     realFileBtn.addEventListener("change", function () {
         if (realFileBtn.value) {
-            customTxt.innerHTML = realFileBtn.value.match(
+            let matches = realFileBtn.value.match(
                 /[\/\\]([\w\d\s\.\-\(\)]+)$/
-            )[1];
+            );
+            if (matches) {
+                customTxt.innerHTML = matches[1];
+            }
         } else {
             customTxt.innerHTML = "No file chosen, yet.";
         }

@@ -141,16 +141,15 @@ document.addEventListener('keyup', (event) => {
 
 var file = document.getElementById("fileInput");
 var audioinput = document.getElementById("audio");
-var context = new AudioContext();  // create context
-var src = context.createMediaElementSource(audioinput); //create src inside ctx
-var analyser = context.createAnalyser(); //create analyser in ctx
-src.connect(analyser);         //connect analyser node to the src
-analyser.connect(context.destination); // connect the destination 
-// node to the analyser
+var analyser = null;
+
 file.onchange = function () {
-    if (!context) {
-        context = new AudioContext();
-    }
+    var context = new AudioContext();  // create context
+    var src = context.createMediaElementSource(audioinput); //create src inside ctx
+    analyser = context.createAnalyser(); //create analyser in ctx
+    src.connect(analyser);         //connect analyser node to the src
+    analyser.connect(context.destination); // connect the destination 
+    // node to the analyser
     var files = this.files;
 
     audioinput.src = URL.createObjectURL(files[0]);

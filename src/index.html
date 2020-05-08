@@ -1,8 +1,8 @@
 <html>
-    <head>
 
+<head>
+    <title>COS 426 Final Project - Audiophile</title>
     <style>
-
         .UIBox {
             width: 300px;
             left: 50%;
@@ -10,14 +10,16 @@
             display: flex;
             justify-content: space-between;
             position: absolute;
-            -webkit-transform: translate(-50%, 0); 
+            -webkit-transform: translate(-50%, 0);
             background-color: grey;
             border-color: white;
             opacity: 0.5;
             border-radius: 10px;
             padding: 10px;
 
-            font-family:georgia,garamond,serif;font-size:16px;font-style:italic;
+            font-family: georgia, garamond, serif;
+            font-size: 16px;
+            font-style: italic;
         }
 
         .content {
@@ -37,23 +39,24 @@
         .content input {
             margin-top: 10px;
         }
-
     </style>
-    </head>
-    <body>
-        <div class="UIBox">
-            <div class="content">
-                <div id="Score">
-                    Score: 0
-                </div>
+</head>
 
-                <div>
-                    Upload your Music! 
-                </div>
-                <input type="file" id="fileInput">
-
-                
+<body>
+    <div class="UIBox">
+        <div class="content">
+            <div id="Score">
+                Score: 0
             </div>
+
+            <div>
+                Upload your Music!
+            </div>
+            <input type="file" id="fileInput" name="file" accept=".mp3">
+            <audio id="audio" controls></audio>
+
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

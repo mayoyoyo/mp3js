@@ -1,19 +1,18 @@
 class AudioData {
-    constructor(data, avgFreq) {
+    constructor(data) {
         this.data = data;
-        this.avgFreq = avgFreq;
     }
 
 
-    getLevels(bins) {
-        var freqPerBin = 1024 / bins;
+    getLevels(n) {
         var levels = [];
-        for (var i = 0; i < bins; i++) {
+        var freqPerBin = 1024 / n;
+        for (var i = 0; i < n; i++) {
             var sum = 0;
             for (var j = 0; j < freqPerBin; j++) {
-                sum += [i * freqPerBin + j];
+                sum += this.data[i * freqPerBin + j] / 256;
             }
-            levels.push(sum / (256 * freqPerBin));
+            levels.push(sum / freqPerBin);
         }
         return levels;
     }

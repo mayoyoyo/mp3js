@@ -33,7 +33,7 @@ class SimpleScene extends Scene {
         };
 
         // audio frequency data 
-        this.audiodata = new AudioData([], 0);
+        this.audiodata = new AudioData([], []);
 
         // Add lights
         const lights = new BasicLights();
@@ -41,8 +41,9 @@ class SimpleScene extends Scene {
 
         // Add walls
         let width = 60;
-        let height = 10;
-        let n = 16;
+        let height = 12;
+        let n = 128;
+        this.strips = n;
 
         let wall1 = new Wall({
             width, height,
@@ -203,10 +204,12 @@ class SimpleScene extends Scene {
 
         if (deltaInt % 2 == 0) {
 
-            var levels = [];
-            for (var i = 0; i < 16; i++) {
-                levels.push(this.audiodata.data[i] / 256);
-            }
+            var levels = this.audiodata.getLevels(this.strips);
+
+            //var levels = [];
+            //for (var i = 0; i < this.audiodata.data.length; i++) {
+            //  levels.push(this.audiodata.data[i] / 256);
+            //}
             levels.reverse();
             this.wall1.setStripIntensities(levels);
             this.wall2.setStripIntensities(levels);
@@ -215,7 +218,7 @@ class SimpleScene extends Scene {
 
 
         if (deltaInt % (Math.round(Math.random() * 15) + 20) == 0) {
-            let {avgFreq} = this.state;
+            let { avgFreq } = this.state;
             //this.ionDrive.reactToBeat(4 * avgFreq/ 256);
             //this.floor.setIntensity(0.2);
         }

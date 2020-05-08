@@ -19,9 +19,6 @@ import { AudioData } from 'music';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 
-// global variables for audio
-var audio, analyser;
-
 var params = {
     bloomStrength: 0.7,
     bloomRadius: 0.2,
@@ -140,30 +137,41 @@ document.addEventListener('keyup', (event) => {
     })
 });
 
-var listener = new AudioListener();
+//var listener = new AudioListener();
 
 // create a global audio source
-var audio = new Audio(listener);
+//var audio = new Audio(listener);
 
-// load a sound and set it as the Audio object's buffer
-var audioLoader = new AudioLoader();
-audioLoader.load(MUSIC, function (buffer) {
-    audio.setBuffer(buffer);
-    audio.setLoop(false);
-    audio.setVolume(0.5);
-    audio.play();
-});
-// create an AudioAnalyser sampled at 1024 bins
-var analyser = new AudioAnalyser(audio, 2048);
-var visualanalyser = new AudioAnalyser(audio, 32);
+var file = document.getElementById("fileInput");
+var audioinput = document.getElementById("audio");
+
+document.onload = function () {
+    audioinput.play();
+}
+
+file.onchange = function () {
+    var files = this.files;
+
+    audioinput.src = URL.createObjectURL(files[0]);
+    audioinput.load();
+    audioinput.play();
+}
+
+var context = new AudioContext();  // create context
+var src = context.createMediaElementSource(audioinput); //create src inside ctx
+var analyser = context.createAnalyser(); //create analyser in ctx
+src.connect(analyser);         //connect analyser node to the src
+analyser.connect(context.destination); // connect the destination 
+// node to the analyser
+
 
 // pause/play by clicking anywhere
 document.body.addEventListener('click', function () {
-    if (audio) {
-        if (audio.isPlaying) {
-            audio.pause();
+    if (audioinput) {
+        if (audioinput.isPlaying) {
+            audioinput.pause();
         } else {
-            audio.play();
+            audioinput.play();
         }
     }
 });
@@ -189,7 +197,11 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
 
     if (analyser) {
-        scene.audiodata = new AudioData(visualanalyser.getFrequencyData(), analyser.getAverageFrequency());
+
+        analyser.fftSize = 2048;
+        var dataArray = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(dataArray);
+        scene.audiodata = new AudioData(dataArray);
     }
 
     if (scene.state.score != prevScore) {

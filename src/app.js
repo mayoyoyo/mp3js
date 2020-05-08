@@ -83,7 +83,7 @@ function addKeyAction(keySpec, onDown, onUp) {
         keySpec,
         onDown,
         onUp,
-        isRepeat: false,
+        isRepeat: true,
     };
     keyActions.push(action);
 }
@@ -148,7 +148,7 @@ file.onchange = function () {
     var src = context.createMediaElementSource(audioinput); //create src inside ctx
     analyser = context.createAnalyser(); //create analyser in ctx
     src.connect(analyser);         //connect analyser node to the src
-    analyser.connect(context.destination); // connect the destination 
+    analyser.connect(context.destination); // connect the destination
     // node to the analyser
     var files = this.files;
 

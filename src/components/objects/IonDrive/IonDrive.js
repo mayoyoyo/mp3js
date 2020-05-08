@@ -17,7 +17,7 @@ class IonDrive extends Group {
             this.add(gltf.scene);
             this.ringObj = gltf.scene.getObjectByName('circle');
             gltf.scene.rotation.y = Math.PI/ 2;
-            gltf.scene.scale.multiplyScalar(0.6);
+            gltf.scene.scale.multiplyScalar(0.8);
             this.mixer = new AnimationMixer( gltf.scene);
             var clip = gltf.animations[0];
             this.mixer.clipAction( clip.optimize()).play();
@@ -35,28 +35,23 @@ class IonDrive extends Group {
 
     update(timeStamp) {
         if (this.mixer){
-            const delta = this.clock.getDelta();
+            const delta = this.clock.getDelta() / 2;
             this.mixer.update(delta);
         }
 
 
         if (this.ringObj){
             let targetVec = new Vector3(0.8, this.targetScale, this.targetScale);
-            if (this.ringObj.scale.distanceTo(targetVec) < 0.001) {
-                
-            } else {
-                this.ringObj.scale.lerp(targetVec, 0.2);
-                let decayed = Math.max(0.8, this.decay * this.targetScale);
-    
-                this.targetScale = decayed; 
-            }
-            
+            this.ringObj.scale.lerp(targetVec, 0.2);
+            let decayed = Math.max(0.8, this.decay * this.targetScale);
+
+            this.targetScale = decayed;
             this.deltaInt += 1;
 
-            // if (this.deltaInt % (Math.round(Math.random() * 15) + 20) == 0){
-            //     //debugger;
-            //     this.reactToBeat(2);
-            // }
+            if (this.deltaInt % (Math.round(Math.random() * 15) + 20) == 0){
+                //debugger;
+                this.reactToBeat(2);
+            }
         }
 
     }

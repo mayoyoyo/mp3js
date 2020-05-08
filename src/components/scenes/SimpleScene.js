@@ -32,7 +32,7 @@ class SimpleScene extends Scene {
             avgFreq: 1
         };
 
-        // audio frequency data 
+        // audio frequency data
         this.audiodata = new AudioData([], []);
 
         // Add lights
@@ -87,7 +87,7 @@ class SimpleScene extends Scene {
         const ionDrive = new IonDrive(() => { });
 
         let playerPos = new Vector3(-0.8, 0, 0);
-        let player = new Player({ radius: 2, segments: 1, playerPos: playerPos, skin: ionDrive, bounds: this.state.spacing });
+        let player = new Player({ radius: 1.4, segments: 4, playerPos: playerPos, skin: ionDrive, bounds: this.state.spacing });
         this.player = player;
         this.addToUpdateList(player);
         this.add(player);
@@ -101,6 +101,7 @@ class SimpleScene extends Scene {
 
         const NUM_STARTING_ORBS = 8;
         this.orbIncrement = 8;
+
         for (let i = 0; i < NUM_STARTING_ORBS; ++i) {
             let orbXPos = -i * this.orbIncrement;
             let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.orbSpeed, bounds: this.state.spacing });
@@ -182,10 +183,11 @@ class SimpleScene extends Scene {
         if (this.state.playerInputs.right) {
             this.player.state.right = true;
         }
-        // check collision with first orb
-        if (this.player.collideWithOrb(this.orbs[0])) {
-            this.state.score += 100;
+        // check collision with orbs and add score
+        for (let i = 0; i < this.orbs.length; i++) {
+          this.state.score += this.player.collideWithOrb(this.orbs[i]);
         }
+
         //else {
         //    this.orbs[0].setColor(0xfb2b11);
         //}

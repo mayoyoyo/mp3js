@@ -23,9 +23,6 @@ void main() {
   float line = min(grid.x, grid.y);
 
   gl_FragColor = vec4(vec3(1.0 - min(line, 1.0)), 1.0);
-
-  float val = mod(floor(pos.x), 2.0);
-  //gl_FragColor = vec4(val, val, val, 1.0); 
   vec4 res = gl_FragColor + color * intensity;
   gl_FragColor = vec4( min(res.r, 1.0), min(res.g, 1.0), min(res.b, 1.0), 1.0);
 }

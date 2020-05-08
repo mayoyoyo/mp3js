@@ -19,7 +19,7 @@ class Wall extends Group {
             decayFactor: 0.92,
             displacement: 0,
             speed: 0.1,
-            resting: 0.0
+            resting: 0.15
         }
 
         this.stripNum = n;

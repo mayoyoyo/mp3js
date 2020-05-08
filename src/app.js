@@ -20,7 +20,7 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 
 var params = {
-    bloomStrength: 0.4,
+    bloomStrength: 0.7,
     bloomRadius: 0.2,
     bloomThreshold: 0.1,
 

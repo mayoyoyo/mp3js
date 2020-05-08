@@ -6,7 +6,6 @@
 attribute float vertexDisplacement;
 
 varying vec3 pos;
-varying vec4 posWRTCam;
 void main() {
   pos = position;
   //vOpacity = vertexDisplacement;
@@ -14,6 +13,6 @@ void main() {
 
   // p.x += sin(vertexDisplacement) * 2.0;
   // p.y += cos(vertexDisplacement) * 2.0;
-  posWRTCam = modelViewMatrix * vec4(position, 1.0);
+  vec4 posWRTCam = modelViewMatrix * vec4(position, 1.0);
   gl_Position = projectionMatrix * posWRTCam;
 }

@@ -36,9 +36,9 @@ bloomPass.radius = params.bloomRadius;
 const scene = new SimpleScene((prop, val) => {
     bloomPass[prop] = val
 });
-const camera = new PerspectiveCamera();
+const camera = new PerspectiveCamera(45);
 const renderer = new WebGLRenderer({ antialias: true });
-
+renderer.toneMappingExposure = Math.pow( 1.0, 2.0 );
 const renderScene = new RenderPass(scene, camera);
 
 
@@ -53,7 +53,7 @@ composer.addPass(copyShader);
 
 
 // Set up camera
-camera.position.set(10, 0, 0);
+camera.position.set(15, 1, 0);
 camera.lookAt(new Vector3(0, 0, 0));
 
 scene.add(new AmbientLight(0x404040));
@@ -110,6 +110,7 @@ function watchKey(keyObj) {
 boundKeys.forEach(watchKey);
 
 document.addEventListener('keydown', (event) => {
+    event.preventDefault();
     keyActions.forEach((action) => {
         const { keySpec, onDown, isRepeat } = action;
         const { key, keyCode } = keySpec;
@@ -126,6 +127,7 @@ document.addEventListener('keydown', (event) => {
 });
 
 document.addEventListener('keyup', (event) => {
+    event.preventDefault();
     keyActions.forEach((action) => {
         const { keySpec, onUp } = action;
         const { key, keyCode } = keySpec;

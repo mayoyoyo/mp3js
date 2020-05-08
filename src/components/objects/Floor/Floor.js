@@ -1,4 +1,4 @@
-import { Group, Vector3, Vector4, Color } from 'three';
+import { Group, Vector3, Vector4, Color, MeshPhongMaterial } from 'three';
 import { CustomShader } from 'shaders';
 import { PlaneBufferGeometry, MeshBasicMaterial, DoubleSide, Mesh, BoxBufferGeometry, AxesHelper, ShaderMaterial } from 'three';
 import MODEL from './mountains.glb';
@@ -50,8 +50,20 @@ class Floor extends Group {
         const loader = new GLTFLoader();
         loader.load(MODEL, (gltf) => {
             gltf.scene.scale.set(0.05, 0.05, 0.05);
-            gltf.scene.position.set(4, 0, 0);
+            gltf.scene.position.set(8, 0, -35);
             gltf.scene.rotateY(Math.PI/2);
+
+            for (let i = 0; i < 4; i++) {
+                let m = gltf.scene.getObjectByName(`mesh_${i}`);
+                if (i%2 == 0){
+                    m.material = new MeshBasicMaterial({color: colorNum})
+                } else {
+                    m.material = new MeshPhongMaterial({emissive:0xffffff})
+                }
+                
+            }
+            let m1 = gltf.scene.getObjectByName('mesh_0');
+            debugger
             this.add(gltf.scene);
             // this.ringObj = gltf.scene.getObjectByName('circle');
             // gltf.scene.rotation.y = Math.PI/ 2;

@@ -21,7 +21,7 @@ class SimpleScene extends Scene {
             prevOrbZ: 0,
             orbSpeed: 0.4,
             score: 0,
-            spacing: 20,
+            spacing: 15,
             updateList: [],
             color: new Color('white'),
             bloomStrength: 0.7,
@@ -61,7 +61,7 @@ class SimpleScene extends Scene {
 
         let floor = new Floor({
             width, height: this.state.spacing * 2,
-            segments: 32, colorNum: 0x060410,
+            segments: 32, colorNum: 0x000000,
             pos: new Vector3(-width * 0.35, -height / 2, 0),
             size: 0.2
         });
@@ -77,13 +77,13 @@ class SimpleScene extends Scene {
 
 
         // Set background to a nice color
-        this.background = new Color(0xaaaaaa);
+        this.background = new Color(0x999999);
 
 
         const ionDrive = new IonDrive(() => { });
 
-        let playerPos = new Vector3(2, 0, 0);
-        let player = new Player({ radius: 1.3, segments: 1, playerPos: playerPos, skin: ionDrive, bounds: this.state.spacing });
+        let playerPos = new Vector3(-0.8, 0, 0);
+        let player = new Player({ radius: 2, segments: 1, playerPos: playerPos, skin: ionDrive, bounds: this.state.spacing });
         this.player = player;
         this.addToUpdateList(player);
         this.add(player);

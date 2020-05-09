@@ -17,6 +17,7 @@ class SimpleScene extends Scene {
             paused: true,
             size: 1,
             offset: 0,
+            playerDodge: true,
             playerInputs: { left: false, right: false, jumped: false },
             prevOrbZ: 0,
             score: 0,
@@ -184,17 +185,20 @@ class SimpleScene extends Scene {
         if (this.state.playerInputs.right) {
             this.player.state.right = true;
         }
-        // check collision with orbs and add score
-        for (let i = 0; i < this.orbs.length; i++) {
-            this.state.score += this.player.collideWithOrb(this.orbs[i]);
-            if (this.state.score < 0) {
-                this.state.score = 0;
-            }
+
+        if (this.state.playerDodge) {
+            // handle transparency animation
         }
 
-        //else {
-        //    this.orbs[0].setColor(0xfb2b11);
-        //}
+        // check collision with orbs and add score
+        if (!this.state.playerDodge) {
+            for (let i = 0; i < this.orbs.length; i++) {
+                this.state.score += this.player.collideWithOrb(this.orbs[i]);
+                if (this.state.score < 0) {
+                    this.state.score = 0;
+                }
+            }
+        }
 
         // destroy orbs behind the camera / add new ones
         const CAMERA_X = 10;

@@ -7,7 +7,6 @@
  *
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3, Vector2, Clock, AmbientLight, PointLight } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
@@ -15,7 +14,6 @@ import { SimpleScene } from 'scenes';
 import { AudioData } from 'music';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
-import Logo from "./logo.png";
 
 var params = {
     bloomStrength: 0.7,
@@ -88,7 +86,7 @@ const ArrowUp = { key: "ArrowUp", keyCode: 38, isPressed: false };
 const ViewOne = { key: "1", keyCode: 49, isPressed: false };
 const ViewTwo = { key: "2", keyCode: 50, isPressed: false };
 const ViewThree = { key: "3", keyCode: 51, isPressed: false };
-//const Pause = { key: "p", keyCode: 80, isPressed: false };
+const Dodge = { key: "ArrowDown", keyCode: 40, isPressed: false };
 const boundKeys = [
     ArrowLeft,
     ArrowRight,
@@ -96,7 +94,7 @@ const boundKeys = [
     ViewOne,
     ViewTwo,
     ViewThree,
-    //Pause
+    Dodge
 ];
 
 function watchKey(keyObj) {
@@ -215,9 +213,9 @@ const onAnimationFrameHandler = (timeStamp) => {
     if (ViewThree.isPressed) {
         scene.state.cameraAngle = "ViewThree";
     }
-    //if (Pause.isPressed) {
-    //    handlePause();
-    //}
+    if (Dodge.isPressed) {
+        //handlePause();
+    }
 
     if (scene.state.cameraAngle == "ViewOne") {
         camera.position.set(15, 1, 0);

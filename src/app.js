@@ -67,14 +67,6 @@ document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
-// Set up controls
-// const controls = new OrbitControls(camera, canvas);
-// controls.enableDamping = true;
-// controls.enablePan = false;
-// controls.minDistance = 4;
-// controls.maxDistance = 16;
-// controls.update();
-
 // Key Actions
 const keyActions = [];
 function addKeyAction(keySpec, onDown, onUp) {
@@ -162,12 +154,38 @@ file.onchange = function () {
     audioinput.pause();
 }
 document.getElementById("playAudio").addEventListener('click', function () {
+    handlePause();
     context.resume();
 });
 
 let score = document.getElementById("Score");
 
 let prevScore = 0;
+
+function changeSpeed(val) {
+  scene.wall1.setSpeed(val);
+  scene.wall2.setSpeed(val);
+  scene.floor.setSpeed(val);
+  scene.state.speed = val;
+  for (let i = 0; i < scene.orbs.length; i++) scene.orbs[i].state.speed = val;
+}
+
+const INITIAL_SPEED = 0.4;
+let prevSpeed = INITIAL_SPEED;
+function handlePause() {
+  if (!scene.state.paused) {
+    prevSpeed = scene.state.speed;;
+    scene.state.paused = true;
+    changeSpeed(0);
+  } else {
+    scene.state.paused = false;
+    changeSpeed(prevSpeed);
+  }
+}
+
+document.getElementById("pausebutton").addEventListener('click', function () {
+    if (!scene.state.paused) handlePause();
+});
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {

@@ -14,6 +14,7 @@ class SimpleScene extends Scene {
         // Init state
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
+            paused: true,
             size: 1,
             offset: 0,
             playerInputs: { left: false, right: false, jumped: false },
@@ -25,7 +26,7 @@ class SimpleScene extends Scene {
             bloomStrength: 0.7,
             bloomRadius: 0.2,
             bloomThreshold: 0.1,
-            speed: 0.4,
+            speed: 0,
             deltaInt: 0,
             avgFreq: 1,
             cameraAngle: "ViewOne"
@@ -69,6 +70,9 @@ class SimpleScene extends Scene {
         this.wall1 = wall1;
         this.wall2 = wall2;
         this.floor = floor;
+        this.wall1.setSpeed(this.state.speed);
+        this.wall2.setSpeed(this.state.speed);
+        this.floor.setSpeed(this.state.speed);
         let sunGeom = new SphereBufferGeometry(60, 32, 32);
         let sunMat = new MeshBasicMaterial({ color: 0x56467F })
         let sun = new Mesh(sunGeom, sunMat);

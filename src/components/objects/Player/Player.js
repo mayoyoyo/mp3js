@@ -137,7 +137,7 @@ class Player extends Group {
       this.state.left = false;
       if (this.velocity.z < 0) this.velocity.z = 0;
   	  // this.velocity = new Vector3(0, this.velocity.y, 0);
-      let moveForce = new Vector3(0, 0, .06);
+      let moveForce = new Vector3(0, 0, .03);
       this.netForces.add(moveForce);
     }
 
@@ -146,7 +146,7 @@ class Player extends Group {
       this.state.right = false;
       if (this.velocity.z > 0) this.velocity.z = 0;
   	  // this.velocity = new Vector3(0, this.velocity.y, 0);
-      let moveForce = new Vector3(0, 0, -.06);
+      let moveForce = new Vector3(0, 0, -.03);
       this.netForces.add(moveForce);
     }
 
@@ -154,7 +154,7 @@ class Player extends Group {
       // actual gravity
       // const GRAVITY = new Vector3(0, -.0035, 0);
 
-      const GRAVITY = new Vector3(0, -.03, 0);
+      const GRAVITY = new Vector3(0, -.04, 0);
       this.netForces.add(GRAVITY);
     }
 

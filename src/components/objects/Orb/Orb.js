@@ -47,7 +47,6 @@ class Orb extends Group {
     randomZ(zPrev, range, bounds) {
       let min = Math.max(zPrev - range, -bounds + 0.35);
       let max = Math.min(zPrev + range, bounds - 0.35);
-
       return Math.random() * (max - min) + min;
     }
 

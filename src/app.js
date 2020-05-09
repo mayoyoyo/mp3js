@@ -69,12 +69,12 @@ document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
 // Set up controls
-const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
-controls.enablePan = false;
-controls.minDistance = 4;
-controls.maxDistance = 16;
-controls.update();
+// const controls = new OrbitControls(camera, canvas);
+// controls.enableDamping = true;
+// controls.enablePan = false;
+// controls.minDistance = 4;
+// controls.maxDistance = 16;
+// controls.update();
 
 // Key Actions
 const keyActions = [];
@@ -93,10 +93,16 @@ const aka = addKeyAction;
 const ArrowLeft = { key: "ArrowLeft", keyCode: 37, isPressed: false };
 const ArrowRight = { key: "ArrowRight", keyCode: 39, isPressed: false };
 const ArrowUp = { key: "ArrowUp", keyCode: 38, isPressed: false };
+const ViewOne = { key: "1", keyCode: 49, isPressed: false };
+const ViewTwo = { key: "2", keyCode: 50, isPressed: false };
+const ViewThree = { key: "3", keyCode: 51, isPressed: false };
 const boundKeys = [
     ArrowLeft,
     ArrowRight,
-    ArrowUp
+    ArrowUp,
+    ViewOne,
+    ViewTwo,
+    ViewThree
 ];
 
 function watchKey(keyObj) {
@@ -167,7 +173,7 @@ let prevScore = 0;
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
-    controls.update();
+    // controls.update();
     composer.render();
 
     scene.state.playerInputs = { left: false, right: false, jumped: false };
@@ -179,6 +185,29 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
     if (ArrowRight.isPressed) {
         scene.state.playerInputs.right = true;
+    }
+    if (ViewOne.isPressed) {
+        scene.state.cameraAngle = "ViewOne";
+    }
+    if (ViewTwo.isPressed) {
+        scene.state.cameraAngle = "ViewTwo";
+    }
+    if (ViewThree.isPressed) {
+        scene.state.cameraAngle = "ViewThree";
+    }
+
+    if (scene.state.cameraAngle == "ViewOne") {
+      camera.position.set(15, 1, 0);
+      camera.lookAt(new Vector3())
+    }
+    else if (scene.state.cameraAngle == "ViewTwo") {
+      let pPos = scene.player.position;
+      camera.position.set(pPos.x + 5, pPos.y + 2, pPos.z);
+      camera.lookAt(new Vector3(-1000, 0, 0));
+    }
+    else if (scene.state.cameraAngle == "ViewThree") {
+      camera.position.set(13, 1.25, -7.25);
+      camera.lookAt(new Vector3());
     }
 
     if (analyser) {

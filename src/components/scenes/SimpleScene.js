@@ -29,7 +29,8 @@ class SimpleScene extends Scene {
             bloomThreshold: 0.1,
             speed: 0.1,
             deltaInt: 0,
-            avgFreq: 1
+            avgFreq: 1,
+            cameraAngle: "ViewOne"
         };
 
         // audio frequency data
@@ -87,7 +88,7 @@ class SimpleScene extends Scene {
         const ionDrive = new IonDrive(() => { });
 
         let playerPos = new Vector3(-0.8, 0, 0);
-        let player = new Player({ radius: 1.4, segments: 4, playerPos: playerPos, skin: ionDrive, bounds: this.state.spacing });
+        let player = new Player({ radius: 1.4, segments: 4, playerPos: playerPos, skin: ionDrive, bounds: this.state.spacing - 6 });
         this.player = player;
         this.addToUpdateList(player);
         this.add(player);
@@ -104,7 +105,7 @@ class SimpleScene extends Scene {
 
         for (let i = 0; i < NUM_STARTING_ORBS; ++i) {
             let orbXPos = -i * this.orbIncrement;
-            let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.orbSpeed, bounds: this.state.spacing });
+            let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.orbSpeed, bounds: this.state.spacing - 6});
             this.addToUpdateList(orb);
             this.add(orb);
             this.orbs.push(orb);
@@ -197,7 +198,7 @@ class SimpleScene extends Scene {
         while (this.orbs[0] && this.orbs[0].position.x > CAMERA_X) {
             // add new barrier to replace the old one
             let orbXPos = this.orbs[this.orbs.length - 1].position.x - this.orbIncrement;
-            const newOrb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.orbSpeed, bounds: this.state.spacing });
+            const newOrb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.orbSpeed, bounds: this.state.spacing - 6});
             this.orbs.push(newOrb);
             this.addToUpdateList(newOrb);
             this.add(newOrb);

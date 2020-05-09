@@ -163,9 +163,7 @@ file.onchange = function () {
     audioinput.pause();
 }
 document.getElementById("playAudio").addEventListener('click', function () {
-    context.resume().then(() => {
-        console.log('Playback resumed successfully');
-    });
+    context.resume();
 });
 
 let score = document.getElementById("Score");

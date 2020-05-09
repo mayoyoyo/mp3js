@@ -1,8 +1,7 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, Plane, SphereGeometry, MeshBasicMaterial } from 'three';
 import { SphereBufferGeometry, MeshPhongMaterial, BufferAttribute, Mesh, DoubleSide, ShaderMaterial } from 'three';
-import { Flower, IonDrive, Wall, Floor, Player, Orb } from 'objects';
-import { Audio, AudioListener, AudioLoader, AudioAnalyser } from 'three';
+import { IonDrive, Wall, Floor, Player, Orb } from 'objects';
 import { AudioData } from 'music';
 import { BasicLights } from 'lights';
 import { Vector3 } from 'three';
@@ -105,7 +104,7 @@ class SimpleScene extends Scene {
 
         for (let i = 0; i < NUM_STARTING_ORBS; ++i) {
             let orbXPos = -i * this.orbIncrement;
-            let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.orbSpeed, bounds: this.state.spacing - 6});
+            let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.orbSpeed, bounds: this.state.spacing - 6 });
             this.addToUpdateList(orb);
             this.add(orb);
             this.orbs.push(orb);
@@ -186,7 +185,7 @@ class SimpleScene extends Scene {
         }
         // check collision with orbs and add score
         for (let i = 0; i < this.orbs.length; i++) {
-          this.state.score += this.player.collideWithOrb(this.orbs[i]);
+            this.state.score += this.player.collideWithOrb(this.orbs[i]);
         }
 
         //else {
@@ -198,7 +197,7 @@ class SimpleScene extends Scene {
         while (this.orbs[0] && this.orbs[0].position.x > CAMERA_X) {
             // add new barrier to replace the old one
             let orbXPos = this.orbs[this.orbs.length - 1].position.x - this.orbIncrement;
-            const newOrb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.orbSpeed, bounds: this.state.spacing - 6});
+            const newOrb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.orbSpeed, bounds: this.state.spacing - 6 });
             this.orbs.push(newOrb);
             this.addToUpdateList(newOrb);
             this.add(newOrb);
@@ -212,15 +211,15 @@ class SimpleScene extends Scene {
 
 
         if (deltaInt % 2 == 0) {
-
             var levels = [];
-            for (var i = 0; i < this.strips; i++) {
-                levels.push(this.audiodata.data[i] / 256);
+            if (this.audiodata.data.length > 0) {
+                for (var i = 0; i < this.strips; i++) {
+                    levels.push(this.audiodata.data[i] / 256);
+                }
+                levels.reverse();
             }
-            levels.reverse();
             this.wall1.setStripIntensities(levels);
             this.wall2.setStripIntensities(levels);
-
         }
 
 

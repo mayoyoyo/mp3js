@@ -187,6 +187,9 @@ class SimpleScene extends Scene {
         // check collision with orbs and add score
         for (let i = 0; i < this.orbs.length; i++) {
             this.state.score += this.player.collideWithOrb(this.orbs[i]);
+            if (this.state.score < 0) {
+                this.state.score = 0;
+            }
         }
 
         //else {

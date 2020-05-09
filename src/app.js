@@ -151,9 +151,10 @@ file.onchange = function () {
     analyser.connect(context.destination); // connect the destination
     // node to the analyser
     var files = this.files;
-
     audioinput.src = URL.createObjectURL(files[0]);
     audioinput.pause();
+
+    scene.state.score = 0;
 }
 document.getElementById("playAudio").addEventListener('click', function () {
     handlePause();

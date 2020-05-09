@@ -1,7 +1,7 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, Plane, SphereGeometry, MeshBasicMaterial } from 'three';
 import { SphereBufferGeometry, MeshPhongMaterial, BufferAttribute, Mesh, DoubleSide, ShaderMaterial } from 'three';
-import { IonDrive, Wall, Floor, Player, Orb } from 'objects';
+import { IonDrive, Wall, Floor, Player, Orb, Powerup } from 'objects';
 import { AudioData } from 'music';
 import { BasicLights } from 'lights';
 import { Vector3 } from 'three';
@@ -17,10 +17,12 @@ class SimpleScene extends Scene {
             paused: true,
             size: 1,
             offset: 0,
-            playerDodge: true,
+            playerDodge: false,
             playerInputs: { left: false, right: false, jumped: false },
             prevOrbZ: 0,
             score: 0,
+            powerup: "",
+            powerupTimer: 0,
             spacing: 15,
             updateList: [],
             color: new Color('white'),
@@ -104,13 +106,16 @@ class SimpleScene extends Scene {
 
         for (let i = 0; i < NUM_STARTING_ORBS; ++i) {
             let orbXPos = -i * this.orbIncrement;
-            let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6 });
+            let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6, player: this.player });
             this.addToUpdateList(orb);
             this.add(orb);
             this.orbs.push(orb);
 
             this.state.prevOrbZ = orb.position.z;
         }
+
+        // Add powerups
+        this.powerups = [];
 
 
         // now populate the array of attributes
@@ -171,6 +176,23 @@ class SimpleScene extends Scene {
         return Math.floor(Math.random() * Math.floor(max));
     }
 
+    createPowerup(xPos, speed, bounds) {
+      let rand = Math.random();
+
+      if (rand < 0.5) {
+        const newPowerup = new Powerup({ xPos: xPos, speed: speed, bounds: bounds, type: "Magnet" });
+        this.powerups.push(newPowerup);
+        this.addToUpdateList(newPowerup);
+        this.add(newPowerup);
+      }
+      else {
+        const newPowerup = new Powerup({ xPos: xPos, speed: speed, bounds: bounds, type: "Double" });
+        this.powerups.push(newPowerup);
+        this.addToUpdateList(newPowerup);
+        this.add(newPowerup);
+      }
+    }
+
     update(timeStamp) {
         let { updateList, deltaInt } = this.state;
 
@@ -198,6 +220,12 @@ class SimpleScene extends Scene {
                     this.state.score = 0;
                 }
             }
+
+            for (let i = 0; i < this.powerups.length; i++) {
+                if (this.player.collideWithPowerup(this.powerups[i])) {
+                  this.state.powerup = this.powerups[i].state.type;
+                }
+            }
         }
 
         // destroy orbs behind the camera / add new ones
@@ -205,7 +233,7 @@ class SimpleScene extends Scene {
         while (this.orbs[0] && this.orbs[0].position.x > CAMERA_X) {
             // add new barrier to replace the old one
             let orbXPos = this.orbs[this.orbs.length - 1].position.x - this.orbIncrement;
-            const newOrb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6 });
+            const newOrb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6, player: this.player });
             this.orbs.push(newOrb);
             this.addToUpdateList(newOrb);
             this.add(newOrb);
@@ -215,6 +243,28 @@ class SimpleScene extends Scene {
             // dispose of old orb
             this.remove(this.orbs[0])
             this.orbs.shift();
+
+            // randomly create a powerup
+            if (Math.random() < .05) {
+              this.createPowerup(orbXPos, this.state.speed + 0.2, this.state.spacing-6);
+            }
+
+            if (this.state.powerupTimer > 0) this.state.powerupTimer -= 1;
+            if (this.state.powerupTimer == 0) this.state.powerup = "";
+        }
+
+        // apply powerups
+        switch (this.state.powerup) {
+          case "Double":
+            for (let i = 0; i < this.orbs.length; i++) {
+              this.orbs[i].state.double = true;
+            }
+            break;
+          case "Magnet":
+            for (let i = 0; i < this.orbs.length; i++) {
+              this.orbs[i].state.magnet = true;
+            }
+            break;
         }
 
 

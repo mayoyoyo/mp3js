@@ -214,7 +214,11 @@ const onAnimationFrameHandler = (timeStamp) => {
         scene.state.cameraAngle = "ViewThree";
     }
     if (Dodge.isPressed) {
-        //handlePause();
+        scene.player.shieldMesh.material.opacity = 0.15;
+        scene.state.playerDodge = true;
+    } else {
+        scene.player.shieldMesh.material.opacity = 0;
+        scene.state.playerDodge = false;
     }
 
     if (scene.state.cameraAngle == "ViewOne") {

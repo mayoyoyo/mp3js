@@ -87,7 +87,7 @@ const ArrowUp = { key: "ArrowUp", keyCode: 38, isPressed: false };
 const ViewOne = { key: "1", keyCode: 49, isPressed: false };
 const ViewTwo = { key: "2", keyCode: 50, isPressed: false };
 const ViewThree = { key: "3", keyCode: 51, isPressed: false };
-const Pause = { key: "p", keyCode: 80, isPressed: false };
+//const Pause = { key: "p", keyCode: 80, isPressed: false };
 const boundKeys = [
     ArrowLeft,
     ArrowRight,
@@ -95,7 +95,7 @@ const boundKeys = [
     ViewOne,
     ViewTwo,
     ViewThree,
-    Pause
+    //Pause
 ];
 
 function watchKey(keyObj) {
@@ -165,24 +165,24 @@ let score = document.getElementById("Score");
 let prevScore = 0;
 
 function changeSpeed(val) {
-  scene.wall1.setSpeed(val);
-  scene.wall2.setSpeed(val);
-  scene.floor.setSpeed(val);
-  scene.state.speed = val;
-  for (let i = 0; i < scene.orbs.length; i++) scene.orbs[i].state.speed = val;
+    scene.wall1.setSpeed(val);
+    scene.wall2.setSpeed(val);
+    scene.floor.setSpeed(val);
+    scene.state.speed = val;
+    for (let i = 0; i < scene.orbs.length; i++) scene.orbs[i].state.speed = val;
 }
 
 const INITIAL_SPEED = 0.4;
 let prevSpeed = INITIAL_SPEED;
 function handlePause() {
-  if (!scene.state.paused) {
-    prevSpeed = scene.state.speed;;
-    scene.state.paused = true;
-    changeSpeed(0);
-  } else {
-    scene.state.paused = false;
-    changeSpeed(prevSpeed);
-  }
+    if (!scene.state.paused) {
+        prevSpeed = scene.state.speed;;
+        scene.state.paused = true;
+        changeSpeed(0);
+    } else {
+        scene.state.paused = false;
+        changeSpeed(prevSpeed);
+    }
 }
 
 document.getElementById("pausebutton").addEventListener('click', function () {
@@ -213,9 +213,9 @@ const onAnimationFrameHandler = (timeStamp) => {
     if (ViewThree.isPressed) {
         scene.state.cameraAngle = "ViewThree";
     }
-    if (Pause.isPressed) {
-        handlePause();
-    }
+    //if (Pause.isPressed) {
+    //    handlePause();
+    //}
 
     if (scene.state.cameraAngle == "ViewOne") {
         camera.position.set(15, 1, 0);

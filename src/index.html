@@ -1,21 +1,66 @@
+<script src="https://kit.fontawesome.com/165a36cd7d.js" crossorigin="anonymous"></script>
 <html>
 
 <head>
-    <title>Audiophile</title>
+    <title>.mp426 - Audio Racer</title>
     <style>
         #custom-button {
+            width: 200px;
+            height: 50px;
             padding: 10px;
             color: white;
-            background-color: #009578;
+            background-color: #FF8F00;
             border: 1px solid #000;
             border-radius: 5px;
             cursor: pointer;
+            margin: 0 auto;
+            font-size: 20px;
+        }
+
+        .playbutton {
+            width: 200px;
+            height: 50px;
+            padding: 10px;
+            color: white;
+            background-color: #FF8F00;
+            border: 1px solid #000;
+            border-radius: 5px;
+            margin: 0 auto;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .playbutton:hover {
+            width: 200px;
+            height: 50px;
+            padding: 10px;
+            color: white;
+            background-color: rgb(235, 133, 1);
+            border: 1px solid #000;
+            border-radius: 5px;
+            margin: 0 auto;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .playbutton:disabled,
+        .playbutton[disabled] {
+            width: 200px;
+            height: 50px;
+            padding: 10px;
+            color: #666666;
+            background-color: #cccccc;
+            border: 1px solid #000;
+            border-radius: 5px;
+            margin: 0 auto;
+            font-size: 20px;
+            cursor: not-allowed;
         }
 
         #pausebutton {
             padding: 10px;
             color: white;
-            background-color: #009578;
+            background-color: #FF8F00;
             border: 1px solid #000;
             border-radius: 5px;
             cursor: pointer;
@@ -25,6 +70,7 @@
             margin-left: 10px;
             font-family: sans-serif;
             color: #aaa;
+            font-size: 20px;
         }
 
         #custom-text2 {
@@ -34,21 +80,21 @@
         }
 
         .UIBox {
-            width: 300px;
+            width: 60%;
             left: 50%;
-            top: 30%;
+            top: 10%;
+            bottom: 10%;
             display: flex;
             justify-content: space-between;
             position: absolute;
             -webkit-transform: translate(-50%, 0);
-            background-color: grey;
+            background-color: black;
             border-color: white;
             border-radius: 10px;
             padding: 10px;
 
             font-family: georgia, garamond, serif;
-            font-size: 16px;
-            font-style: italic;
+            font-size: 20px;
         }
 
         .UIBox2 {
@@ -58,14 +104,15 @@
             display: none;
             justify-content: space-between;
             position: absolute;
+            -webkit-transform: translate(-50%, 0);
             background-color: grey;
-            border-color: white;
+            border-color: #aaa;
             opacity: 0.5;
             border-radius: 10px;
             padding: 10px;
 
             font-family: georgia, garamond, serif;
-            font-size: 16px;
+            font-size: 20px;
         }
 
         .Pause {
@@ -108,15 +155,15 @@
 
     <div class="UIBox" id="upload">
         <div class="content">
-            <div>
-                Upload your Music!
-            </div>
+            <img src="src/logo1.png" />
             <input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden">
-            <button type="button" id="custom-button">CHOOSE AN .MP3 FILE </button>
-            <span id="custom-text">No file chosen yet</span>
+            <button type="button" id="custom-button">CHOOSE .MP3 FILE</button>
+            <br><br>
+            <span id="custom-text"></span>
+            <br><br><br><br><br>
             <audio id="audio"></audio>
-            <button type="button" id="playAudio" onclick="exit()">
-                Play Now
+            <button class="playbutton" id="playAudio" disabled="disabled" onclick="exit()">
+                Play Now &nbsp&nbsp<i class="far fa-play-circle"></i>
             </button>
         </div>
     </div>
@@ -142,6 +189,7 @@
     const customBtn = document.getElementById("custom-button");
     const customTxt = document.getElementById("custom-text");
     const customTxt2 = document.getElementById("custom-text2");
+    const playButton = document.getElementById("playAudio");
 
     customBtn.addEventListener("click", function () {
         realFileBtn.click();
@@ -152,9 +200,9 @@
             customTxt.innerHTML = realFileBtn.value.match(
                 /[\/\\]([\w\d\s\.\-\(\)]+)$/
             )[1];
-        } else {
-            customTxt.innerHTML = "No file chosen yet";
+
         }
+        playButton.disabled = false;
         customTxt2.innerHTML = customTxt.innerHTML;
     });
 

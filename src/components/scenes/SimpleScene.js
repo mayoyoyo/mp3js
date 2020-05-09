@@ -18,7 +18,6 @@ class SimpleScene extends Scene {
             offset: 0,
             playerInputs: { left: false, right: false, jumped: false },
             prevOrbZ: 0,
-            orbSpeed: 0.4,
             score: 0,
             spacing: 15,
             updateList: [],
@@ -26,7 +25,7 @@ class SimpleScene extends Scene {
             bloomStrength: 0.7,
             bloomRadius: 0.2,
             bloomThreshold: 0.1,
-            speed: 0.1,
+            speed: 0.4,
             deltaInt: 0,
             avgFreq: 1,
             cameraAngle: "ViewOne"
@@ -80,14 +79,12 @@ class SimpleScene extends Scene {
         this.addToUpdateList(wall2);
         this.addToUpdateList(floor);
 
-
-
-
+        // Add player
 
         const ionDrive = new IonDrive(() => { });
 
         let playerPos = new Vector3(-0.8, 0, 0);
-        let player = new Player({ radius: 1.4, segments: 4, playerPos: playerPos, skin: ionDrive, bounds: this.state.spacing - 6 });
+        let player = new Player({ radius: 1.4, segments: 1, playerPos: playerPos, ionDrive: ionDrive, bounds: this.state.spacing - 6 });
         this.player = player;
         this.addToUpdateList(player);
         this.add(player);
@@ -95,8 +92,6 @@ class SimpleScene extends Scene {
 
 
         // Add orbs
-
-
         this.orbs = []
 
         const NUM_STARTING_ORBS = 8;
@@ -104,7 +99,7 @@ class SimpleScene extends Scene {
 
         for (let i = 0; i < NUM_STARTING_ORBS; ++i) {
             let orbXPos = -i * this.orbIncrement;
-            let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.orbSpeed, bounds: this.state.spacing - 6 });
+            let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6 });
             this.addToUpdateList(orb);
             this.add(orb);
             this.orbs.push(orb);
@@ -127,6 +122,8 @@ class SimpleScene extends Scene {
             this.wall1.setSpeed(val);
             this.wall2.setSpeed(val);
             this.floor.setSpeed(val);
+            this.state.speed = val;
+            for (let i = 0; i < this.orbs.length; i++) this.orbs[i].state.speed = val;
         })
         this.state.gui.add(this.state, 'size', 0, 5).onChange((val) => {
             this.wall1.setStripSize(val);
@@ -197,7 +194,7 @@ class SimpleScene extends Scene {
         while (this.orbs[0] && this.orbs[0].position.x > CAMERA_X) {
             // add new barrier to replace the old one
             let orbXPos = this.orbs[this.orbs.length - 1].position.x - this.orbIncrement;
-            const newOrb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.orbSpeed, bounds: this.state.spacing - 6 });
+            const newOrb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6 });
             this.orbs.push(newOrb);
             this.addToUpdateList(newOrb);
             this.add(newOrb);

@@ -144,14 +144,15 @@ document.addEventListener('keyup', (event) => {
     })
 });
 
-
 var file = document.getElementById("fileInput");
 var audioinput = document.getElementById("audio");
-var analyser = null;
+var analyser;
+var context;
+var src;
 
 file.onchange = function () {
-    var context = new AudioContext();  // create context
-    var src = context.createMediaElementSource(audioinput); //create src inside ctx
+    context = context || new AudioContext();  // create context
+    src = src || context.createMediaElementSource(audioinput); //create src inside ctx
     analyser = context.createAnalyser(); //create analyser in ctx
     src.connect(analyser);         //connect analyser node to the src
     analyser.connect(context.destination); // connect the destination
@@ -197,17 +198,17 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
 
     if (scene.state.cameraAngle == "ViewOne") {
-      camera.position.set(15, 1, 0);
-      camera.lookAt(new Vector3())
+        camera.position.set(15, 1, 0);
+        camera.lookAt(new Vector3())
     }
     else if (scene.state.cameraAngle == "ViewTwo") {
-      let pPos = scene.player.position;
-      camera.position.set(pPos.x + 5, pPos.y + 2, pPos.z);
-      camera.lookAt(new Vector3(-1000, 0, 0));
+        let pPos = scene.player.position;
+        camera.position.set(pPos.x + 5, pPos.y + 2, pPos.z);
+        camera.lookAt(new Vector3(-1000, 0, 0));
     }
     else if (scene.state.cameraAngle == "ViewThree") {
-      camera.position.set(13, 1.25, -7.25);
-      camera.lookAt(new Vector3());
+        camera.position.set(13, 1.25, -7.25);
+        camera.lookAt(new Vector3());
     }
 
     if (analyser) {

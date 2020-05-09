@@ -15,6 +15,7 @@ import { SimpleScene } from 'scenes';
 import { AudioData } from 'music';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
+import Logo from "./logo.png";
 
 var params = {
     bloomStrength: 0.7,

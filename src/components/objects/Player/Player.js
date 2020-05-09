@@ -3,12 +3,12 @@ import { SphereBufferGeometry, MeshPhongMaterial, Mesh } from 'three';
 
 class Player extends Group {
     constructor(data){
-        let {radius, segments, playerPos, skin, bounds} = data;
+        let {radius, segments, playerPos, ionDrive, bounds} = data;
         super();
-        const geometry = new SphereBufferGeometry(radius, segments, segments);
-        const material = new MeshPhongMaterial( { opacity: 0, transparent: true } );
+        let geometry = new SphereBufferGeometry(radius, segments, segments);
+        let material = new MeshPhongMaterial( { opacity: 0, transparent: true } );
 
-        let playerMesh = new Mesh(geometry, material);
+        let sphereMesh = new Mesh(geometry, material);
 
         this.state = {
             // collide: false,
@@ -19,14 +19,23 @@ class Player extends Group {
         }
         this.bounds = bounds;
         this.radius = radius;
-
+        this.ionDrive = ionDrive;
 
         this.velocity = new Vector3();
         this.netForces = new Vector3();
 
-        this.add(playerMesh);
-        this.add(skin);
+        this.sphereMesh = sphereMesh;
+        this.add(sphereMesh);
+        this.add(ionDrive);
         this.position.set(playerPos.x, playerPos.y, playerPos.z);
+
+        // console.log(this.sphereMesh.material)
+
+        // add shield mesh
+        // geometry = new SphereBufferGeometry(radius + 0.7, 16, 16);
+        // material = new MeshPhongMaterial( { opacity: 0.1, transparent: true } );
+        // let shieldMesh = new Mesh(geometry, material);
+        // this.add(shieldMesh);
     }
 
     // returns score received
@@ -41,6 +50,11 @@ class Player extends Group {
           && oPos.z < pPos.z + this.radius
           && oPos.y > pPos.y - this.radius
           && oPos.y < pPos.y + this.radius) {
+
+        this.sphereMesh.material.color = orb.orbMesh.material.color;
+        this.sphereMesh.material.opacity = 0.4;
+        this.ionDrive.reactToBeat(2);
+
         orb.state.visible = false;
 
         // check kind of orb
@@ -79,7 +93,7 @@ class Player extends Group {
       this.state.jumped = false;
       if (this.state.currTouchingGround) {
   	     this.velocity = new Vector3();
-         let jumpForce = new Vector3(0, .35, 0);
+         let jumpForce = new Vector3(0, .5, 0);
          this.netForces.add(jumpForce);
       }
     }
@@ -88,7 +102,7 @@ class Player extends Group {
       this.state.left = false;
       if (this.velocity.z < 0) this.velocity.z = 0;
   	  // this.velocity = new Vector3(0, this.velocity.y, 0);
-      let moveForce = new Vector3(0, 0, .04);
+      let moveForce = new Vector3(0, 0, .06);
       this.netForces.add(moveForce);
     }
 
@@ -96,7 +110,7 @@ class Player extends Group {
       this.state.right = false;
       if (this.velocity.z > 0) this.velocity.z = 0;
   	  // this.velocity = new Vector3(0, this.velocity.y, 0);
-      let moveForce = new Vector3(0, 0, -.04);
+      let moveForce = new Vector3(0, 0, -.06);
       this.netForces.add(moveForce);
     }
 
@@ -104,7 +118,7 @@ class Player extends Group {
       // actual gravity
       // const GRAVITY = new Vector3(0, -.0035, 0);
 
-      const GRAVITY = new Vector3(0, -.015, 0);
+      const GRAVITY = new Vector3(0, -.03, 0);
       this.netForces.add(GRAVITY);
     }
 
@@ -112,7 +126,7 @@ class Player extends Group {
         if (!this.currTouchingGround) return;
 
         let frictionForce = new Vector3(0, 0, -this.velocity.z);
-        frictionForce.multiplyScalar(0.06);
+        frictionForce.multiplyScalar(0.08);
 
         this.netForces.add(frictionForce);
     }
@@ -149,6 +163,7 @@ class Player extends Group {
       this.simulateForces();
       this.collideWithFloor();
       this.collideWithWalls();
+      this.sphereMesh.material.opacity -= 0.035;
     }
 }
 

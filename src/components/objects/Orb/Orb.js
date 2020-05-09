@@ -36,6 +36,7 @@ class Orb extends Group {
         const material = new MeshPhongMaterial( { color: color, opacity: 0.4, transparent: true} );
 
         let orbMesh = new Mesh(geometry, material);
+        this.orbMesh = orbMesh;
 
         this.add(orbMesh);
         const DEVIATION = 3;

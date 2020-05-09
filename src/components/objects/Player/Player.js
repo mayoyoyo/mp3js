@@ -3,7 +3,7 @@ import { SphereBufferGeometry, MeshPhongMaterial, Mesh } from 'three';
 
 class Player extends Group {
     constructor(data){
-        let {radius, segments, playerPos, ionDrive, bounds} = data;
+        let {radius, segments, playerPos, ionDrive, bounds, scene} = data;
         super();
         let geometry = new SphereBufferGeometry(radius, segments, segments);
         let material = new MeshPhongMaterial( { opacity: 0, transparent: true } );
@@ -20,6 +20,7 @@ class Player extends Group {
         this.bounds = bounds;
         this.radius = radius;
         this.ionDrive = ionDrive;
+        this.scene = scene;
 
         this.velocity = new Vector3();
         this.netForces = new Vector3();
@@ -90,6 +91,7 @@ class Player extends Group {
     }
 
     handleJump() {
+      if (this.scene.state.paused) return;
       this.state.jumped = false;
       if (this.state.currTouchingGround) {
   	     this.velocity = new Vector3();
@@ -99,6 +101,7 @@ class Player extends Group {
     }
 
     handleLeft() {
+      if (this.scene.state.paused) return;
       this.state.left = false;
       if (this.velocity.z < 0) this.velocity.z = 0;
   	  // this.velocity = new Vector3(0, this.velocity.y, 0);
@@ -107,6 +110,7 @@ class Player extends Group {
     }
 
     handleRight() {
+      if (this.scene.state.paused) return;
       this.state.right = false;
       if (this.velocity.z > 0) this.velocity.z = 0;
   	  // this.velocity = new Vector3(0, this.velocity.y, 0);

@@ -88,7 +88,7 @@ class SimpleScene extends Scene {
         const ionDrive = new IonDrive(() => { });
 
         let playerPos = new Vector3(-0.8, 0, 0);
-        let player = new Player({ radius: 1.4, segments: 1, playerPos: playerPos, ionDrive: ionDrive, bounds: this.state.spacing - 6 });
+        let player = new Player({ radius: 1.4, segments: 1, playerPos: playerPos, ionDrive: ionDrive, bounds: this.state.spacing - 6, scene: this });
         this.player = player;
         this.addToUpdateList(player);
         this.add(player);

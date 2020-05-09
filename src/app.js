@@ -87,13 +87,15 @@ const ArrowUp = { key: "ArrowUp", keyCode: 38, isPressed: false };
 const ViewOne = { key: "1", keyCode: 49, isPressed: false };
 const ViewTwo = { key: "2", keyCode: 50, isPressed: false };
 const ViewThree = { key: "3", keyCode: 51, isPressed: false };
+const Pause = { key: "p", keyCode: 80, isPressed: false };
 const boundKeys = [
     ArrowLeft,
     ArrowRight,
     ArrowUp,
     ViewOne,
     ViewTwo,
-    ViewThree
+    ViewThree,
+    Pause
 ];
 
 function watchKey(keyObj) {
@@ -210,6 +212,9 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
     if (ViewThree.isPressed) {
         scene.state.cameraAngle = "ViewThree";
+    }
+    if (Pause.isPressed) {
+        handlePause();
     }
 
     if (scene.state.cameraAngle == "ViewOne") {

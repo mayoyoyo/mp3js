@@ -184,6 +184,8 @@ function handlePause() {
 
 function gameover() {
   handlePause();
+  scene.reportStats();
+  scene.reset();
 }
 
 document.getElementById('audio').addEventListener("ended", gameover, false);

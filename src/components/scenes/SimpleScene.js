@@ -24,6 +24,9 @@ class SimpleScene extends Scene {
             powerup: "",
             powerupTimer: 0,
             powerupRecharge: 50,
+            orbsCollected: 0,
+            redOrbsCollected: 0,
+            orbsMissed: 0,
             spacing: 15,
             updateList: [],
             color: new Color('white'),
@@ -177,6 +180,28 @@ class SimpleScene extends Scene {
         return Math.floor(Math.random() * Math.floor(max));
     }
 
+    reset() {
+      this.state.prevOrbZ = 0;
+      this.state.score = 0;
+      this.state.powerup = "";
+      this.state.powerupTimer = 0;
+      this.state.powerupRecharge = 50;
+      this.state.orbsCollected = 0;
+      this.state.redOrbsCollected = 0;
+      this.state.orbsMissed = 0;
+    }
+
+    // Just prints to console for now
+    reportStats() {
+      let accuracy = 0;
+      let totalOrbs = this.state.orbsCollected + this.state.orbsMissed;
+      if (totalOrbs != 0) {
+        accuracy = (this.state.orbsCollected / totalOrbs).toFixed(2);
+      }
+      accuracy *= 100;
+      console.log(`Game Stats \n\nOrbs Collected: ${this.state.orbsCollected} \nRed Orbs Collected: ${this.state.redOrbsCollected} \nOrbs Missed: ${this.state.orbsMissed} \nAccuracy: ${accuracy}%`);
+    }
+
     createPowerup(xPos, speed, bounds) {
       let rand = Math.random();
 
@@ -239,6 +264,19 @@ class SimpleScene extends Scene {
             this.add(newOrb);
 
             this.state.prevOrbZ = newOrb.position.z;
+
+            // count collected/missed for stats
+            if (this.orbs[0].state.visible) {
+              if (!this.orbs[0].state.negative || this.state.powerup != "") {
+                this.state.orbsMissed += 1;
+              }
+            } else {
+              if (!this.orbs[0].state.negative || this.state.powerup != "") {
+                this.state.orbsCollected += 1;
+              } else {
+                this.state.redOrbsCollected += 1;
+              }
+            }
 
             // dispose of old orb
             this.remove(this.orbs[0])

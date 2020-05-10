@@ -261,7 +261,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     if (scene.state.score != prevScore) {
         prevScore = scene.state.score;
 
-        score.innerHTML = "SCORE:"  + "<br />" + `${prevScore}`;
+        score.innerHTML = "SCORE"  + "<br />" + `${prevScore}`;
     }
 
     //renderer.render(scene, camera);

@@ -149,6 +149,8 @@ file.onchange = function () {
 
     scene.state.score = 0;
 }
+
+
 document.getElementById("playAudio").addEventListener('click', function () {
     handlePause();
     context.resume();
@@ -180,6 +182,19 @@ function handlePause() {
     }
 }
 
+function gameover() {
+  handlePause();
+}
+
+document.getElementById('audio').addEventListener("ended", gameover, false);
+
+document.getElementById("playAudio").addEventListener('click', function () {
+    // reset score if new game
+    if (document.getElementById("gameover-text").innerHTML != "") {
+      scene.state.score = 0;
+    }
+});
+
 document.getElementById("pausebutton").addEventListener('click', function () {
     if (!scene.state.paused) handlePause();
 });
@@ -209,8 +224,10 @@ const onAnimationFrameHandler = (timeStamp) => {
         scene.state.cameraAngle = "ViewThree";
     }
     if (Dodge.isPressed) {
-        scene.player.shieldMesh.material.opacity = 0.15;
-        scene.state.playerDodge = true;
+        if (!scene.state.paused) {
+          scene.player.shieldMesh.material.opacity = 0.15;
+          scene.state.playerDodge = true;
+        }    
     } else {
         scene.player.shieldMesh.material.opacity = 0;
         scene.state.playerDodge = false;

@@ -83,6 +83,13 @@
             color: #aaa;
         }
 
+        #gameover-text {
+            margin-bottom: 10px;
+            font-family: sans-serif;
+            color: #FFF;
+            font-size: 30px;
+        }
+
         .UIBox {
             width: 60%;
             left: 50%;
@@ -163,10 +170,11 @@
         <div class="content">
             <img src="https://i.ibb.co/kGQDyqD/logo1.png" alt="logo1">
             <input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden">
+            <span id="gameover-text"></span>
             <button type="button" id="custom-button">CHOOSE .MP3 FILE</button>
             <br><br>
             <span id="custom-text"></span>
-            <br><br><br><br><br>
+            <br><br>
             <audio id="audio"></audio>
             <button class="playbutton" id="playAudio" disabled="disabled" onclick="exit()">
                 Play Now &nbsp&nbsp<i class="far fa-play-circle"></i>
@@ -196,6 +204,7 @@
     const customTxt = document.getElementById("custom-text");
     const customTxt2 = document.getElementById("custom-text2");
     const playButton = document.getElementById("playAudio");
+    const gameoverText = document.getElementById("gameover-text");
 
     customBtn.addEventListener("click", function () {
         realFileBtn.click();
@@ -211,6 +220,13 @@
         playButton.disabled = false;
         customTxt2.innerHTML = customTxt.innerHTML;
     });
+
+    function onEnded() {
+      console.log('done!');
+      gameover();
+    }
+
+    document.getElementById('audio').addEventListener("ended", onEnded, false);
 
     function exit() {
         var box = document.getElementById('upload');
@@ -229,7 +245,14 @@
         var box = document.getElementById('upload');
         box.style.display = 'flex';
         var audio = document.getElementById('audio');
+        gameoverText.innerHTML = "";
         audio.pause();
+    }
+
+    function gameover() {
+        var box = document.getElementById('upload');
+        box.style.display = 'flex';
+        gameoverText.innerHTML = "Game over! Try again?";
     }
 
 </script>

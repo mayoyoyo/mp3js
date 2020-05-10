@@ -1,17 +1,15 @@
 {
-  "name": "audiophile",
+  "name": "mp426",
   "repository": "finalproj",
   "version": "0.1.0",
-  "title": "COS 426 Final Project - Audiophile",
-  "description": "A music-based infinite runner game",
+  "title": ".mp426",
+  "description": "A music-based runner game",
   "keywords": [
     "Princeton",
     "graphics",
     "three.js",
     "COS 426",
     "ivy league",
-    "keyword1",
-    "keyword2",
     "music",
     "runner"
   ],

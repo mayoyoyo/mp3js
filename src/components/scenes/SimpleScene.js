@@ -102,21 +102,13 @@ class SimpleScene extends Scene {
         this.addToUpdateList(ionDrive);
 
 
-        // Add orbs
+        // Add initial placeholder orbs
         this.orbs = []
 
-        const NUM_STARTING_ORBS = 8;
+        this.numStartingOrbs = 8;
         this.orbIncrement = 8;
 
-        for (let i = 0; i < NUM_STARTING_ORBS; ++i) {
-            let orbXPos = -i * this.orbIncrement;
-            let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6, player: this.player });
-            this.addToUpdateList(orb);
-            this.add(orb);
-            this.orbs.push(orb);
-
-            this.state.prevOrbZ = orb.position.z;
-        }
+        this.initializeOrbs(this.numStartingOrbs, this.orbIncrement);
 
         // Add powerups
         this.powerups = [];
@@ -172,6 +164,23 @@ class SimpleScene extends Scene {
         // this.state.gui.addColor(new ColorGUIHelper(this.state, 'color'), 'value').name('color')
     }
 
+    // reset orbs
+    initializeOrbs(numOrbs, increment) {
+      // remove any existing orbs from scene
+      for (let i = 0; i < this.orbs.length; i++) this.remove(this.orbs[i]);
+      this.orbs = [];
+
+      for (let i = 0; i < numOrbs; ++i) {
+          let orbXPos = -i * increment;
+          let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6, player: this.player, isPlaceholder: true });
+          this.addToUpdateList(orb);
+          this.add(orb);
+          this.orbs.push(orb);
+
+          this.state.prevOrbZ = orb.position.z;
+      }
+    }
+
     addToUpdateList(object) {
         this.state.updateList.push(object);
     }
@@ -189,6 +198,7 @@ class SimpleScene extends Scene {
       this.state.orbsCollected = 0;
       this.state.redOrbsCollected = 0;
       this.state.orbsMissed = 0;
+      this.initializeOrbs(this.numStartingOrbs, this.orbIncrement);
     }
 
     // Just prints to console for now
@@ -258,7 +268,7 @@ class SimpleScene extends Scene {
         while (this.orbs[0] && this.orbs[0].position.x > CAMERA_X) {
             // add new barrier to replace the old one
             let orbXPos = this.orbs[this.orbs.length - 1].position.x - this.orbIncrement;
-            const newOrb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6, player: this.player });
+            const newOrb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6, player: this.player, isPlaceholder: false });
             this.orbs.push(newOrb);
             this.addToUpdateList(newOrb);
             this.add(newOrb);
@@ -268,21 +278,25 @@ class SimpleScene extends Scene {
             // count collected/missed for stats
             let existsPowerup = this.orbs[0].state.double || this.orbs[0].state.magnet;
             let negative = this.orbs[0].state.negative;
+            let isPlaceholder = this.orbs[0].state.isPlaceholder;
 
-            if (this.orbs[0].state.visible) {
-              if (!negative || existsPowerup) {
-                this.state.orbsMissed += 1;
-              }
-            } else {
-              if (!negative || existsPowerup) {
-                this.state.orbsCollected += 1;
+            // don't count if a placeholder orb
+            if (!isPlaceholder) {
+              if (this.orbs[0].state.visible) {
+                if (!negative || existsPowerup) {
+                  this.state.orbsMissed += 1;
+                }
               } else {
-                this.state.redOrbsCollected += 1;
+                if (!negative || existsPowerup) {
+                  this.state.orbsCollected += 1;
+                } else {
+                  this.state.redOrbsCollected += 1;
+                }
               }
             }
 
             // dispose of old orb
-            this.remove(this.orbs[0])
+            this.remove(this.orbs[0]);
             this.orbs.shift();
 
             // randomly create a powerup

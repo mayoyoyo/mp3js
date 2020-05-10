@@ -148,6 +148,7 @@ file.onchange = function () {
     audioinput.pause();
 
     scene.state.score = 0;
+    scene.reset();
 }
 
 

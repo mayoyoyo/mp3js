@@ -3,16 +3,17 @@ import { SphereBufferGeometry, MeshPhongMaterial, Mesh, Color } from 'three';
 
 class Orb extends Group {
     constructor(data){
-        let {xPos, zPrev, speed, bounds, player} = data;
+        let {xPos, zPrev, speed, bounds, player, isPlaceholder} = data;
         super();
 
         this.state = {
-          visible: true,
+          visible: !isPlaceholder,
           speed: speed,
           negative: false,
           high: false,
           double: false,
-          magnet: false
+          magnet: false,
+          isPlaceholder: isPlaceholder
         }
 
         this.radius = 0.5;

@@ -95,6 +95,7 @@ class Player extends Group {
 
         powerup.state.visible = false;
 
+        // set powerup timer and next powerup recharge
         this.scene.state.powerupTimer = 20;
         return true;
       }
@@ -136,7 +137,6 @@ class Player extends Group {
       if (this.scene.state.paused) return;
       this.state.left = false;
       if (this.velocity.z < 0) this.velocity.z = 0;
-  	  // this.velocity = new Vector3(0, this.velocity.y, 0);
       let moveForce = new Vector3(0, 0, .03);
       this.netForces.add(moveForce);
     }
@@ -145,15 +145,11 @@ class Player extends Group {
       if (this.scene.state.paused) return;
       this.state.right = false;
       if (this.velocity.z > 0) this.velocity.z = 0;
-  	  // this.velocity = new Vector3(0, this.velocity.y, 0);
       let moveForce = new Vector3(0, 0, -.03);
       this.netForces.add(moveForce);
     }
 
     addGravity() {
-      // actual gravity
-      // const GRAVITY = new Vector3(0, -.0035, 0);
-
       const GRAVITY = new Vector3(0, -.04, 0);
       this.netForces.add(GRAVITY);
     }

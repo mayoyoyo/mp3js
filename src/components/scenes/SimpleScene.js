@@ -23,6 +23,7 @@ class SimpleScene extends Scene {
             score: 0,
             powerup: "",
             powerupTimer: 0,
+            powerupRecharge: 50,
             spacing: 15,
             updateList: [],
             color: new Color('white'),
@@ -191,6 +192,9 @@ class SimpleScene extends Scene {
         this.addToUpdateList(newPowerup);
         this.add(newPowerup);
       }
+
+      // set powerup timer
+      this.state.powerupRecharge = 50;
     }
 
     update(timeStamp) {
@@ -245,10 +249,12 @@ class SimpleScene extends Scene {
             this.orbs.shift();
 
             // randomly create a powerup
-            if (Math.random() < .05) {
+            if (Math.random() < .05 && this.state.powerupRecharge == 0) {
               this.createPowerup(orbXPos, this.state.speed + 0.2, this.state.spacing-6);
             }
 
+            // update powerup timers and recharge
+            if (this.state.powerupRecharge > 0) this.state.powerupRecharge -= 1;
             if (this.state.powerupTimer > 0) this.state.powerupTimer -= 1;
             if (this.state.powerupTimer == 0) this.state.powerup = "";
         }

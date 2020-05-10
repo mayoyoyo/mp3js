@@ -271,14 +271,12 @@ class SimpleScene extends Scene {
 
             if (this.orbs[0].state.visible) {
               if (!negative || existsPowerup) {
-                console.log("Miss")
                 this.state.orbsMissed += 1;
               }
             } else {
               if (!negative || existsPowerup) {
                 this.state.orbsCollected += 1;
               } else {
-                console.log("Red")
                 this.state.redOrbsCollected += 1;
               }
             }

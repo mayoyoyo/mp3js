@@ -85,6 +85,7 @@ class Orb extends Group {
         this.orbMesh.material.color = new Color(0, 1, 0);
       }
       if (this.state.magnet && this.position.x < this.player.position.x) {
+        this.position.y = -3.5;
         this.orbMesh.material.color = new Color(0, 0.6, 1);
         let pullVec = this.player.position.clone().sub(this.position);
         this.position.add(pullVec.multiplyScalar(0.01));

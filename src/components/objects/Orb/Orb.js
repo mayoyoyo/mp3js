@@ -3,16 +3,17 @@ import { SphereBufferGeometry, MeshPhongMaterial, Mesh, Color } from 'three';
 
 class Orb extends Group {
     constructor(data){
-        let {xPos, zPrev, speed, bounds, player} = data;
+        let {xPos, zPrev, speed, bounds, player, isPlaceholder} = data;
         super();
 
         this.state = {
-          visible: true,
+          visible: !isPlaceholder,
           speed: speed,
           negative: false,
           high: false,
           double: false,
-          magnet: false
+          magnet: false,
+          isPlaceholder: isPlaceholder
         }
 
         this.radius = 0.5;
@@ -84,6 +85,7 @@ class Orb extends Group {
         this.orbMesh.material.color = new Color(0, 1, 0);
       }
       if (this.state.magnet && this.position.x < this.player.position.x) {
+        this.position.y = -3.5;
         this.orbMesh.material.color = new Color(0, 0.6, 1);
         let pullVec = this.player.position.clone().sub(this.position);
         this.position.add(pullVec.multiplyScalar(0.01));

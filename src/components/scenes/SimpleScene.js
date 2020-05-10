@@ -1,4 +1,4 @@
-import * as Dat from 'dat.gui';
+// import * as Dat from 'dat.gui';
 import { Scene, Color, Plane, SphereGeometry, MeshBasicMaterial } from 'three';
 import { SphereBufferGeometry, MeshPhongMaterial, BufferAttribute, Mesh, DoubleSide, ShaderMaterial } from 'three';
 import { IonDrive, Wall, Floor, Player, Orb, Powerup } from 'objects';
@@ -13,7 +13,7 @@ class SimpleScene extends Scene {
 
         // Init state
         this.state = {
-            gui: new Dat.GUI(), // Create GUI for scene
+            // gui: new Dat.GUI(), // Create GUI for scene
             paused: true,
             size: 1,
             offset: 0,
@@ -24,6 +24,9 @@ class SimpleScene extends Scene {
             powerup: "",
             powerupTimer: 0,
             powerupRecharge: 50,
+            orbsCollected: 0,
+            redOrbsCollected: 0,
+            orbsMissed: 0,
             spacing: 15,
             updateList: [],
             color: new Color('white'),
@@ -101,21 +104,13 @@ class SimpleScene extends Scene {
         this.addToUpdateList(ionDrive);
 
 
-        // Add orbs
+        // Add initial placeholder orbs
         this.orbs = []
 
-        const NUM_STARTING_ORBS = 8;
+        this.numStartingOrbs = 8;
         this.orbIncrement = 8;
 
-        for (let i = 0; i < NUM_STARTING_ORBS; ++i) {
-            let orbXPos = -i * this.orbIncrement;
-            let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6, player: this.player });
-            this.addToUpdateList(orb);
-            this.add(orb);
-            this.orbs.push(orb);
-
-            this.state.prevOrbZ = orb.position.z;
-        }
+        this.initializeOrbs(this.numStartingOrbs, this.orbIncrement);
 
         // Add powerups
         this.powerups = [];
@@ -131,44 +126,61 @@ class SimpleScene extends Scene {
 
 
         // Populate GUI
-        this.state.gui.add(this.state, 'speed', 0, 3).onChange((val) => {
-            this.wall1.setSpeed(val);
-            this.wall2.setSpeed(val);
-            this.floor.setSpeed(val);
-            this.state.speed = val;
-            for (let i = 0; i < this.orbs.length; i++) this.orbs[i].state.speed = val;
-        })
-        this.state.gui.add(this.state, 'size', 0, 5).onChange((val) => {
-            this.wall1.setStripSize(val);
-            this.wall2.setStripSize(val);
-            this.floor.setSize(val);
+        // this.state.gui.add(this.state, 'speed', 0, 3).onChange((val) => {
+        //     this.wall1.setSpeed(val);
+        //     this.wall2.setSpeed(val);
+        //     this.floor.setSpeed(val);
+        //     this.state.speed = val;
+        //     for (let i = 0; i < this.orbs.length; i++) this.orbs[i].state.speed = val;
+        // })
+        // this.state.gui.add(this.state, 'size', 0, 5).onChange((val) => {
+        //     this.wall1.setStripSize(val);
+        //     this.wall2.setStripSize(val);
+        //     this.floor.setSize(val);
+        //
+        // });
+        //
+        // this.state.gui.add(this.state, 'offset', 0, 5).onChange((val) => {
+        //     this.wall1.setStripOffset(val);
+        //     this.wall2.setStripOffset(val);
+        //
+        // });
+        // this.state.gui.add(this.state, 'bloomStrength', -2, 2).onChange((val) => { onBloomParamsUpdated('strength', val) })
+        // this.state.gui.add(this.state, 'bloomRadius', 0, 5).onChange((val) => { onBloomParamsUpdated('radius', val) })
+        // this.state.gui.add(this.state, 'bloomThreshold', 0, 1).onChange((val) => { onBloomParamsUpdated('threshold', val) })
+        // class ColorGUIHelper {
+        //     constructor(object, prop) {
+        //         this.object = object;
+        //         this.prop = prop;
+        //     }
+        //
+        //     get value() {
+        //         return `#${this.object[this.prop].getHexString()}`;
+        //     }
+        //
+        //     set value(hexString) {
+        //         /* Logic For setting */
+        //     }
+        // }
+        //
+        // this.state.gui.addColor(new ColorGUIHelper(this.state, 'color'), 'value').name('color')
+    }
 
-        });
+    // reset orbs
+    initializeOrbs(numOrbs, increment) {
+      // remove any existing orbs from scene
+      for (let i = 0; i < this.orbs.length; i++) this.remove(this.orbs[i]);
+      this.orbs = [];
 
-        this.state.gui.add(this.state, 'offset', 0, 5).onChange((val) => {
-            this.wall1.setStripOffset(val);
-            this.wall2.setStripOffset(val);
+      for (let i = 0; i < numOrbs; ++i) {
+          let orbXPos = -i * increment;
+          let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6, player: this.player, isPlaceholder: true });
+          this.addToUpdateList(orb);
+          this.add(orb);
+          this.orbs.push(orb);
 
-        });
-        this.state.gui.add(this.state, 'bloomStrength', -2, 2).onChange((val) => { onBloomParamsUpdated('strength', val) })
-        this.state.gui.add(this.state, 'bloomRadius', 0, 5).onChange((val) => { onBloomParamsUpdated('radius', val) })
-        this.state.gui.add(this.state, 'bloomThreshold', 0, 1).onChange((val) => { onBloomParamsUpdated('threshold', val) })
-        class ColorGUIHelper {
-            constructor(object, prop) {
-                this.object = object;
-                this.prop = prop;
-            }
-
-            get value() {
-                return `#${this.object[this.prop].getHexString()}`;
-            }
-
-            set value(hexString) {
-                /* Logic For setting */
-            }
-        }
-
-        this.state.gui.addColor(new ColorGUIHelper(this.state, 'color'), 'value').name('color')
+          this.state.prevOrbZ = orb.position.z;
+      }
     }
 
     addToUpdateList(object) {
@@ -177,6 +189,29 @@ class SimpleScene extends Scene {
 
     getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    reset() {
+      this.state.prevOrbZ = 0;
+      this.state.score = 0;
+      this.state.powerup = "";
+      this.state.powerupTimer = 0;
+      this.state.powerupRecharge = 50;
+      this.state.orbsCollected = 0;
+      this.state.redOrbsCollected = 0;
+      this.state.orbsMissed = 0;
+      this.initializeOrbs(this.numStartingOrbs, this.orbIncrement);
+    }
+
+    // Just prints to console for now
+    reportStats() {
+      let accuracy = 0;
+      let totalOrbs = this.state.orbsCollected + this.state.orbsMissed;
+      if (totalOrbs != 0) {
+        accuracy = (this.state.orbsCollected / totalOrbs).toFixed(2);
+      }
+      accuracy *= 100;
+      console.log(`Game Stats \n\nOrbs Collected: ${this.state.orbsCollected} \nRed Orbs Collected: ${this.state.redOrbsCollected} \nOrbs Missed: ${this.state.orbsMissed} \nAccuracy: ${accuracy}%`);
     }
 
     createPowerup(xPos, speed, bounds) {
@@ -235,15 +270,35 @@ class SimpleScene extends Scene {
         while (this.orbs[0] && this.orbs[0].position.x > CAMERA_X) {
             // add new barrier to replace the old one
             let orbXPos = this.orbs[this.orbs.length - 1].position.x - this.orbIncrement;
-            const newOrb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6, player: this.player });
+            const newOrb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6, player: this.player, isPlaceholder: false });
             this.orbs.push(newOrb);
             this.addToUpdateList(newOrb);
             this.add(newOrb);
 
             this.state.prevOrbZ = newOrb.position.z;
 
+            // count collected/missed for stats
+            let existsPowerup = this.orbs[0].state.double || this.orbs[0].state.magnet;
+            let negative = this.orbs[0].state.negative;
+            let isPlaceholder = this.orbs[0].state.isPlaceholder;
+
+            // don't count if a placeholder orb
+            if (!isPlaceholder) {
+              if (this.orbs[0].state.visible) {
+                if (!negative || existsPowerup) {
+                  this.state.orbsMissed += 1;
+                }
+              } else {
+                if (!negative || existsPowerup) {
+                  this.state.orbsCollected += 1;
+                } else {
+                  this.state.redOrbsCollected += 1;
+                }
+              }
+            }
+
             // dispose of old orb
-            this.remove(this.orbs[0])
+            this.remove(this.orbs[0]);
             this.orbs.shift();
 
             // randomly create a powerup

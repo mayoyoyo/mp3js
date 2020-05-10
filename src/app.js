@@ -148,6 +148,7 @@ file.onchange = function () {
     audioinput.pause();
 
     scene.state.score = 0;
+    scene.reset();
 }
 
 
@@ -184,6 +185,8 @@ function handlePause() {
 
 function gameover() {
   handlePause();
+  scene.reportStats();
+  scene.reset();
 }
 
 document.getElementById('audio').addEventListener("ended", gameover, false);
@@ -227,7 +230,7 @@ const onAnimationFrameHandler = (timeStamp) => {
         if (!scene.state.paused) {
           scene.player.shieldMesh.material.opacity = 0.15;
           scene.state.playerDodge = true;
-        }    
+        }
     } else {
         scene.player.shieldMesh.material.opacity = 0;
         scene.state.playerDodge = false;
@@ -258,7 +261,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     if (scene.state.score != prevScore) {
         prevScore = scene.state.score;
 
-        score.innerHTML = `Score: ${prevScore}`;
+        score.innerHTML = "SCORE:"  + "<br />" + `${prevScore}`;
     }
 
     //renderer.render(scene, camera);

@@ -214,10 +214,6 @@ class SimpleScene extends Scene {
             this.player.state.right = true;
         }
 
-        if (this.state.playerDodge) {
-            // handle transparency animation
-        }
-
         // check collision with orbs and add score
         if (!this.state.playerDodge) {
             for (let i = 0; i < this.orbs.length; i++) {

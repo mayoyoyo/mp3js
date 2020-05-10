@@ -266,14 +266,19 @@ class SimpleScene extends Scene {
             this.state.prevOrbZ = newOrb.position.z;
 
             // count collected/missed for stats
+            let existsPowerup = this.orbs[0].state.double || this.orbs[0].state.magnet;
+            let negative = this.orbs[0].state.negative;
+
             if (this.orbs[0].state.visible) {
-              if (!this.orbs[0].state.negative || this.state.powerup != "") {
+              if (!negative || existsPowerup) {
+                console.log("Miss")
                 this.state.orbsMissed += 1;
               }
             } else {
-              if (!this.orbs[0].state.negative || this.state.powerup != "") {
+              if (!negative || existsPowerup) {
                 this.state.orbsCollected += 1;
               } else {
+                console.log("Red")
                 this.state.redOrbsCollected += 1;
               }
             }

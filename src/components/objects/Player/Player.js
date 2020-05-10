@@ -128,7 +128,7 @@ class Player extends Group {
       this.state.jumped = false;
       if (this.state.currTouchingGround) {
   	     this.velocity = new Vector3();
-         let jumpForce = new Vector3(0, .5, 0);
+         let jumpForce = new Vector3(0, .55, 0);
          this.netForces.add(jumpForce);
       }
     }

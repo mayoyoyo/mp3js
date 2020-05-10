@@ -40,7 +40,9 @@ class SimpleScene extends Scene {
         };
 
         // audio frequency data
-        this.audiodata = new AudioData([], []);
+        //this.audiodata = new AudioData([], []);
+
+        this.freqdata = [];
 
         // Add lights
         const lights = new BasicLights();
@@ -212,23 +214,23 @@ class SimpleScene extends Scene {
     }
 
     createPowerup(xPos, speed, bounds) {
-      let rand = Math.random();
+        let rand = Math.random();
 
-      if (rand < 0.5) {
-        const newPowerup = new Powerup({ xPos: xPos, speed: speed, bounds: bounds, type: "Magnet" });
-        this.powerups.push(newPowerup);
-        this.addToUpdateList(newPowerup);
-        this.add(newPowerup);
-      }
-      else {
-        const newPowerup = new Powerup({ xPos: xPos, speed: speed, bounds: bounds, type: "Double" });
-        this.powerups.push(newPowerup);
-        this.addToUpdateList(newPowerup);
-        this.add(newPowerup);
-      }
+        if (rand < 0.5) {
+            const newPowerup = new Powerup({ xPos: xPos, speed: speed, bounds: bounds, type: "Magnet" });
+            this.powerups.push(newPowerup);
+            this.addToUpdateList(newPowerup);
+            this.add(newPowerup);
+        }
+        else {
+            const newPowerup = new Powerup({ xPos: xPos, speed: speed, bounds: bounds, type: "Double" });
+            this.powerups.push(newPowerup);
+            this.addToUpdateList(newPowerup);
+            this.add(newPowerup);
+        }
 
-      // set powerup timer
-      this.state.powerupRecharge = 50;
+        // set powerup timer
+        this.state.powerupRecharge = 50;
     }
 
     update(timeStamp) {
@@ -257,7 +259,7 @@ class SimpleScene extends Scene {
 
             for (let i = 0; i < this.powerups.length; i++) {
                 if (this.player.collideWithPowerup(this.powerups[i])) {
-                  this.state.powerup = this.powerups[i].state.type;
+                    this.state.powerup = this.powerups[i].state.type;
                 }
             }
         }
@@ -300,7 +302,7 @@ class SimpleScene extends Scene {
 
             // randomly create a powerup
             if (Math.random() < .05 && this.state.powerupRecharge == 0) {
-              this.createPowerup(orbXPos, this.state.speed + 0.2, this.state.spacing-6);
+                this.createPowerup(orbXPos, this.state.speed + 0.2, this.state.spacing - 6);
             }
 
             // update powerup timers and recharge
@@ -311,24 +313,24 @@ class SimpleScene extends Scene {
 
         // apply powerups
         switch (this.state.powerup) {
-          case "Double":
-            for (let i = 0; i < this.orbs.length; i++) {
-              this.orbs[i].state.double = true;
-            }
-            break;
-          case "Magnet":
-            for (let i = 0; i < this.orbs.length; i++) {
-              this.orbs[i].state.magnet = true;
-            }
-            break;
+            case "Double":
+                for (let i = 0; i < this.orbs.length; i++) {
+                    this.orbs[i].state.double = true;
+                }
+                break;
+            case "Magnet":
+                for (let i = 0; i < this.orbs.length; i++) {
+                    this.orbs[i].state.magnet = true;
+                }
+                break;
         }
 
 
         if (deltaInt % 2 == 0) {
             var levels = [];
-            if (this.audiodata.data.length > 0) {
+            if (this.freqdata.length > 0) {
                 for (var i = 0; i < this.strips; i++) {
-                    levels.push(this.audiodata.data[i] / 256);
+                    levels.push(this.freqdata[i] / 256);
                 }
                 levels.reverse();
             }

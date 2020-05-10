@@ -255,7 +255,7 @@ const onAnimationFrameHandler = (timeStamp) => {
         analyser.fftSize = 64;
         var dataArray = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(dataArray);
-        scene.audiodata = new AudioData(dataArray);
+        scene.freqdata = dataArray;
     }
 
     if (scene.state.score != prevScore) {

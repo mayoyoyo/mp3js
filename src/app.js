@@ -227,7 +227,7 @@ const onAnimationFrameHandler = (timeStamp) => {
         if (!scene.state.paused) {
           scene.player.shieldMesh.material.opacity = 0.15;
           scene.state.playerDodge = true;
-        }    
+        }
     } else {
         scene.player.shieldMesh.material.opacity = 0;
         scene.state.playerDodge = false;
@@ -258,7 +258,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     if (scene.state.score != prevScore) {
         prevScore = scene.state.score;
 
-        score.innerHTML = `Score: ${prevScore}`;
+        score.innerHTML = "SCORE:"  + "<br />" + `${prevScore}`;
     }
 
     //renderer.render(scene, camera);

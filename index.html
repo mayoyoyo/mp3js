@@ -1,11 +1,7 @@
-<script src="https://kit.fontawesome.com/165a36cd7d.js" crossorigin="anonymous"></script><html><head><title>.mp426 - Audio Racer</title><style>@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap');
-
-        * {
-            font-family: 'Orbitron', sans-serif;
-        }
+<script src="https://kit.fontawesome.com/165a36cd7d.js" crossorigin="anonymous"></script><html><head><title>.mp426 - Audio Racer</title><style>@import url(//db.onlinewebfonts.com/c/1cb7c6ea746ff369304a02b0538ce0f1?family=LCD);
 
         #custom-button {
-            width: 300px;
+            width: 200px;
             height: 50px;
             padding: 10px;
             color: white;
@@ -18,7 +14,7 @@
         }
 
         .playbutton {
-            width: 300px;
+            width: 200px;
             height: 50px;
             padding: 10px;
             color: white;
@@ -64,6 +60,7 @@
             border: 1px solid #000;
             border-radius: 5px;
             cursor: pointer;
+            font-family: georgia, garamond, serif;
         }
 
         #custom-text {
@@ -75,6 +72,7 @@
 
         #custom-text2 {
             margin-left: 10px;
+            font-family: sans-serif;
             color: #aaa;
         }
 
@@ -86,10 +84,10 @@
         }
 
         .UIBox {
-            width: 70%;
+            width: 60%;
             left: 50%;
-            top: 9%;
-            bottom: 9%;
+            top: 10%;
+            bottom: 10%;
             display: flex;
             justify-content: space-between;
             position: absolute;
@@ -98,6 +96,8 @@
             border-color: white;
             border-radius: 10px;
             padding: 10px;
+
+            font-family: georgia, garamond, serif;
             font-size: 20px;
         }
 
@@ -114,6 +114,8 @@
             border-radius: 20px;
             padding: 10px;
 
+            font-family: LCD;
+            src: url("//db.onlinewebfonts.com/t/1cb7c6ea746ff369304a02b0538ce0f1.woff2") format("woff2");
             font-size: 40px;
             color: white;
         }
@@ -129,6 +131,8 @@
             border-radius: 10px;
             padding: 10px;
 
+            font-family: LCD;
+            src: url("//db.onlinewebfonts.com/t/1cb7c6ea746ff369304a02b0538ce0f1.woff2") format("woff2");
             font-size: 16px;
             color: black;
         }
@@ -149,7 +153,7 @@
 
         .content input {
             margin-top: 10px;
-        }</style><link rel="shortcut icon" href="/finalproj/favicon.ico"></head><body><div class="UIBox" id="upload"><div class="content"><img src="https://i.ibb.co/kGQDyqD/logo1.png" alt="logo1"> <input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden"> <span id="gameover-text"></span> <button type="button" id="custom-button">CHOOSE .MP3 FILE</button><br><br><span id="custom-text"></span><br><br><audio id="audio"></audio><button class="playbutton" id="playAudio" disabled="disabled" onclick="exit()">PLAY &nbsp&nbsp<i class="far fa-play-circle"></i></button></div></div><div class="UIBox2" id="displayscore"><div class="content"><div id="Score">SCORE: 0</div></div></div><div class="Pause" id="pausediv"><button type="button" id="pausebutton" style="display:none;" onclick="pause()">PAUSE</button> <span id="custom-text2"></span></div><script src="/finalproj/main.f446325b20fc4fe488d3.js"></script></body><script>const realFileBtn = document.getElementById("fileInput");
+        }</style><link rel="shortcut icon" href="/finalproj/favicon.ico"></head><body><div class="UIBox" id="upload"><div class="content"><img src="https://i.ibb.co/kGQDyqD/logo1.png" alt="logo1"> <input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden"> <span id="gameover-text"></span> <button type="button" id="custom-button">CHOOSE .MP3 FILE</button><br><br><span id="custom-text"></span><br><br><audio id="audio"></audio><button class="playbutton" id="playAudio" disabled="disabled" onclick="exit()">Play Now &nbsp&nbsp<i class="far fa-play-circle"></i></button></div></div><div class="UIBox2" id="displayscore"><div class="content"><div id="Score">SCORE:<br>0</div></div></div><div class="Pause" id="pausediv"><button type="button" id="pausebutton" style="display:none;" onclick="pause()">Pause</button> <span id="custom-text2"></span></div><script src="/finalproj/main.907f58573c3a64d7f783.js"></script></body><script>const realFileBtn = document.getElementById("fileInput");
     const customBtn = document.getElementById("custom-button");
     const customTxt = document.getElementById("custom-text");
     const customTxt2 = document.getElementById("custom-text2");
@@ -172,7 +176,7 @@
     });
 
     function onEnded() {
-      console.log('done!');
+      console.log('Track done!');
       gameover();
     }
 

@@ -113,11 +113,6 @@ document.addEventListener('keydown', (event) => {
         const { key, keyCode } = keySpec;
         if (event.key == key || event.keyCode == keyCode) {
             event.preventDefault();
-            if (isRepeat) {
-                return;
-            } else {
-                action.isRepeat = true;
-            }
             onDown(event);
         }
     });
@@ -129,7 +124,6 @@ document.addEventListener('keyup', (event) => {
         const { keySpec, onUp } = action;
         const { key, keyCode } = keySpec;
         if (event.key == key || event.keyCode == keyCode) {
-            action.isRepeat = false;
             event.preventDefault();
             onUp(event);
         }
@@ -174,6 +168,7 @@ function changeSpeed(val) {
 
 const INITIAL_SPEED = 0.4;
 let prevSpeed = INITIAL_SPEED;
+
 function handlePause() {
     if (!scene.state.paused) {
         prevSpeed = scene.state.speed;;

@@ -193,6 +193,7 @@ class SimpleScene extends Scene {
 
     reset() {
       this.state.prevOrbZ = 0;
+      this.state.score = 0;
       this.state.powerup = "";
       this.state.powerupTimer = 0;
       this.state.powerupRecharge = 50;

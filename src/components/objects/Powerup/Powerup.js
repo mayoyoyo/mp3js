@@ -35,7 +35,7 @@ class Powerup extends Group {
     this.powerupMesh = powerupMesh;
 
     this.add(powerupMesh);
-    this.position.set(xPos, -1.5, this.randomZ());
+    this.position.set(xPos, -0.5, this.randomZ());
   }
 
   // returns a random z-value

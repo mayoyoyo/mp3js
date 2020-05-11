@@ -30,7 +30,7 @@ class Orb extends Group {
       color = 0xFF1100;
       this.radius = 1;
       geometry = new SphereBufferGeometry(this.radius, 4, 4);
-      opacityVar = 0.85;
+      opacityVar = 0.8;
     }
 
     // yellow orbs
@@ -38,7 +38,7 @@ class Orb extends Group {
       this.state.high = true;
       color = 0xFFDD00;
       this.radius = 0.7;
-      opacityVar = 0.85;
+      opacityVar = 0.8;
     }
 
     const material = new MeshPhongMaterial({ color: color, opacity: 0.8, transparent: true });
@@ -82,10 +82,10 @@ class Orb extends Group {
       this.children[0].material.opacity = 0;
     }
     if (this.state.double) {
-      this.orbMesh.material.color = new Color(0, 1, 0);
+      this.orbMesh.material.color = new Color(0, 1, 0.1);
     }
     if (this.state.magnet && this.position.x < this.player.position.x) {
-      this.position.y = -3.5;
+      this.position.y = -2.5;
       this.orbMesh.material.color = new Color(0, 0.6, 1);
       let pullVec = this.player.position.clone().sub(this.position);
       this.position.add(pullVec.multiplyScalar(0.02));

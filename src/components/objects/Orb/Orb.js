@@ -66,11 +66,11 @@ class Orb extends Group {
     else if (rand > 0.66) {
       zval -= deviation;
     }
-    if (zval > bounds - 2) {
-      return bounds - 2;
+    if (zval > bounds - 1.5) {
+      return zPrev;
     }
-    if (zval < -bounds + 2) {
-      return -bounds + 2;
+    if (zval < -bounds + 1.5) {
+      return zPrev;
     }
     return zval;
   }

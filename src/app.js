@@ -136,12 +136,16 @@ document.addEventListener('keyup', (event) => {
 var audiodata = new AudioData();
 
 var file = document.getElementById("fileInput");
+var file2 = document.getElementById("fileInput2");
 var audioinput = document.getElementById("audio");
 var analyser;
 var context;
 var src;
 
-file.onchange = function () {
+file.onchange = uploadAudio;
+file2.onchange = uploadAudio;
+
+function uploadAudio() {
     context = context || new AudioContext();  // create context
     src = src || context.createMediaElementSource(audioinput); //create src inside ctx
     analyser = context.createAnalyser(); //create analyser in ctx
@@ -161,6 +165,11 @@ document.getElementById("playAudio").addEventListener('click', function () {
     handlePause();
     time = 0;
     prevBeat = 0;
+    context.resume();
+});
+
+document.getElementById("playAudio2").addEventListener('click', function () {
+    handlePause();
     context.resume();
 });
 
@@ -199,15 +208,13 @@ function gameover() {
 
 document.getElementById('audio').addEventListener("ended", gameover, false);
 
-document.getElementById("playAudio").addEventListener('click', function () {
-    // reset score if new game
-    if (document.getElementById("gameover-text").innerHTML != "") {
-        scene.state.score = 0;
-    }
-});
-
 document.getElementById("pausebutton").addEventListener('click', function () {
     if (!scene.state.paused) handlePause();
+});
+
+document.getElementById("playAudio2").addEventListener('click', function () {
+    scene.state.score = 0;
+    scene.reset();
 });
 
 // Render loop

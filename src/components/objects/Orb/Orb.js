@@ -49,7 +49,7 @@ class Orb extends Group {
 
     this.add(orbMesh);
     const DEVIATION = 2.5;
-    let yPos = this.state.high ? -1.5 : -3.5;
+    let yPos = this.state.high ? -0.5 : -2.5;
     this.position.set(xPos, yPos, this.randomZ(zPrev, DEVIATION, bounds));
   }
 

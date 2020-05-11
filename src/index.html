@@ -23,6 +23,19 @@
             font-size: 20px;
         }
 
+        #custom-button2 {
+            width: 300px;
+            height: 50px;
+            padding: 10px;
+            color: white;
+            background-color: #FF8F00;
+            border: 1px solid #000;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 auto;
+            font-size: 20px;
+        }
+
         .playbutton {
             width: 200px;
             height: 75px;
@@ -87,10 +100,51 @@
             font-size: 20px;
         }
 
+        #custom-text2 {
+            margin-left: 10px;
+            color: #aaa;
+            font-size: 20px;
+        }
+
         #gameover-text {
             margin-bottom: 10px;
             color: #FFF;
-            font-size: 30px;
+            font-size: 40px;
+        }
+
+        #orbs-collected {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: #FFF;
+            font-size: 16px;
+        }
+
+        #red-orbs-collected {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: #FFF;
+            font-size: 16px;
+        }
+
+        #orbs-missed {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: #FFF;
+            font-size: 16px;
+        }
+
+        #accuracy {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: #FFF;
+            font-size: 16px;
+        }
+
+        #final-score {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: #FFF;
+            font-size: 20px;
         }
 
         .UIBox {
@@ -127,6 +181,23 @@
             color: white;
         }
 
+        .UIBox3 {
+            width: 70%;
+            left: 50%;
+            top: 9%;
+            bottom: 9%;
+            display: none;
+            justify-content: space-between;
+            position: absolute;
+            -webkit-transform: translate(-50%, 0);
+            background-color: black;
+            border-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            font-family: georgia, garamond, serif;
+            font-size: 20px;
+        }
+
         .Pause {
             top: 2%;
             left: 2%;
@@ -139,7 +210,7 @@
 
         .Instructions {
             top: 2%;
-            right: 2%;            
+            right: 2%;
             margin: auto;
             display: flex;
             justify-content: left;
@@ -179,7 +250,7 @@
             border-radius: 10px;
             padding: 10px;
             font-family: georgia, garamond, serif;
-            font-size: 20px;
+            font-size: 17px;
             z-index: 10;
             color: white
         }
@@ -187,15 +258,13 @@
 </head>
 
 <body>
-
     <div class="UIBox" id="upload">
         <div class="content">
             <img src="https://i.ibb.co/kGQDyqD/logo1.png" alt="logo1">
             <input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden">
-            <span id="gameover-text"></span>
-            <button type="button" id="custom-button">CHOOSE .MP3 FILE</button>
+            <button type="button" id="custom-button">UPLOAD .MP3</button>
             <br>
-            <span id="custom-text">No file chosen yet</span>
+            <span id="custom-text">No file chosen</span>
             <br><br><br>
             <audio id="audio"></audio>
             <button class="playbutton" id="playAudio" disabled="disabled" onclick="play()">
@@ -215,45 +284,82 @@
             PAUSE
         </button>
     </div>
+    <div class="UIBox3" id="gameover">
+        <div class="content">
+            <span id="gameover-text">SONG COMPLETE</span>
+            <span id="final-score"></span>
+            <span id="orbs-collected"></span>
+            <span id="red-orbs-collected"></span>
+            <span id="orbs-missed"></span>
+            <span id="accuracy"></span>
+            <br>
+            <br>
+            <input type="file" id="fileInput2" name="file" accept=".mp3" hidden="hidden">
+            <button type="button" id="custom-button2">UPLOAD .MP3</button>
+            <br>
+            <span id="custom-text2">No file chosen</span>
+            <br>
+            <audio id="audio"></audio>
+            <button class="playbutton" id="playAudio2" disabled="disabled" onclick="play()">
+                PLAY &nbsp<i class="far fa-play-circle"></i>
+            </button>
+        </div>
+    </div>
     <div class="Instructions" id="instructions-div">
         <button type="button" id="instructions-button" onclick="instructions()">
             INSTRUCTIONS
         </button>
     </div>
-
-
     <div id="instructions-content-div" style="display: none" class="instructions-content">
         <ul>
-            <li>MOVEMENT</li>
+            <li>CONTROLS</li>
             <ul>
-                <li>Jump: Up Key</li>
-                <li>Left: Left Key</li>
-                <li>Right: Right Key</li>
-                <li>Shield: Down Key</li>
+                <li>JUMP: Up Key</li>
+                <li>LEFT: Left Key</li>
+                <li>RIGHT: Right Key</li>
+                <li>SHIELD: Down Key</li>
+                <li>CAMERA: 1, 2, 3 Keys</li>
             </ul>
+            <br><br>
             <li>OBJECTIVE</li>
             <ul>
-                <li>This vehicle is powered by music, load up an MP3 of your choice in order to drive it! </li>
-                <li>Collect as many gems while avoiding red death spheres</li>
+                <li>This vehicle is powered by music - load up an MP3 of your choice in order to drive it! </li>
+                <li>Collect as many white (+100) and yellow (+500) gems as you can before the song ends!</li>
+                <li>Avoid red death spheres (-1000) with the help of your shield!</li>
             </ul>
-            <li>Different POV</li>
+            <br><br>
+            <li>POWER-UPS</li>
             <ul>
-                Change your Point of View by pressing the 1,2,3 keys! 
+                <li>DOUBLE (Green) - All gems are worth double points. Spheres are now worth +2000!</li>
+                <li>MAGNET (Blue) - Pulls all gems on the track towards the player. Spheres are now worth +1000!</li>
             </ul>
         </ul>
     </div>
-
 </body>
 
 
 <script>
     const realFileBtn = document.getElementById("fileInput");
+    const realFileBtn2 = document.getElementById("fileInput2");
     const customBtn = document.getElementById("custom-button");
+    const customBtn2 = document.getElementById("custom-button2");
     const customTxt = document.getElementById("custom-text");
+    const customTxt2 = document.getElementById("custom-text2");
     const playButton = document.getElementById("playAudio");
-    const gameoverText = document.getElementById("gameover-text");
+    const playButton2 = document.getElementById("playAudio2");
+    const audio = document.getElementById('audio');
+    const box = document.getElementById('upload');
+    const score = document.getElementById('displayscore');
+    const pausebutton = document.getElementById('pausebutton');
+    const pausediv = document.getElementById('pausediv');
+    const gameoverBox = document.getElementById('gameover');
+    const instructionsButton = document.getElementById('instructions-button');
 
     customBtn.addEventListener("click", function () {
+        realFileBtn.click();
+    });
+
+    customBtn2.addEventListener("click", function () {
         realFileBtn.click();
     });
 
@@ -262,50 +368,43 @@
             customTxt.innerHTML = realFileBtn.value.match(
                 /[\/\\]([\w\d\s\.\-\(\)]+)$/
             )[1];
-
+            customTxt2.innerHTML = customTxt.innerHTML;
         }
         playButton.disabled = false;
+        playButton2.disabled = false;
     });
 
-    function onEnded() {
-        console.log('Track done!');
-        gameover();
-    }
-
-    document.getElementById('audio').addEventListener("ended", onEnded, false);
+    audio.addEventListener("ended", gameover, false);
 
     function play() {
-        var box = document.getElementById('upload');
         box.style.display = 'none';
-        var score = document.getElementById('displayscore');
         score.style.display = 'flex';
-        var audio = document.getElementById('audio');
         audio.play();
-        var pausebutton = document.getElementById('pausebutton');
-        var pausediv = document.getElementById('pausediv');
         pausediv.style.display = 'flex';
         pausebutton.style.display = 'flex';
+        gameoverBox.style.display = 'none';
+        instructionsButton.style.display = 'none';
     }
 
     function pause() {
-        var score = document.getElementById('displayscore');
-        var box = document.getElementById('upload');
         box.style.display = 'flex';
-        var audio = document.getElementById('audio');
-        gameoverText.innerHTML = "";
         audio.pause();
         score.style.display = 'none';
+        gameoverBox.style.display = 'none';
+        pausediv.style.display = 'none';
+        pausebutton.style.display = 'none';
+        instructionsButton.style.display = 'flex';
     }
 
     function gameover() {
-        var box = document.getElementById('upload');
-        box.style.display = 'flex';
-        gameoverText.innerHTML = "Game over! Try again?";
+        gameoverBox.style.display = 'flex';
+        score.style.display = 'none';
+        pausebutton.style.display = 'none';
     }
 
     function instructions() {
         var instructionsDiv = document.getElementById("instructions-content-div");
-        let status = instructionsDiv.style.display; 
+        let status = instructionsDiv.style.display;
         if (status == "none") {
             instructionsDiv.style.display = "flex";
         } else {

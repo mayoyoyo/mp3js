@@ -38,7 +38,7 @@ class Powerup extends Group {
     this.position.set(xPos, -1.5, this.randomZ());
   }
 
-  // returns a random z-value 
+  // returns a random z-value
   randomZ() {
     let zVal = -7.5;
     let offset = 2.5 * Math.floor(Math.random() * 7);

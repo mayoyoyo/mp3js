@@ -113,14 +113,14 @@ class Player extends Group {
 
   // TODO: Fill in this stub function
   collideWithFloor() {
-    if (this.position.y < -6 + this.radius) {
-      this.position.y = -6 + this.radius;
+    if (this.position.y < -5 + this.radius) {
+      this.position.y = -5 + this.radius;
     }
   }
 
   // TODO: Figure out where ground is to fill in this function
   currTouchingGround() {
-    return (this.position.y + 6 - this.radius < 0.001);
+    return (this.position.y + 5 - this.radius < 0.001);
   }
 
   handleJump() {

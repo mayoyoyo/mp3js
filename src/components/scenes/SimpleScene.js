@@ -96,7 +96,7 @@ class SimpleScene extends Scene {
 
         const ionDrive = new IonDrive(() => { });
 
-        let playerPos = new Vector3(-0.8, 0, 0);
+        let playerPos = new Vector3(-0.8, -1, 0);
         let player = new Player({ radius: 1.4, segments: 1, playerPos: playerPos, ionDrive: ionDrive, bounds: this.state.spacing - 6, scene: this });
         this.player = player;
         this.addToUpdateList(player);
@@ -204,13 +204,16 @@ class SimpleScene extends Scene {
 
     // Just prints to console for now
     reportStats() {
-        let accuracy = 0;
-        let totalOrbs = this.state.orbsCollected + this.state.orbsMissed;
-        if (totalOrbs != 0) {
-            accuracy = (this.state.orbsCollected / totalOrbs).toFixed(2);
-        }
-        accuracy *= 100;
-        console.log(`Game Stats \n\nOrbs Collected: ${this.state.orbsCollected} \nRed Orbs Collected: ${this.state.redOrbsCollected} \nOrbs Missed: ${this.state.orbsMissed} \nAccuracy: ${accuracy}%`);
+      let accuracy = 0;
+      let totalOrbs = this.state.orbsCollected + this.state.orbsMissed;
+      if (totalOrbs != 0) {
+        accuracy = (this.state.orbsCollected / totalOrbs * 100).toFixed(2);
+      }
+      document.getElementById('final-score').innerHTML = `Score: ${this.state.score}`
+      document.getElementById('orbs-collected').innerHTML = `Orbs Collected: ${this.state.orbsCollected}`
+      document.getElementById('red-orbs-collected').innerHTML = `Red Orbs Collected: ${this.state.redOrbsCollected}`
+      document.getElementById('orbs-missed').innerHTML = `Orbs Missed: ${this.state.orbsMissed}`
+      document.getElementById('accuracy').innerHTML = `Accuracy: ${accuracy}%`
     }
 
     createPowerup(xPos, speed, bounds) {

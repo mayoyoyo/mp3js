@@ -27,7 +27,7 @@ class Powerup extends Group {
         break;
     }
 
-    const material = new MeshPhongMaterial({ color: this.state.color, opacity: 0.4, transparent: true });
+    const material = new MeshPhongMaterial({ color: this.state.color, opacity: 0.6, transparent: true });
 
     let powerupMesh = new Mesh(geometry, material);
     powerupMesh.rotation.y = Math.PI / 2

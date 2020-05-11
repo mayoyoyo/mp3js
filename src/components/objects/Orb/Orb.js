@@ -30,7 +30,7 @@ class Orb extends Group {
       color = 0xFF1100;
       this.radius = 1;
       geometry = new SphereBufferGeometry(this.radius, 4, 4);
-      opacityVar = 0.7;
+      opacityVar = 0.85;
     }
 
     // yellow orbs
@@ -38,10 +38,10 @@ class Orb extends Group {
       this.state.high = true;
       color = 0xFFDD00;
       this.radius = 0.7;
-      opacityVar = 0.7;
+      opacityVar = 0.85;
     }
 
-    const material = new MeshPhongMaterial({ color: color, opacity: 0.4, transparent: true });
+    const material = new MeshPhongMaterial({ color: color, opacity: 0.8, transparent: true });
 
     let orbMesh = new Mesh(geometry, material);
     this.orbMesh = orbMesh;

@@ -40,8 +40,8 @@ class Powerup extends Group {
 
   // returns a random z-value
   randomZ() {
-    let zVal = -7.5;
-    let offset = 2.5 * Math.floor(Math.random() * 7);
+    let zVal = -5;
+    let offset = 2.5 * Math.floor(Math.random() * 5);
     return zVal + offset;
   }
 

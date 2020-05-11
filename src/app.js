@@ -276,15 +276,12 @@ const onAnimationFrameHandler = (timeStamp) => {
                 newSpeed += 0.005;
                 prevBeat = time;
             }
-            console.log("increase");
             changeSpeed(Math.min(newSpeed, MAX_SPEED));
         }
         else if (newSpeed >= INITIAL_SPEED && (time - prevBeat) > 100) {
-            console.log("decrease");
             newSpeed -= 0.005;
             changeSpeed(Math.max(newSpeed, INITIAL_SPEED));
         }
-        console.log(scene.state.speed);
 
     }
 

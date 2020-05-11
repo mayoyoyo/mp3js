@@ -90,7 +90,7 @@ const ViewOne = { key: "1", keyCode: 49, isPressed: false };
 const ViewTwo = { key: "2", keyCode: 50, isPressed: false };
 const ViewThree = { key: "3", keyCode: 51, isPressed: false };
 const Dodge = { key: "ArrowDown", keyCode: 40, isPressed: false };
-const Pause = { key: "p", keyCode: 80, isPressed: false };
+const Pause = { key: "Escape", keyCode: 27, isPressed: false };
 const boundKeys = [
     ArrowLeft,
     ArrowRight,

@@ -204,16 +204,15 @@ class SimpleScene extends Scene {
 
     // Just prints to console for now
     reportStats() {
-      let accuracy = 0;
-      let totalOrbs = this.state.orbsCollected + this.state.orbsMissed;
-      if (totalOrbs != 0) {
-        accuracy = (this.state.orbsCollected / totalOrbs * 100).toFixed(2);
-      }
-      document.getElementById('final-score').innerHTML = `Score: ${this.state.score}`
-      document.getElementById('orbs-collected').innerHTML = `Orbs Collected: ${this.state.orbsCollected}`
-      document.getElementById('red-orbs-collected').innerHTML = `Red Orbs Collected: ${this.state.redOrbsCollected}`
-      document.getElementById('orbs-missed').innerHTML = `Orbs Missed: ${this.state.orbsMissed}`
-      document.getElementById('accuracy').innerHTML = `Accuracy: ${accuracy}%`
+        let accuracy = 0;
+        let totalOrbs = this.state.orbsCollected + this.state.orbsMissed;
+        if (totalOrbs != 0) {
+            accuracy = (this.state.orbsCollected / totalOrbs * 100).toFixed(2);
+        }
+        document.getElementById('final-score').innerHTML = `Score: ${this.state.score}`
+        document.getElementById('orbs-collected').innerHTML = `Gems Collected: ${this.state.orbsCollected} / ${this.state.orbsMissed + this.state.orbsCollected}`
+        document.getElementById('red-orbs-collected').innerHTML = `Red Spheres Hit: ${this.state.redOrbsCollected}`
+        document.getElementById('accuracy').innerHTML = `Accuracy: ${accuracy}%`
     }
 
     createPowerup(xPos, speed, bounds) {

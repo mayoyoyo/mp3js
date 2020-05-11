@@ -1,4 +1,4 @@
-import { Group, Vector3, Vector4, Color } from 'three';
+import { Group, Vector3, Vector4, Color, AdditiveBlending, NormalBlending, SrcColorFactor } from 'three';
 import { CustomShader } from 'shaders';
 import { PlaneBufferGeometry, MeshBasicMaterial, DoubleSide, Mesh, BoxBufferGeometry, AxesHelper, ShaderMaterial } from 'three';
 
@@ -32,10 +32,17 @@ class Wall extends Group {
         let boxHeight = totHeight / n;
 
         let angleSteps = 360.0 / n;
+        let colors = [];
+        for (let i = 0; i < n; i++) {
+            let color = new Color(`hsl(${(n - 1 - i) * angleSteps}, 100%, 50%)`)
+            colors.push(color);
+        }
+
         for (let i = 0; i < n; i++) {
             // add a box at its position of height box Height and width width....
             var geometry = new BoxBufferGeometry(width, boxHeight, 0.3);
-            let color = new Color(`hsl(${i * angleSteps}, 100%, 50%)`)
+            let color = colors[i];
+            let nextColor = i + 1 < n ? colors[i + 1] : new Color(0x000000);
 
             let uniforms = {
                 color: {
@@ -53,6 +60,14 @@ class Wall extends Group {
                 offset: {
                     type: "f",
                     value: 0
+                },
+                nextColor: {
+                    type: "v4",
+                    value: new Vector4(nextColor.r, nextColor.g, nextColor.b, 1.0)
+                },
+                stripHeight: {
+                    type: "f",
+                    value: boxHeight
                 }
             }
 
@@ -64,6 +79,8 @@ class Wall extends Group {
                 fragmentShader: custom.fragmentShader,
                 uniforms: custom.uniforms,
                 side: DoubleSide,
+                blending: NormalBlending,
+                blendSrc: SrcColorFactor
 
             });
 
@@ -77,6 +94,11 @@ class Wall extends Group {
 
             pos.y -= i * boxHeight + i * padding;
             cube.position.set(pos.x, pos.y, pos.z);
+
+            uniforms["origin"] = {
+                type: 'v3',
+                value: pos
+            }
 
             this.add(cube);
             this.state.strips.push(cube);

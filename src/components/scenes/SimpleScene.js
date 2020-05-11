@@ -30,7 +30,7 @@ class SimpleScene extends Scene {
             spacing: 15,
             updateList: [],
             color: new Color('white'),
-            bloomStrength: 0.7,
+            bloomStrength: 0.3,
             bloomRadius: 0.2,
             bloomThreshold: 0.1,
             speed: 0,
@@ -48,23 +48,23 @@ class SimpleScene extends Scene {
 
         // Add walls
         let width = 80;
-        let height = 12;
+        let height = 10;
         let n = 32;
         this.strips = n;
         // Set background to a nice color
-        this.background = new Color(0x4A677F);
+        this.background = new Color(0xcc6600);
         let wall1 = new Wall({
             width, height,
             segments: 32, color: 0x000000,
             wallPos: new Vector3(-width * 0.35, 0, this.state.spacing),
-            margin: 0.3, padding: 0.0, n, size: 0.2
+            margin: 0.0, padding: 0.0, n, size: 0.2
         });
 
         let wall2 = new Wall({
             width, height,
             segments: 32, color: 0x000000,
             wallPos: new Vector3(-width * 0.35, 0, -this.state.spacing),
-            margin: 0.3, padding: 0.0, n, size: 0.2
+            margin: 0.0, padding: 0.0, n, size: 0.2
         });
 
         let floor = new Floor({
@@ -80,10 +80,10 @@ class SimpleScene extends Scene {
         this.wall1.setSpeed(this.state.speed);
         this.wall2.setSpeed(this.state.speed);
         this.floor.setSpeed(this.state.speed);
-        let sunGeom = new SphereBufferGeometry(60, 32, 32);
-        let sunMat = new MeshBasicMaterial({ color: 0x56467F })
+        let sunGeom = new SphereBufferGeometry(70, 32, 32);
+        let sunMat = new MeshBasicMaterial({ color: 0x999999  })
         let sun = new Mesh(sunGeom, sunMat);
-        sun.position.set(-250, 80, -20);
+        sun.position.set(-350, 80, -20);
         this.add(wall1, wall2, lights, floor, sun);
 
         this.addToUpdateList(wall1);

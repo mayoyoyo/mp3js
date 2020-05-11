@@ -16,7 +16,7 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 
 var params = {
-    bloomStrength: 0.7,
+    bloomStrength: 0.37,
     bloomRadius: 0.2,
     bloomThreshold: 0.1,
 
@@ -254,6 +254,7 @@ const onAnimationFrameHandler = (timeStamp) => {
 
         analyser.fftSize = 64;
         var dataArray = new Uint8Array(analyser.frequencyBinCount);
+        debugger;
         analyser.getByteFrequencyData(dataArray);
         scene.audiodata = new AudioData(dataArray);
     }

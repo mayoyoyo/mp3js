@@ -90,6 +90,7 @@ const ViewOne = { key: "1", keyCode: 49, isPressed: false };
 const ViewTwo = { key: "2", keyCode: 50, isPressed: false };
 const ViewThree = { key: "3", keyCode: 51, isPressed: false };
 const Dodge = { key: "ArrowDown", keyCode: 40, isPressed: false };
+const Pause = { key: "p", keyCode: 80, isPressed: false };
 const boundKeys = [
     ArrowLeft,
     ArrowRight,
@@ -97,7 +98,8 @@ const boundKeys = [
     ViewOne,
     ViewTwo,
     ViewThree,
-    Dodge
+    Dodge,
+    Pause
 ];
 
 function watchKey(keyObj) {
@@ -108,6 +110,12 @@ function watchKey(keyObj) {
     );
 }
 boundKeys.forEach(watchKey);
+
+addKeyAction(
+    Pause,
+    event => { document.getElementById('pausebutton').click() },
+    event => { }
+);
 
 document.addEventListener('keydown', (event) => {
     event.preventDefault();

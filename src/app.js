@@ -145,34 +145,28 @@ var audiodata = new AudioData();
 
 var file = document.getElementById("fileInput");
 var file2 = document.getElementById("fileInput2");
-var defaultAudio = document.getElementById("df-audio");
 var audioinput = document.getElementById("audio");
-
 var analyser;
 var context;
 var src;
 
-function uploadAudio(f, isFile) {
+file.onchange = uploadAudio;
+file2.onchange = uploadAudio;
+
+function uploadAudio() {
     context = context || new AudioContext();  // create context
-    const inAudio = isFile ? audioinput : defaultAudio;
-    src = context.createMediaElementSource(inAudio); //create src inside ctx
+    src = src || context.createMediaElementSource(audioinput); //create src inside ctx
     analyser = context.createAnalyser(); //create analyser in ctx
     src.connect(analyser);         //connect analyser node to the src
     analyser.connect(context.destination); // connect the destination
-
-    if (f && isFile) {
-      var files = f.files;
-      inAudio.src = URL.createObjectURL(files[0]);
-    }
-    inAudio.pause();
+    // node to the analyser
+    var files = this.files;
+    audioinput.src = URL.createObjectURL(files[0]);
+    audioinput.pause();
 
     scene.state.score = 0;
     scene.reset();
 }
-
-uploadAudio(this, false);
-file.onchange = event => { uploadAudio(file, true) };
-file2.onchange = event => { uploadAudio(file2, true) };
 
 
 document.getElementById("playAudio").addEventListener('click', function () {
@@ -222,7 +216,6 @@ function gameover() {
 }
 
 document.getElementById('audio').addEventListener("ended", gameover, false);
-document.getElementById('df-audio').addEventListener("ended", gameover, false);
 
 document.getElementById("pausebutton").addEventListener('click', function () {
     if (!scene.state.paused) handlePause();

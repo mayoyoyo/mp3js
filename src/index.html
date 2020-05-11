@@ -271,15 +271,12 @@
         <div class="content">
             <img src="https://i.ibb.co/kGQDyqD/logo1.png" alt="logo1">
             <input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden">
-            <audio id="audio"></audio>
             <button type="button" id="custom-button">UPLOAD .MP3</button>
             <br>
-            <span id="custom-text">Default Audio</span>
+            <span id="custom-text">No file chosen</span>
             <br><br>
-            <audio id="df-audio">
-              <source src="src/default.mp3" type="audio/mp3">
-            </audio>
-            <button class="playbutton" id="playAudio" onclick="play()">
+            <audio id="audio"></audio>
+            <button class="playbutton" id="playAudio" disabled="disabled" onclick="play()">
                 PLAY &nbsp<i class="far fa-play-circle"></i>
             </button>
         </div>
@@ -323,10 +320,7 @@
             <span id="custom-text2">No file chosen</span>
             <br>
             <audio id="audio"></audio>
-            <audio id="df-audio">
-              <source src="src/default.mp3" type="audio/mp3">
-            </audio>
-            <button class="playbutton" id="playAudio2" onclick="play()">
+            <button class="playbutton" id="playAudio2" disabled="disabled" onclick="play()">
                 RESTART &nbsp<i class="far fa-play-circle"></i>
             </button>
         </div>
@@ -401,7 +395,6 @@
     const playButton = document.getElementById("playAudio");
     const playButton2 = document.getElementById("playAudio2");
     const audio = document.getElementById('audio');
-    const dfAudio = document.getElementById('df-audio');
     const box = document.getElementById('upload');
     const score = document.getElementById('displayscore');
     const addedscore = document.getElementById('addedscore');
@@ -425,22 +418,17 @@
             )[1];
             customTxt2.innerHTML = customTxt.innerHTML;
         }
-        // playButton.disabled = false;
-        // playButton2.disabled = false;
+        playButton.disabled = false;
+        playButton2.disabled = false;
     });
 
     audio.addEventListener("ended", gameover, false);
-    dfAudio.addEventListener("ended", gameover, false);
 
     function play() {
         box.style.display = 'none';
         score.style.display = 'flex';
         addedscore.style.display = 'flex';
-        if (customTxt2.innerHTML == "No file chosen") {
-          dfAudio.play()
-        } else {
-          audio.play();
-        }
+        audio.play();
         pausediv.style.display = 'flex';
         pausebutton.style.display = 'flex';
         gameoverBox.style.display = 'none';
@@ -449,12 +437,7 @@
 
     function pause() {
         box.style.display = 'flex';
-        // audio.pause();
-        if (customTxt2.innerHTML == "No file chosen") {
-          dfAudio.pause()
-        } else {
-          audio.pause();
-        }
+        audio.pause();
         score.style.display = 'none';
         addedscore.style.display = 'none';
         gameoverBox.style.display = 'none';

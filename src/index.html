@@ -382,7 +382,7 @@
     realFileBtn.addEventListener("change", function () {
         if (realFileBtn.value) {
             customTxt.innerHTML = realFileBtn.value.match(
-                /[\/\\]([\w\d\s\.\-\(\)]+)$/
+                /[\/\\]([\w\d\s\.\-\(\)\'\"]+)$/
             )[1];
             customTxt2.innerHTML = customTxt.innerHTML;
         }

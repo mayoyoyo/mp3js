@@ -35,14 +35,14 @@ class Powerup extends Group {
     this.powerupMesh = powerupMesh;
 
     this.add(powerupMesh);
-    this.position.set(xPos, -1.5, this.randomZ(bounds));
+    this.position.set(xPos, -1.5, this.randomZ());
   }
 
-  // returns a random z-value bound by [-bounds, bounds]
-  randomZ(bounds) {
-    let min = -bounds + 0.35;
-    let max = bounds - 0.35;
-    return Math.random() * (max - min) + min;
+  // returns a random z-value 
+  randomZ() {
+    let zVal = -7.5;
+    let offset = 2.5 * Math.floor(Math.random() * 7);
+    return zVal + offset;
   }
 
   update() {

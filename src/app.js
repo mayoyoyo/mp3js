@@ -11,9 +11,12 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { SimpleScene } from 'scenes';
-import { AudioData } from 'music';
+import { AudioData, LinkedListNode } from 'music';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
+
+var time = 0;
+var prevBeat;
 
 var params = {
     bloomStrength: 0.37,
@@ -130,6 +133,8 @@ document.addEventListener('keyup', (event) => {
     })
 });
 
+var audiodata = new AudioData();
+
 var file = document.getElementById("fileInput");
 var audioinput = document.getElementById("audio");
 var analyser;
@@ -154,6 +159,8 @@ file.onchange = function () {
 
 document.getElementById("playAudio").addEventListener('click', function () {
     handlePause();
+    time = 0;
+    prevBeat = 0;
     context.resume();
 });
 
@@ -170,11 +177,12 @@ function changeSpeed(val) {
 }
 
 const INITIAL_SPEED = 0.4;
+const MAX_SPEED = 1;
 let prevSpeed = INITIAL_SPEED;
 
 function handlePause() {
     if (!scene.state.paused) {
-        prevSpeed = scene.state.speed;;
+        prevSpeed = scene.state.speed;
         scene.state.paused = true;
         changeSpeed(0);
     } else {
@@ -184,9 +192,9 @@ function handlePause() {
 }
 
 function gameover() {
-  handlePause();
-  scene.reportStats();
-  scene.reset();
+    handlePause();
+    scene.reportStats();
+    scene.reset();
 }
 
 document.getElementById('audio').addEventListener("ended", gameover, false);
@@ -194,7 +202,7 @@ document.getElementById('audio').addEventListener("ended", gameover, false);
 document.getElementById("playAudio").addEventListener('click', function () {
     // reset score if new game
     if (document.getElementById("gameover-text").innerHTML != "") {
-      scene.state.score = 0;
+        scene.state.score = 0;
     }
 });
 
@@ -228,8 +236,8 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
     if (Dodge.isPressed) {
         if (!scene.state.paused) {
-          scene.player.shieldMesh.material.opacity = 0.15;
-          scene.state.playerDodge = true;
+            scene.player.shieldMesh.material.opacity = 0.15;
+            scene.state.playerDodge = true;
         }
     } else {
         scene.player.shieldMesh.material.opacity = 0;
@@ -256,18 +264,41 @@ const onAnimationFrameHandler = (timeStamp) => {
         var dataArray = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(dataArray);
         scene.freqdata = dataArray;
+        var instantEnergy = 0;
+        for (var i = 0; i < dataArray.length; i++) {
+            instantEnergy += (dataArray[i] / 256) * (dataArray[i] / 256);
+        }
+        audiodata.add(instantEnergy);
+        var newSpeed = scene.state.speed;
+        if (audiodata.averageLocalEnergy() * 1.2 < instantEnergy) {
+            // handle beats
+            if ((time - prevBeat) > 30) {
+                newSpeed += 0.005;
+                prevBeat = time;
+            }
+            console.log("increase");
+            changeSpeed(Math.min(newSpeed, MAX_SPEED));
+        }
+        else if (newSpeed >= INITIAL_SPEED && (time - prevBeat) > 100) {
+            console.log("decrease");
+            newSpeed -= 0.005;
+            changeSpeed(Math.max(newSpeed, INITIAL_SPEED));
+        }
+        console.log(scene.state.speed);
+
     }
 
     if (scene.state.score != prevScore) {
         prevScore = scene.state.score;
 
-        score.innerHTML = "SCORE"  + "<br />" + `${prevScore}`;
+        score.innerHTML = "SCORE" + "<br />" + `${prevScore}`;
     }
 
     //renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
 
     window.requestAnimationFrame(onAnimationFrameHandler);
+    time++;
 };
 window.requestAnimationFrame(onAnimationFrameHandler);
 

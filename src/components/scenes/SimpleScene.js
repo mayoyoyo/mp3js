@@ -2,7 +2,7 @@
 import { Scene, Color, Plane, SphereGeometry, MeshBasicMaterial } from 'three';
 import { SphereBufferGeometry, MeshPhongMaterial, BufferAttribute, Mesh, DoubleSide, ShaderMaterial } from 'three';
 import { IonDrive, Wall, Floor, Player, Orb, Powerup } from 'objects';
-import { AudioData } from 'music';
+import { AudioData, LinkedListNode } from 'music';
 import { BasicLights } from 'lights';
 import { Vector3 } from 'three';
 
@@ -83,7 +83,7 @@ class SimpleScene extends Scene {
         this.wall2.setSpeed(this.state.speed);
         this.floor.setSpeed(this.state.speed);
         let sunGeom = new SphereBufferGeometry(70, 32, 32);
-        let sunMat = new MeshBasicMaterial({ color: 0x999999  })
+        let sunMat = new MeshBasicMaterial({ color: 0x999999 })
         let sun = new Mesh(sunGeom, sunMat);
         sun.position.set(-350, 80, -20);
         this.add(wall1, wall2, lights, floor, sun);
@@ -168,19 +168,19 @@ class SimpleScene extends Scene {
 
     // reset orbs
     initializeOrbs(numOrbs, increment) {
-      // remove any existing orbs from scene
-      for (let i = 0; i < this.orbs.length; i++) this.remove(this.orbs[i]);
-      this.orbs = [];
+        // remove any existing orbs from scene
+        for (let i = 0; i < this.orbs.length; i++) this.remove(this.orbs[i]);
+        this.orbs = [];
 
-      for (let i = 0; i < numOrbs; ++i) {
-          let orbXPos = -i * increment;
-          let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6, player: this.player, isPlaceholder: true });
-          this.addToUpdateList(orb);
-          this.add(orb);
-          this.orbs.push(orb);
+        for (let i = 0; i < numOrbs; ++i) {
+            let orbXPos = -i * increment;
+            let orb = new Orb({ xPos: orbXPos, zPrev: this.state.prevOrbZ, speed: this.state.speed, bounds: this.state.spacing - 6, player: this.player, isPlaceholder: true });
+            this.addToUpdateList(orb);
+            this.add(orb);
+            this.orbs.push(orb);
 
-          this.state.prevOrbZ = orb.position.z;
-      }
+            this.state.prevOrbZ = orb.position.z;
+        }
     }
 
     addToUpdateList(object) {
@@ -192,25 +192,25 @@ class SimpleScene extends Scene {
     }
 
     reset() {
-      this.state.prevOrbZ = 0;
-      this.state.powerup = "";
-      this.state.powerupTimer = 0;
-      this.state.powerupRecharge = 50;
-      this.state.orbsCollected = 0;
-      this.state.redOrbsCollected = 0;
-      this.state.orbsMissed = 0;
-      this.initializeOrbs(this.numStartingOrbs, this.orbIncrement);
+        this.state.prevOrbZ = 0;
+        this.state.powerup = "";
+        this.state.powerupTimer = 0;
+        this.state.powerupRecharge = 50;
+        this.state.orbsCollected = 0;
+        this.state.redOrbsCollected = 0;
+        this.state.orbsMissed = 0;
+        this.initializeOrbs(this.numStartingOrbs, this.orbIncrement);
     }
 
     // Just prints to console for now
     reportStats() {
-      let accuracy = 0;
-      let totalOrbs = this.state.orbsCollected + this.state.orbsMissed;
-      if (totalOrbs != 0) {
-        accuracy = (this.state.orbsCollected / totalOrbs).toFixed(2);
-      }
-      accuracy *= 100;
-      console.log(`Game Stats \n\nOrbs Collected: ${this.state.orbsCollected} \nRed Orbs Collected: ${this.state.redOrbsCollected} \nOrbs Missed: ${this.state.orbsMissed} \nAccuracy: ${accuracy}%`);
+        let accuracy = 0;
+        let totalOrbs = this.state.orbsCollected + this.state.orbsMissed;
+        if (totalOrbs != 0) {
+            accuracy = (this.state.orbsCollected / totalOrbs).toFixed(2);
+        }
+        accuracy *= 100;
+        console.log(`Game Stats \n\nOrbs Collected: ${this.state.orbsCollected} \nRed Orbs Collected: ${this.state.redOrbsCollected} \nOrbs Missed: ${this.state.orbsMissed} \nAccuracy: ${accuracy}%`);
     }
 
     createPowerup(xPos, speed, bounds) {
@@ -283,17 +283,17 @@ class SimpleScene extends Scene {
 
             // don't count if a placeholder orb
             if (!isPlaceholder) {
-              if (this.orbs[0].state.visible) {
-                if (!negative || existsPowerup) {
-                  this.state.orbsMissed += 1;
-                }
-              } else {
-                if (!negative || existsPowerup) {
-                  this.state.orbsCollected += 1;
+                if (this.orbs[0].state.visible) {
+                    if (!negative || existsPowerup) {
+                        this.state.orbsMissed += 1;
+                    }
                 } else {
-                  this.state.redOrbsCollected += 1;
+                    if (!negative || existsPowerup) {
+                        this.state.orbsCollected += 1;
+                    } else {
+                        this.state.redOrbsCollected += 1;
+                    }
                 }
-              }
             }
 
             // dispose of old orb

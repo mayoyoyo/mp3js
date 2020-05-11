@@ -53,7 +53,7 @@ composer.addPass(copyShader);
 
 
 // Set up camera
-camera.position.set(15, 1, 0);
+camera.position.set(15, 0, 0);
 camera.lookAt(new Vector3(0, 0, 0));
 
 scene.add(new AmbientLight(0x404040));
@@ -261,7 +261,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
 
     if (scene.state.cameraAngle == "ViewOne") {
-        camera.position.set(15, 1, 0);
+        camera.position.set(15, 0, 0);
         camera.lookAt(new Vector3())
     }
     else if (scene.state.cameraAngle == "ViewTwo") {

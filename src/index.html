@@ -78,11 +78,6 @@
             font-size: 20px;
         }
 
-        #custom-text2 {
-            margin-left: 10px;
-            color: #aaa;
-        }
-
         #gameover-text {
             margin-bottom: 10px;
             color: #FFF;
@@ -125,7 +120,7 @@
 
         .Pause {
             top: 2%;
-            left: 2%;            
+            left: 2%;
             margin: auto;
             display: flex;
             justify-content: left;
@@ -195,7 +190,6 @@
     const realFileBtn = document.getElementById("fileInput");
     const customBtn = document.getElementById("custom-button");
     const customTxt = document.getElementById("custom-text");
-    const customTxt2 = document.getElementById("custom-text2");
     const playButton = document.getElementById("playAudio");
     const gameoverText = document.getElementById("gameover-text");
 
@@ -211,12 +205,11 @@
 
         }
         playButton.disabled = false;
-        customTxt2.innerHTML = customTxt.innerHTML;
     });
 
     function onEnded() {
-      console.log('Track done!');
-      gameover();
+        console.log('Track done!');
+        gameover();
     }
 
     document.getElementById('audio').addEventListener("ended", onEnded, false);

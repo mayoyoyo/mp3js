@@ -31,7 +31,7 @@
         }
 
         .playbutton {
-            width: 200px;
+            width: 250px;
             height: 75px;
             padding: 10px;
             color: white;
@@ -44,7 +44,7 @@
         }
 
         .playbutton:hover {
-            width: 200px;
+            width: 250px;
             height: 75px;
             padding: 10px;
             color: white;
@@ -58,7 +58,7 @@
 
         .playbutton:disabled,
         .playbutton[disabled] {
-            width: 200px;
+            width: 250px;
             height: 75px;
             padding: 10px;
             color: #666666;
@@ -114,13 +114,6 @@
         }
 
         #red-orbs-collected {
-            margin-top: 10px;
-            margin-bottom: 10px;
-            color: #FFF;
-            font-size: 16px;
-        }
-
-        #orbs-missed {
             margin-top: 10px;
             margin-bottom: 10px;
             color: #FFF;
@@ -231,23 +224,24 @@
         }
 
         .instructions-content {
+            overflow-y: auto;
             width: 70%;
+            height: 82%;
             left: 50%;
             top: 9%;
             bottom: 9%;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             position: absolute;
             -webkit-transform: translate(-50%, 0);
             background-color: black;
             border-color: white;
             border-radius: 10px;
             padding: 10px;
-            font-family: georgia, garamond, serif;
             font-size: 17px;
             z-index: 10;
             color: white
-        }</style><link rel="shortcut icon" href="/finalproj/favicon.ico"></head><body><div class="UIBox" id="upload"><div class="content"><img src="https://i.ibb.co/kGQDyqD/logo1.png" alt="logo1"> <input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden"> <button type="button" id="custom-button">UPLOAD .MP3</button><br><span id="custom-text">No file chosen</span><br><br><br><audio id="audio"></audio><button class="playbutton" id="playAudio" disabled="disabled" onclick="play()">PLAY &nbsp<i class="far fa-play-circle"></i></button></div></div><div class="UIBox2" id="displayscore"><div class="content"><div id="Score">SCORE<br>0</div></div></div><div class="Pause" id="pausediv"><button type="button" id="pausebutton" style="display:none;" onclick="pause()">PAUSE</button></div><div class="UIBox3" id="gameover"><div class="content"><span id="gameover-text">SONG COMPLETE</span> <span id="final-score"></span> <span id="orbs-collected"></span> <span id="red-orbs-collected"></span> <span id="orbs-missed"></span> <span id="accuracy"></span><br><br><input type="file" id="fileInput2" name="file" accept=".mp3" hidden="hidden"> <button type="button" id="custom-button2">UPLOAD .MP3</button><br><span id="custom-text2">No file chosen</span><br><audio id="audio"></audio><button class="playbutton" id="playAudio2" disabled="disabled" onclick="play()">PLAY &nbsp<i class="far fa-play-circle"></i></button></div></div><div class="Instructions" id="instructions-div"><button type="button" id="instructions-button" onclick="instructions()">INSTRUCTIONS</button></div><div id="instructions-content-div" style="display: none" class="instructions-content"><ul><li>CONTROLS</li><ul><li>JUMP: Up Key</li><li>LEFT: Left Key</li><li>RIGHT: Right Key</li><li>SHIELD: Down Key</li><li>CAMERA: 1, 2, 3 Keys</li><li>PAUSE: P Key</li></ul><br><br><li>OBJECTIVE</li><ul><li>This vehicle is powered by music - load up an MP3 of your choice in order to drive it!</li><li>Collect as many white (+100) and yellow (+500) gems as you can before the song ends!</li><li>Avoid red death spheres (-1000) with the help of your shield!</li></ul><br><br><li>POWER-UPS</li><ul><li>DOUBLE (Green) - All gems are worth double points. Spheres are now worth +2000!</li><li>MAGNET (Blue) - Pulls all gems on the track towards the player. Spheres are now worth +1000!</li></ul></ul></div><script src="/finalproj/main.31c9095e300f3949f5c6.js"></script></body><script>const realFileBtn = document.getElementById("fileInput");
+        }</style><link rel="shortcut icon" href="/finalproj/favicon.ico"></head><body><div class="UIBox" id="upload"><div class="content"><img src="https://i.ibb.co/kGQDyqD/logo1.png" alt="logo1"> <input type="file" id="fileInput" name="file" accept=".mp3" hidden="hidden"> <button type="button" id="custom-button">UPLOAD .MP3</button><br><span id="custom-text">No file chosen</span><br><br><audio id="audio"></audio><button class="playbutton" id="playAudio" disabled="disabled" onclick="play()">PLAY &nbsp<i class="far fa-play-circle"></i></button></div></div><div class="UIBox2" id="displayscore"><div class="content"><div id="Score">SCORE<br>0</div></div></div><div class="Pause" id="pausediv"><button type="button" id="pausebutton" style="display:none;" onclick="pause()">PAUSE</button></div><div class="UIBox3" id="gameover"><div class="content"><span id="gameover-text" style="color:#FF8F00">SONG COMPLETE</span> <span id="final-score"></span> <span id="orbs-collected"></span> <span id="red-orbs-collected"></span> <span id="accuracy"></span><br><br><input type="file" id="fileInput2" name="file" accept=".mp3" hidden="hidden"> <button type="button" id="custom-button2">UPLOAD .MP3</button><br><span id="custom-text2">No file chosen</span><br><audio id="audio"></audio><button class="playbutton" id="playAudio2" disabled="disabled" onclick="play()">RESTART &nbsp<i class="far fa-play-circle"></i></button></div></div><div class="Instructions" id="instructions-div"><button type="button" id="instructions-button" onclick="instructions()">INFO</button></div><div id="instructions-content-div" style="display: none" class="instructions-content"><ul><h2 style="text-align:center; color:#FF8F00;">ABOUT .MP426</h2><ul style="text-align: center;">.mp426 is a music-adapting retro racer that is powered by YOUR music.<br>The game elements will interact with the music to create a unique experience.<br>For best results, use music with precise beats, such as rap or techno.<br>Rack up as many points as you can. Good luck!<br></ul><br><br><h2 style="text-align:center; color:#FF8F00;"><i class="fas fa-gamepad"></i> CONTROLS <i class="fas fa-gamepad"></i></h2><ul style="padding-left:35%"><i class="fas fa-arrow-left"></i> <i class="fas fa-arrow-right"></i>&thinsp;&nbsp&nbsp&nbsp &nbsp&nbspMove horizontally<br>&nbsp&nbsp<i class="fas fa-arrow-up"></i>&thinsp;&nbsp &nbsp &nbsp &nbsp Jump<br>&nbsp&nbsp<i class="fas fa-arrow-down"></i> &thinsp;&nbsp&nbsp &nbsp &nbsp Activate shield (collect no points/damage)<br>1,2,3 &nbsp&nbsp &thinsp; Toggle camera views<br>Esc &nbsp &nbsp &nbsp Pause</ul><br><br><h2 style="text-align:center; color:#FF8F00;"><i class="fas fa-gem"></i> GEMS AND POWERUPS <i class="fas fa-gem"></i></h2><ul><img src="https://i.ibb.co/vwcRf2d/white.jpg" width="20px" height="18px" alt="logo1"> <i class="fas fa-gem"></i> WHITE gems are worth 100 points<br><img src="https://i.ibb.co/pvFTmvQ/yellow.png" width="20px" height="18px" alt="logo1"> <i class="fas fa-gem"></i> YELLOW gems are worth 500 points<br><img src="https://i.ibb.co/HYVsqFV/red.png" width="20px" height="18px" alt="logo1"> <i class="fas fa-exclamation-triangle"></i> RED spheres deal 1000 points of damage<br><img src="https://i.ibb.co/16ZB91w/green.jpg" width="20px" height="18px" alt="logo1"> <i class="fas fa-dot-circle"></i> GREEN powerups double the value of gems. Spheres are now worth +2000!<br><img src="https://i.ibb.co/pxLQFD6/blue.jpg" width="20px" height="18px" alt="logo1"> <i class="fas fa-magnet"></i> BLUE powerups magnetically pull gems towards the player. Spheres are now worth +1000!</ul><br><h6 style="text-align: right;">Developers: Hanson Kang, Johan Ospina, Greg Umali</h6></ul></div><script src="/finalproj/main.71d772d7f31b7b65dc8b.js"></script></body><script>const realFileBtn = document.getElementById("fileInput");
     const realFileBtn2 = document.getElementById("fileInput2");
     const customBtn = document.getElementById("custom-button");
     const customBtn2 = document.getElementById("custom-button2");
@@ -308,6 +302,7 @@
         gameoverBox.style.display = 'flex';
         score.style.display = 'none';
         pausebutton.style.display = 'none';
+        instructionsButton.style.display = 'flex';
     }
 
     function instructions() {
@@ -316,6 +311,6 @@
         if (status == "none") {
             instructionsDiv.style.display = "flex";
         } else {
-            instructionsDiv.style.display ="none";
+            instructionsDiv.style.display = "none";
         }
     }</script></html>

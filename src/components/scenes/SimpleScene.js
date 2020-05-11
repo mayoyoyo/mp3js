@@ -1,8 +1,7 @@
 // import * as Dat from 'dat.gui';
-import { Scene, Color, Plane, SphereGeometry, MeshBasicMaterial } from 'three';
-import { SphereBufferGeometry, MeshPhongMaterial, BufferAttribute, Mesh, DoubleSide, ShaderMaterial } from 'three';
+import { Scene, Color, MeshBasicMaterial } from 'three';
+import { SphereBufferGeometry, Mesh } from 'three';
 import { IonDrive, Wall, Floor, Player, Orb, Powerup } from 'objects';
-import { AudioData, LinkedListNode } from 'music';
 import { BasicLights } from 'lights';
 import { Vector3 } from 'three';
 
@@ -124,46 +123,6 @@ class SimpleScene extends Scene {
         this.ionDrive = ionDrive;
         this.addToUpdateList(ionDrive);
 
-
-        // Populate GUI
-        // this.state.gui.add(this.state, 'speed', 0, 3).onChange((val) => {
-        //     this.wall1.setSpeed(val);
-        //     this.wall2.setSpeed(val);
-        //     this.floor.setSpeed(val);
-        //     this.state.speed = val;
-        //     for (let i = 0; i < this.orbs.length; i++) this.orbs[i].state.speed = val;
-        // })
-        // this.state.gui.add(this.state, 'size', 0, 5).onChange((val) => {
-        //     this.wall1.setStripSize(val);
-        //     this.wall2.setStripSize(val);
-        //     this.floor.setSize(val);
-        //
-        // });
-        //
-        // this.state.gui.add(this.state, 'offset', 0, 5).onChange((val) => {
-        //     this.wall1.setStripOffset(val);
-        //     this.wall2.setStripOffset(val);
-        //
-        // });
-        // this.state.gui.add(this.state, 'bloomStrength', -2, 2).onChange((val) => { onBloomParamsUpdated('strength', val) })
-        // this.state.gui.add(this.state, 'bloomRadius', 0, 5).onChange((val) => { onBloomParamsUpdated('radius', val) })
-        // this.state.gui.add(this.state, 'bloomThreshold', 0, 1).onChange((val) => { onBloomParamsUpdated('threshold', val) })
-        // class ColorGUIHelper {
-        //     constructor(object, prop) {
-        //         this.object = object;
-        //         this.prop = prop;
-        //     }
-        //
-        //     get value() {
-        //         return `#${this.object[this.prop].getHexString()}`;
-        //     }
-        //
-        //     set value(hexString) {
-        //         /* Logic For setting */
-        //     }
-        // }
-        //
-        // this.state.gui.addColor(new ColorGUIHelper(this.state, 'color'), 'value').name('color')
     }
 
     // reset orbs
@@ -202,7 +161,6 @@ class SimpleScene extends Scene {
         this.initializeOrbs(this.numStartingOrbs, this.orbIncrement);
     }
 
-    // Just prints to console for now
     reportStats() {
         let accuracy = 0;
         let totalOrbs = this.state.orbsCollected + this.state.orbsMissed;

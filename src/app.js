@@ -6,12 +6,12 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3, Vector2, Clock, AmbientLight, PointLight } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3, Vector2, AmbientLight, PointLight } from 'three';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { SimpleScene } from 'scenes';
-import { AudioData, LinkedListNode } from 'music';
+import { AudioData } from 'music';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 
@@ -182,6 +182,7 @@ document.getElementById("playAudio2").addEventListener('click', function () {
 });
 
 let score = document.getElementById("Score");
+let scorediff = document.getElementById("added");
 
 let prevScore = 0;
 
@@ -301,8 +302,16 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
 
     if (scene.state.score != prevScore) {
+        var diff = scene.state.score - prevScore;
+        if (diff > 0) {
+            diff = "+" + diff.toString();
+        }
+        else {
+            diff = diff.toString();
+        }
         prevScore = scene.state.score;
 
+        scorediff.innerHTML = `${diff}`;
         score.innerHTML = "SCORE" + "<br />" + `${prevScore}`;
     }
 

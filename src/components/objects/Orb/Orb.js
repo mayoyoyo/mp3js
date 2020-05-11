@@ -1,4 +1,4 @@
-import { Group, Vector3 } from 'three';
+import { Group } from 'three';
 import { SphereBufferGeometry, MeshPhongMaterial, Mesh, Color } from 'three';
 
 class Orb extends Group {

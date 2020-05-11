@@ -1,5 +1,5 @@
-import { Group, Vector3 } from 'three';
-import { SphereBufferGeometry, TorusGeometry, ConeGeometry, MeshPhongMaterial, Mesh } from 'three';
+import { Group } from 'three';
+import { TorusGeometry, ConeGeometry, MeshPhongMaterial, Mesh } from 'three';
 
 class Powerup extends Group {
   constructor(data) {

@@ -256,13 +256,13 @@ const onAnimationFrameHandler = (timeStamp) => {
         var dataArray = new Uint8Array(analyser.frequencyBinCount);
         debugger;
         analyser.getByteFrequencyData(dataArray);
-        scene.audiodata = new AudioData(dataArray);
+        scene.freqdata = dataArray;
     }
 
     if (scene.state.score != prevScore) {
         prevScore = scene.state.score;
 
-        score.innerHTML = "SCORE:"  + "<br />" + `${prevScore}`;
+        score.innerHTML = "SCORE"  + "<br />" + `${prevScore}`;
     }
 
     //renderer.render(scene, camera);

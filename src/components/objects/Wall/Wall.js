@@ -16,7 +16,7 @@ class Wall extends Group {
             strips: [],
             delta: 0,
             deltaInt: 0,
-            decayFactor: 0.92,
+            decayFactor: 0.65,
             displacement: 0,
             speed: 0.1,
             resting: 0.15
@@ -42,7 +42,7 @@ class Wall extends Group {
             // add a box at its position of height box Height and width width....
             var geometry = new BoxBufferGeometry(width, boxHeight, 0.3);
             let color = colors[i];
-            let nextColor = i + 1 < n ? colors[i + 1] : new Color(0x000000);
+            let nextColor = /*colors[i];*/i + 1 < n ? colors[i + 1] : colors[i];
 
             let uniforms = {
                 color: {

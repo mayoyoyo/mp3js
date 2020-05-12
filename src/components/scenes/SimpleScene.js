@@ -288,9 +288,18 @@ class SimpleScene extends Scene {
 
         if (deltaInt % 2 == 0) {
             var levels = [];
+            // need to average the bins.
+            let binsize = this.freqdata.length / this.strips;
+
             if (this.freqdata.length > 0) {
-                for (var i = 0; i < this.strips; i++) {
-                    levels.push( Math.min(this.freqdata[i] / 256, 0.8));
+                debugger;
+                for (var i = 0; i < this.freqdata.length; i = i + binsize) {
+                    let currBin = this.freqdata[0];
+
+                    for (let j = i; j < i+binsize; j++) {
+                        currBin += this.freqdata[j]
+                    }
+                    levels.push(currBin / binsize / 256);
                 }
                 levels.reverse();
             }

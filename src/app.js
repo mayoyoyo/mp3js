@@ -294,7 +294,7 @@ const onAnimationFrameHandler = (timeStamp) => {
 
     if (analyser) {
 
-        analyser.fftSize = 64;
+        analyser.fftSize = 1024;
         var dataArray = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(dataArray);
         scene.freqdata = dataArray;

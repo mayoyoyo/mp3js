@@ -145,28 +145,29 @@ var audiodata = new AudioData();
 
 var file = document.getElementById("fileInput");
 var file2 = document.getElementById("fileInput2");
-// var audioinput = document.getElementById("audio");
+var audioinput = document.getElementById("audio");
 var defaultAudio = document.getElementById("df-audio");
 var analyser;
 var context;
 var src;
+var prevInAudio;
 
 file.onchange = event => { uploadAudio(file, true) };
 file2.onchange = event => { uploadAudio(file2, true) };
 
 function uploadAudio(f, isFile) {
-    const audioinput = document.getElementById("audio");
-    console.log(f);
-    console.log(audioinput)
-
     context = context || new AudioContext();  // create context
     const inAudio = isFile ? audioinput : defaultAudio;
-    src = context.createMediaElementSource(inAudio); //create src inside ctx
+
+    if (prevInAudio !== inAudio) {
+      src = context.createMediaElementSource(inAudio);
+    } else {
+      src = src || context.createMediaElementSource(inAudio);
+    }
+     //create src inside ctx
     analyser = context.createAnalyser(); //create analyser in ctx
     src.connect(analyser);         //connect analyser node to the src
     analyser.connect(context.destination); // connect the destination
-
-    console.log(src);
 
     // node to the analyser
     if (f && isFile) {
@@ -174,6 +175,8 @@ function uploadAudio(f, isFile) {
       audioinput.src = URL.createObjectURL(files[0]);
     }
     inAudio.pause();
+
+    prevInAudio = inAudio;
 
     scene.state.score = 0;
     scene.reset();

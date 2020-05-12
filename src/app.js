@@ -14,6 +14,7 @@ import { SimpleScene } from 'scenes';
 import { AudioData } from 'music';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
+import { FilmPass } from 'three/examples/jsm/postprocessing/FilmPass';
 
 var time = 0;
 var prevBeat;
@@ -47,6 +48,13 @@ var composer = new EffectComposer(renderer);
 composer.addPass(renderScene);
 composer.addPass(bloomPass);
 
+let filmParams = {
+    count: 600,
+    sIntensity: 1.2,
+    nIntensity: 0.2
+};
+let filmPass = new FilmPass(filmParams.nIntensity, filmParams.sIntensity, filmParams.count, false);
+composer.addPass(filmPass);
 let copyShader = new ShaderPass(CopyShader);
 copyShader.renderToScreen = true;
 composer.addPass(copyShader);
@@ -337,7 +345,12 @@ const onAnimationFrameHandler = (timeStamp) => {
     //renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
 
-    window.requestAnimationFrame(onAnimationFrameHandler);
+    setTimeout( function() {
+
+        window.requestAnimationFrame(onAnimationFrameHandler);
+
+    }, 1000 / 80 );
+    
     time++;
 };
 window.requestAnimationFrame(onAnimationFrameHandler);

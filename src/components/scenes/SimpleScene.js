@@ -56,14 +56,14 @@ class SimpleScene extends Scene {
         this.background = new Color(0xcc6600);
         let wall1 = new Wall({
             width, height,
-            segments: 32, color: 0x000000,
+            segments: 32, color: 0x000022,
             wallPos: new Vector3(-width * 0.35, 0, this.state.spacing),
             margin: 0.0, padding: 0.0, n, size: 0.2
         });
 
         let wall2 = new Wall({
             width, height,
-            segments: 32, color: 0x000000,
+            segments: 32, color: 0x000022,
             wallPos: new Vector3(-width * 0.35, 0, -this.state.spacing),
             margin: 0.0, padding: 0.0, n, size: 0.2
         });

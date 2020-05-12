@@ -16,7 +16,7 @@ class Wall extends Group {
             strips: [],
             delta: 0,
             deltaInt: 0,
-            decayFactor: 0.65,
+            decayFactor: 0.75,
             displacement: 0,
             speed: 0.1,
             resting: 0.15

@@ -50,7 +50,7 @@ class SimpleScene extends Scene {
         // Add walls
         let width = 80;
         let height = 10;
-        let n = 32;
+        let n = 16;
         this.strips = n;
         // Set background to a nice color
         this.background = new Color(0xcc6600);
@@ -290,18 +290,25 @@ class SimpleScene extends Scene {
             var levels = [];
             // need to average the bins.
             let binsize = this.freqdata.length / this.strips;
-
             if (this.freqdata.length > 0) {
                 for (var i = 0; i < this.freqdata.length; i = i + binsize) {
-                    let currBin = this.freqdata[0];
+                    let currBin = 0;
 
                     for (let j = i; j < i+binsize; j++) {
                         currBin += this.freqdata[j]
                     }
-                    levels.push(currBin / binsize / 256);
+                    levels.push( Math.min(currBin / binsize / 256, 1.0));
                 }
                 levels.reverse();
             }
+
+            // var levels = [];
+            // if (this.freqdata.length > 0) {
+            //     for (var i = 0; i < this.strips; i++) {
+            //         levels.push( Math.min(this.freqdata[i] / 256, 0.8));
+            //     }
+            //     levels.reverse();
+            // }
             this.wall1.setStripIntensities(levels);
             this.wall2.setStripIntensities(levels);
         }

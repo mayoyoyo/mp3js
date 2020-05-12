@@ -1,8 +1,8 @@
 {
-  "name": "mp426",
-  "repository": "mp426",
+  "name": "mp3js",
+  "repository": "mp3js",
   "version": "0.1.0",
-  "title": ".mp426",
+  "title": "mpThree.js",
   "description": "A music-based runner game",
   "keywords": [
     "Princeton",

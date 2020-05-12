@@ -32,14 +32,6 @@
             font-size: 20px;
         }
 
-        @media screen and (max-height: 800px) {
-
-            /* CSS that should be displayed if width is equal to or less than 800px goes here */
-            #chevron {
-                display: flex;
-            }
-        }
-
 
         @keyframes bob {
             0% {
@@ -91,15 +83,14 @@
         }
 
         .playbutton:hover {
-            width: 250px;
-            height: 75px;
-            padding: 10px;
+            /* width: 250px;
+            height: 75px; */
+            /* padding: 10px; */
             color: white;
             background-color: rgb(235, 133, 1);
             border: 1px solid #000;
             border-radius: 5px;
             margin: 0 auto;
-            font-size: 30px;
             cursor: pointer;
         }
 
@@ -216,6 +207,44 @@
             color: white;
         }
 
+        @media screen and (max-height: 800px) {
+
+            /* CSS that should be displayed if width is equal to or less than 800px goes here */
+            #chevron {
+                display: flex;
+            }
+        }
+        @media screen and (max-height: 500px) {
+            .UIBox2 {
+                width: 200px;
+                font-size: 30px;
+            }
+        }
+
+        @media screen and (max-height: 300px){
+            .UIBox2 {
+                position: absolute;
+                width: 150px;
+                left: 125px;
+                top: 40%;
+                opacity: 40%;
+                font-size: 20px;
+            }
+        }
+
+        @media screen and (max-height: 500px){
+            .playbutton {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                height: 46px;
+                width: 200px;
+                font-size: 20px;
+                justify-content: center;
+                text-align: center;
+                padding: 0;
+            }
+        }
         .UIBox4 {
             width: 100px;
             left: 30%;

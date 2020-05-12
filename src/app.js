@@ -220,7 +220,7 @@ function changeSpeed(val) {
 }
 
 const INITIAL_SPEED = 0.4;
-const MAX_SPEED = 0.9;
+const MAX_SPEED = 1.0;
 let prevSpeed = INITIAL_SPEED;
 
 function handlePause() {
@@ -349,10 +349,11 @@ const onAnimationFrameHandler = (timeStamp) => {
 
         window.requestAnimationFrame(onAnimationFrameHandler);
 
-    }, 1000 / 80 );
+    }, 1000 / 60 ); //45 fps
     
     time++;
 };
+
 window.requestAnimationFrame(onAnimationFrameHandler);
 
 // Resize Handler

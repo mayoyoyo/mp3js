@@ -24,6 +24,10 @@ class Floor extends Group {
                 type: "v4",
                 value: new Vector4(color.r, color.g, color.b, 1.0)
             },
+            nextColor: {
+                type: "v4",
+                value: new Vector4(color.r, color.g, color.b, 1.0)
+            },
             intensity: {
                 type: 'f',
                 value: 1.0

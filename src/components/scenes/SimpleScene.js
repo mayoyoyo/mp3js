@@ -50,7 +50,7 @@ class SimpleScene extends Scene {
         // Add walls
         let width = 80;
         let height = 10;
-        let n = 16;
+        let n = 32;
         this.strips = n;
         // Set background to a nice color
         this.background = new Color(0xcc6600);

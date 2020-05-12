@@ -212,7 +212,7 @@ function changeSpeed(val) {
 }
 
 const INITIAL_SPEED = 0.4;
-const MAX_SPEED = 1;
+const MAX_SPEED = 0.9;
 let prevSpeed = INITIAL_SPEED;
 
 function handlePause() {
@@ -294,7 +294,7 @@ const onAnimationFrameHandler = (timeStamp) => {
 
     if (analyser) {
 
-        analyser.fftSize = 64;
+        analyser.fftSize = 128;
         var dataArray = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(dataArray);
         scene.freqdata = dataArray;
@@ -304,7 +304,7 @@ const onAnimationFrameHandler = (timeStamp) => {
         }
         audiodata.add(instantEnergy);
         var newSpeed = scene.state.speed;
-        if (audiodata.averageLocalEnergy() * 1.2 < instantEnergy) {
+        if (audiodata.averageLocalEnergy() * 1.15 < instantEnergy) {
             // handle beats
             if ((time - prevBeat) > 30) {
                 newSpeed += 0.005;

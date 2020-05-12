@@ -292,7 +292,6 @@ class SimpleScene extends Scene {
             let binsize = this.freqdata.length / this.strips;
 
             if (this.freqdata.length > 0) {
-                debugger;
                 for (var i = 0; i < this.freqdata.length; i = i + binsize) {
                     let currBin = this.freqdata[0];
 

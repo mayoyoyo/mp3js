@@ -9,9 +9,11 @@
         * {
             font-family: 'Orbitron', sans-serif;
         }
+
         ::-webkit-scrollbar {
             width: 0px;
-            background: transparent; /* make scrollbar transparent */
+            background: transparent;
+            /* make scrollbar transparent */
         }
 
        
@@ -197,7 +199,8 @@
             justify-content: space-between;
             position: absolute;
             -webkit-transform: translate(-50%, 0);
-            background-color: #FF8F0099;
+            background-color: #FF8F00;
+            opacity: 90%;
             border-color: white;
             border-width: 13px;
             padding: 10px;
@@ -309,7 +312,7 @@
             <span id="custom-text">Default Audio</span>
             <br><br>
             <audio id="df-audio">
-              <source src="./default.mp3" type="audio/mp3">
+                <source src="./default.mp3" type="audio/mp3">
             </audio>
             <button class="playbutton" id="playAudio" onclick="play()">
                 PLAY &nbsp<i class="far fa-play-circle"></i>
@@ -349,7 +352,7 @@
             <br>
             <audio id="audio"></audio>
             <audio id="df-audio">
-              <source src="./default.mp3" type="audio/mp3">
+                <source src="./default.mp3" type="audio/mp3">
             </audio>
             <button class="playbutton" id="playAudio2" onclick="play()">
                 RESTART &nbsp<i class="far fa-play-circle"></i>
@@ -467,9 +470,9 @@
         box.style.display = 'none';
         score.style.display = 'flex';
         if (customTxt2.innerHTML == "No file chosen") {
-          dfAudio.play();
+            dfAudio.play();
         } else {
-          audio.play();
+            audio.play();
         }
         pausediv.style.display = 'flex';
         pausebutton.style.display = 'flex';
@@ -480,9 +483,9 @@
     function pause() {
         box.style.display = 'flex';
         if (customTxt2.innerHTML == "No file chosen") {
-          dfAudio.pause();
+            dfAudio.pause();
         } else {
-          audio.pause();
+            audio.pause();
         }
         score.style.display = 'none';
         gameoverBox.style.display = 'none';

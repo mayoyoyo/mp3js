@@ -300,13 +300,6 @@
             </div>
         </div>
     </div>
-    <div class="UIBox4" id="addedscore">
-        <div class="content">
-            <div id="added">
-
-            </div>
-        </div>
-    </div>
     <div class="Pause" id="pausediv">
         <button type="button" id="pausebutton" style="display:none;" onclick="pause()">
             PAUSE
@@ -408,7 +401,6 @@
     const dfAudio = document.getElementById('df-audio');
     const box = document.getElementById('upload');
     const score = document.getElementById('displayscore');
-    const addedscore = document.getElementById('addedscore');
     const pausebutton = document.getElementById('pausebutton');
     const pausediv = document.getElementById('pausediv');
     const gameoverBox = document.getElementById('gameover');
@@ -439,7 +431,6 @@
     function play() {
         box.style.display = 'none';
         score.style.display = 'flex';
-        addedscore.style.display = 'flex';
         if (customTxt2.innerHTML == "No file chosen") {
           dfAudio.play();
         } else {
@@ -459,7 +450,6 @@
           audio.pause();
         }
         score.style.display = 'none';
-        addedscore.style.display = 'none';
         gameoverBox.style.display = 'none';
         pausediv.style.display = 'none';
         pausebutton.style.display = 'none';
@@ -469,7 +459,6 @@
     function gameover() {
         gameoverBox.style.display = 'flex';
         score.style.display = 'none';
-        addedscore.style.display = 'none';
         pausebutton.style.display = 'none';
         instructionsButton.style.display = 'flex';
     }

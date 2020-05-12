@@ -53,7 +53,7 @@ composer.addPass(copyShader);
 
 
 // Set up camera
-camera.position.set(15, 0, 0);
+camera.position.set(15, 1, 0);
 camera.lookAt(new Vector3(0, 0, 0));
 
 scene.add(new AmbientLight(0x404040));
@@ -167,7 +167,7 @@ function uploadAudio(f, isFile) {
     analyser.connect(context.destination); // connect the destination
 
     console.log(src);
-    
+
     // node to the analyser
     if (f && isFile) {
       var files = f.files;
@@ -276,7 +276,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
 
     if (scene.state.cameraAngle == "ViewOne") {
-        camera.position.set(15, 0, 0);
+        camera.position.set(15, 1, 0);
         camera.lookAt(new Vector3())
     }
     else if (scene.state.cameraAngle == "ViewTwo") {
@@ -317,16 +317,17 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
 
     if (scene.state.score != prevScore) {
-        var diff = scene.state.score - prevScore;
-        if (diff > 0) {
-            diff = "+" + diff.toString();
-        }
-        else {
-            diff = diff.toString();
-        }
+        // var diff = scene.state.score - prevScore;
+        // if (diff > 0) {
+        //     diff = "+" + diff.toString();
+        // }
+        // else {
+        //     diff = diff.toString();
+        // }
+        // scorediff.innerHTML = `${diff}`;
+
         prevScore = scene.state.score;
 
-        scorediff.innerHTML = `${diff}`;
         score.innerHTML = "SCORE" + "<br />" + `${prevScore}`;
     }
 

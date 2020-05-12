@@ -290,7 +290,7 @@ class SimpleScene extends Scene {
             var levels = [];
             if (this.freqdata.length > 0) {
                 for (var i = 0; i < this.strips; i++) {
-                    levels.push(this.freqdata[i] / 256);
+                    levels.push( Math.min(this.freqdata[i] / 256, 0.8));
                 }
                 levels.reverse();
             }

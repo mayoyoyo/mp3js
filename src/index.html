@@ -14,6 +14,34 @@
             background: transparent; /* make scrollbar transparent */
         }
 
+       
+        #chevron {
+            position: absolute;
+            bottom: 10%;
+            width: 20px;
+            left: 50%;
+            color: white;
+            z-index: 999;
+            -webkit-transform: translate(-50%, 0);
+            -webkit-animation: bob 1s infinite  alternate;
+            animation: bob 1s infinite  alternate;
+            background-color: #00000000;
+            display: none;
+        }
+
+        @media screen and (max-height: 800px) {
+        /* CSS that should be displayed if width is equal to or less than 800px goes here */
+            #chevron {
+                display: flex;
+            }
+        }
+
+
+        @keyframes bob {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
         #custom-button {
             width: 300px;
             height: 50px;
@@ -333,59 +361,66 @@
             </button>
         </div>
     </div>
-    <div id="instructions-content-div" style="display: none" class="instructions-content">
-        <ul>
-            <h2 style="text-align:center; color:#FF8F00;">ABOUT .MP426</h2>
-            <ul style="text-align: center; padding-right:7%">
-                .mp426 is a music-adapting retro racer that is powered by YOUR music. <br>
-                The game elements interact with the music to create a unique experience.<br>
-                For best results, use music with precise beats, such as rap or techno.<br>
-                Rack up as many points as you can. Good luck!<br>
-            </ul>
-            <br><br>
-            <h2 style="text-align:center; color:#FF8F00;"><i class="fas fa-gamepad"></i> CONTROLS <i
-                    class="fas fa-gamepad"></i></h2>
-            <ul style="padding-left:30%">
-                <i class="fas fa-arrow-left"></i> <i class="fas fa-arrow-right"></i>&thinsp;&nbsp&nbsp&nbsp
-                &nbsp&nbspMove
-                horizontally
-                <br>
-                &nbsp&nbsp<i class="fas fa-arrow-up"></i>&thinsp;&nbsp &nbsp &nbsp &nbsp Jump<br>
-                &nbsp&nbsp<i class="fas fa-arrow-down"></i> &thinsp;&nbsp&nbsp &nbsp &nbsp Shield (no
-                points/damage)<br>
-                1,2,3 &nbsp&nbsp &thinsp; Toggle camera views<br>
-                Esc &nbsp &nbsp &nbsp Pause
-            </ul>
-            <br><br>
-            <h2 style="text-align:center; color:#FF8F00;"><i class="fas fa-gem"></i> GEMS AND POWERUPS <i
-                    class="fas fa-gem"></i></h2>
+    <div id="instructions-content-div" style="display: none">
+        <div id="chevron">
+            ↓
+        </div>
+        <div  class="instructions-content">
             <ul>
-                <img src="https://i.ibb.co/vwcRf2d/white.jpg" width=20px height=18px alt="logo1">
-                <i class="fas fa-gem"></i> WHITE gems are
-                worth 100 points <br>
-                <img src="https://i.ibb.co/pvFTmvQ/yellow.png" width=20px height=18px alt="logo1"> <i
-                    class="fas fa-gem"></i> YELLOW
-                gems are worth 500 points <br>
-                <img src="https://i.ibb.co/HYVsqFV/red.png" width=20px height=18px alt="logo1"> <i
-                    class="fas fa-exclamation-triangle"></i> RED spheres deal 1000 points of damage <br>
-                <img src="https://i.ibb.co/16ZB91w/green.jpg" width=20px height=18px alt="logo1"> <i
-                    class="fas fa-dot-circle"></i>
-                GREEN powerups double the value of gems. Spheres are now worth
-                +2000!
+                <h2 style="text-align:center; color:#FF8F00;">ABOUT .MP426</h2>
+                <ul style="text-align: center; padding-right:7%">
+                    .mp426 is a music-adapting retro racer that is powered by YOUR music. <br>
+                    The game elements interact with the music to create a unique experience.<br>
+                    For best results, use music with precise beats, such as rap or techno.<br>
+                    Rack up as many points as you can. Good luck!<br>
+                </ul>
+                <br><br>
+                <h2 style="text-align:center; color:#FF8F00;"><i class="fas fa-gamepad"></i> CONTROLS <i
+                        class="fas fa-gamepad"></i></h2>
+                <ul style="padding-left:30%">
+                    <i class="fas fa-arrow-left"></i> <i class="fas fa-arrow-right"></i>&thinsp;&nbsp&nbsp&nbsp
+                    &nbsp&nbspMove
+                    horizontally
+                    <br>
+                    &nbsp&nbsp<i class="fas fa-arrow-up"></i>&thinsp;&nbsp &nbsp &nbsp &nbsp Jump<br>
+                    &nbsp&nbsp<i class="fas fa-arrow-down"></i> &thinsp;&nbsp&nbsp &nbsp &nbsp Shield (no
+                    points/damage)<br>
+                    1,2,3 &nbsp&nbsp &thinsp; Toggle camera views<br>
+                    Esc &nbsp &nbsp &nbsp Pause
+                </ul>
+                <br><br>
+                <h2 style="text-align:center; color:#FF8F00;"><i class="fas fa-gem"></i> GEMS AND POWERUPS <i
+                        class="fas fa-gem"></i></h2>
+                <ul>
+                    <img src="https://i.ibb.co/vwcRf2d/white.jpg" width=20px height=18px alt="logo1">
+                    <i class="fas fa-gem"></i> WHITE gems are
+                    worth 100 points <br>
+                    <img src="https://i.ibb.co/pvFTmvQ/yellow.png" width=20px height=18px alt="logo1"> <i
+                        class="fas fa-gem"></i> YELLOW
+                    gems are worth 500 points <br>
+                    <img src="https://i.ibb.co/HYVsqFV/red.png" width=20px height=18px alt="logo1"> <i
+                        class="fas fa-exclamation-triangle"></i> RED spheres deal 1000 points of damage <br>
+                    <img src="https://i.ibb.co/16ZB91w/green.jpg" width=20px height=18px alt="logo1"> <i
+                        class="fas fa-dot-circle"></i>
+                    GREEN powerups double the value of gems. Spheres are now worth
+                    +2000!
+                    <br>
+                    <img src="https://i.ibb.co/pxLQFD6/blue.jpg" width=20px height=18px alt="logo1"> <i
+                        class="fas fa-magnet"></i> BLUE
+                    powerups pull gems towards the player. Spheres are now worth +1000!
+                </ul>
                 <br>
-                <img src="https://i.ibb.co/pxLQFD6/blue.jpg" width=20px height=18px alt="logo1"> <i
-                    class="fas fa-magnet"></i> BLUE
-                powerups pull gems towards the player. Spheres are now worth +1000!
+                <h6 style="text-align: right;">Developers: Hanson Kang, Johan Ospina, Greg Umali</h6>
             </ul>
-            <br>
-            <h6 style="text-align: right;">Developers: Hanson Kang, Johan Ospina, Greg Umali</h6>
-        </ul>
-        <div class="Instructions" id="instructions-div">
-            <button type="button" id="instructions-button" onclick="instructions()">
-                INFO
-            </button>
+            
+            <div class="Instructions" id="instructions-div">
+                <button type="button" id="instructions-button" onclick="instructions()">
+                    INFO
+                </button>
+            </div>
         </div>
     </div>
+    
 </body>
 
 <script>

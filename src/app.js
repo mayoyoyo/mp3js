@@ -54,7 +54,7 @@ let filmParams = {
     nIntensity: 0.2
 };
 let filmPass = new FilmPass(filmParams.nIntensity, filmParams.sIntensity, filmParams.count, false);
-composer.addPass(filmPass);
+//composer.addPass(filmPass);
 let copyShader = new ShaderPass(CopyShader);
 copyShader.renderToScreen = true;
 composer.addPass(copyShader);
@@ -366,3 +366,26 @@ const windowResizeHandler = () => {
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
+
+
+
+window.onToggleShaders = (vibeVals) => { // bind the context
+    composer = new EffectComposer(renderer);
+
+    composer.addPass(renderScene);
+    composer.addPass(bloomPass);
+
+    if (vibeVals.vibeChecked) {
+        // change the film pass..
+        filmPass.uniforms["sCount"].value = vibeVals.sCount;
+        filmPass.uniforms["nIntensity"].value = vibeVals.nIntensity;
+        filmPass.uniforms["sIntensity"].value = vibeVals.sIntensity;
+
+        composer.addPass(filmPass);
+    }
+
+    composer.addPass(copyShader);
+}
+
+
+

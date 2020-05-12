@@ -125,6 +125,15 @@
             cursor: pointer;
             font-size: 20px;
         }
+        #vibe-button {
+            margin-left: 10px;
+            padding: 10px;
+            color: white;
+            background-color: #FF8F00;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+        }
 
         #custom-text {
             margin-left: 10px;
@@ -358,6 +367,9 @@
             <button type="button" id="instructions-button" onclick="instructions()">
                 CONTROLS / INFO
             </button>
+            <button type="button" id="vibe-button" onclick="vibeCheck()">
+                VIBE CHECK
+            </button>
         </div>
     </div>
     <div class="UIBox2" id="displayscore">
@@ -540,6 +552,78 @@
             instructionsDiv.style.display = "flex";
         } else {
             instructionsDiv.style.display = "none";
+        }
+    }
+
+    function updateQueryStringParameter(uri, key, value) {
+        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+        var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+        if (uri.match(re)) {
+            return uri.replace(re, '$1' + key + "=" + value + '$2');
+        }
+        else {
+            return uri + separator + key + "=" + value;
+        }
+    }
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }  
+    
+    
+    
+
+    function vibeCheck(skip) {
+        if (skip == undefined){
+            skip = false;
+        }
+
+
+        if (!skip) {
+            let vibeCheckVal = getParameterByName("vibe");
+            let count = getParameterByName("count");
+            let sIntensity = getParameterByName("sIntensity");
+            let nIntensity = getParameterByName("nIntensity");
+
+
+            if (history.pushState) {
+                var newurl = vibeCheckVal == null || vibeCheckVal == "unchecked" ? updateQueryStringParameter(window.location.href, "vibe", "checked") : updateQueryStringParameter(window.location.href, "vibe", 'unchecked');
+                newurl =  count == null ? updateQueryStringParameter(newurl, "count", "700") : newurl;
+                newurl =  sIntensity == null ? updateQueryStringParameter(newurl, "sIntensity", "1.2") : newurl;
+                newurl =  nIntensity == null ? updateQueryStringParameter(newurl, "nIntensity", "0.2") : newurl;
+
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        }
+
+        vibeCheckVal = getParameterByName("vibe");
+        count = getParameterByName("count");
+        sIntensity = getParameterByName("sIntensity");
+        nIntensity = getParameterByName("nIntensity");
+
+        
+
+        let vibeValues = {
+            vibeChecked: vibeCheckVal == "checked" ? true : false,
+            sCount: count == null ? 600: parseFloat(count),
+            sIntensity: sIntensity == null ? 1.2: parseFloat(sIntensity),
+            nIntensity: nIntensity == null ? 0.2: parseFloat(nIntensity)
+        }
+        window.onToggleShaders(vibeValues);
+    }
+
+    window.onload = () => {
+        let vibeCheckVal = getParameterByName("vibe");
+        let vc = vibeCheckVal == null ? false: true;
+        let vc2 = vibeCheckVal == "unchecked" 
+        if (vc) {
+            vibeCheck(true);
         }
     }
 

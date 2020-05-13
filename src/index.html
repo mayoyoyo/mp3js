@@ -258,16 +258,16 @@
         }
 
         .UIBox4 {
-            width: 100px;
-            left: 30%;
-            top: 30px;
+            width: 200px;
+            left: 14%;
+            bottom: 10px;
             display: none;
             justify-content: space-between;
             position: absolute;
             -webkit-transform: translate(-50%, 0);
             background-color: transparent;
             padding: 10px;
-            font-size: 30px;
+            font-size: 20px;
             color: white;
         }
 
@@ -407,6 +407,13 @@
             </button>
         </div>
     </div>
+    <div class="UIBox4" id="progress">
+        <div class="content">
+            <p id="percent" style="text-align:right">
+
+            </div>
+        </div>
+    </div>
     <div id="instructions-content-div" style="display: none">
         <div id="chevron">
             <i class="fas fa-arrow-down"></i>
@@ -486,6 +493,7 @@
     const dfAudio = document.getElementById('df-audio');
     const box = document.getElementById('upload');
     const score = document.getElementById('displayscore');
+    const progess = document.getElementById('progress');
     const pausebutton = document.getElementById('pausebutton');
     const pausediv = document.getElementById('pausediv');
     const gameoverBox = document.getElementById('gameover');
@@ -521,6 +529,7 @@
         } else {
             audio.play();
         }
+        progress.style.display = 'flex';
         pausediv.style.display = 'flex';
         pausebutton.style.display = 'flex';
         gameoverBox.style.display = 'none';
@@ -534,6 +543,7 @@
         } else {
             audio.pause();
         }
+        progress.style.display = 'flex';
         score.style.display = 'none';
         gameoverBox.style.display = 'none';
         pausediv.style.display = 'none';
@@ -542,6 +552,7 @@
     }
 
     function gameover() {
+        progress.style.display = 'none';
         gameoverBox.style.display = 'flex';
         score.style.display = 'none';
         pausebutton.style.display = 'none';
@@ -626,7 +637,7 @@
         let vc = vibeCheckVal == null ? false : true;
         let vc2 = vibeCheckVal == "unchecked";
         if (vc && !vc2) {
-            // change the audio... 
+            // change the audio...
             dfAudio.setAttribute('src', './Macintosh Plus.mp3');
             customTxt.innerText = "リサフランク420 / 現代のコンピュー.mp3"
             vibeCheck(true);

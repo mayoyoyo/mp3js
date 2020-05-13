@@ -262,6 +262,9 @@ document.getElementById("playAudio2").addEventListener('click', function () {
     scene.reset();
 });
 
+// for progress tracking
+var prevProgress = -1;
+
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     // controls.update();
@@ -353,6 +356,17 @@ const onAnimationFrameHandler = (timeStamp) => {
         score.innerHTML = "SCORE" + "<br />" + `${prevScore}`;
     }
 
+    // track progress
+
+    let progress = Math.round(prevInAudio.currentTime / prevInAudio.duration * 100);
+    const progText = document.getElementById('progress');
+
+    if (progress != prevProgress) {
+      progText.innerHTML = "PROGRESS: " + progress + "%";
+      prevProgress = progress;
+    }
+
+
     //renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
 
@@ -361,7 +375,7 @@ const onAnimationFrameHandler = (timeStamp) => {
         window.requestAnimationFrame(onAnimationFrameHandler);
 
     }, 1000 / 60 ); //45 fps
-    
+
     time++;
 };
 
@@ -397,6 +411,3 @@ window.onToggleShaders = (vibeVals) => { // bind the context
 
     composer.addPass(copyShader);
 }
-
-
-

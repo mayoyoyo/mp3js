@@ -367,9 +367,6 @@
             <button type="button" id="instructions-button" onclick="instructions()">
                 CONTROLS / INFO
             </button>
-            <button type="button" id="vibe-button" onclick="vibeCheck()">
-                VIBE CHECK
-            </button>
         </div>
     </div>
     <div class="UIBox2" id="displayscore">
@@ -432,7 +429,8 @@
                     &nbsp&nbsp<i class="fas fa-arrow-down"></i> &thinsp;&nbsp&nbsp &nbsp &nbsp Shield (no
                     points/damage)<br>
                     1,2,3 &nbsp&nbsp &thinsp; Toggle camera views<br>
-                    Esc &nbsp &nbsp &nbsp Pause
+                    Esc &nbsp &nbsp &nbsp Pause <br>
+                    V &nbsp &nbsp &nbsp &nbsp &nbspVibe Check
                 </ul>
                 <br><br>
                 <h2 style="text-align:center; color:#FF8F00;"><i class="fas fa-gem"></i> GEMS AND POWERUPS <i
@@ -617,6 +615,12 @@
         }
         window.onToggleShaders(vibeValues);
     }
+
+    document.addEventListener("keypress", (e) => {
+        if (e.code == "KeyV") {
+            vibeCheck();
+        }
+    })
 
     window.onload = () => {
         let vibeCheckVal = getParameterByName("vibe");

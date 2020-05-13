@@ -91,6 +91,9 @@ function addKeyAction(keySpec, onDown, onUp) {
 
 const aka = addKeyAction;
 // https://keycode.info
+const VKey = {key: "v", keycode: 75, isPressed: false}
+
+
 const ArrowLeft = { key: "ArrowLeft", keyCode: 37, isPressed: false };
 const ArrowRight = { key: "ArrowRight", keyCode: 39, isPressed: false };
 const ArrowUp = { key: "ArrowUp", keyCode: 38, isPressed: false };
@@ -107,7 +110,8 @@ const boundKeys = [
     ViewTwo,
     ViewThree,
     Dodge,
-    Pause
+    Pause,
+    VKey
 ];
 
 function watchKey(keyObj) {
@@ -122,6 +126,12 @@ boundKeys.forEach(watchKey);
 addKeyAction(
     Pause,
     event => { document.getElementById('pausebutton').click() },
+    event => { }
+);
+
+addKeyAction(
+    VKey,
+    event => { vibeCheck() },
     event => { }
 );
 
@@ -267,6 +277,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     if (ArrowRight.isPressed) {
         scene.state.playerInputs.right = true;
     }
+
     if (ViewOne.isPressed) {
         scene.state.cameraAngle = "ViewOne";
     }

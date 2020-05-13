@@ -39,8 +39,12 @@ class SimpleScene extends Scene {
             shrek: false
         };
 
-        // audio frequency data
-        //this.audiodata = new AudioData([], []);
+
+        // Add player
+        var regex = new RegExp('.*shrek=true.*');
+        var shrek = regex.test(window.location.href);
+        this.state.shrek = shrek;
+        const ionDrive = shrek ? new Shrek(() => { }) : new IonDrive(() => { });
 
         this.freqdata = [];
 
@@ -59,14 +63,14 @@ class SimpleScene extends Scene {
             width, height,
             segments: 32, color: 0x000022,
             wallPos: new Vector3(-width * 0.35, 0, this.state.spacing),
-            margin: 0.0, padding: 0.0, n, size: 0.2
+            margin: 0.0, padding: 0.0, n, size: 0.2, shrek: this.state.shrek
         });
 
         let wall2 = new Wall({
             width, height,
             segments: 32, color: 0x000022,
             wallPos: new Vector3(-width * 0.35, 0, -this.state.spacing),
-            margin: 0.0, padding: 0.0, n, size: 0.2
+            margin: 0.0, padding: 0.0, n, size: 0.2, shrek: this.state.shrek
         });
 
         let floor = new Floor({
@@ -91,11 +95,6 @@ class SimpleScene extends Scene {
         this.addToUpdateList(wall1);
         this.addToUpdateList(wall2);
         this.addToUpdateList(floor);
-
-        // Add player
-        var regex = new RegExp('.*shrek=true.*');
-        var shrek = regex.test(window.location.href);
-        const ionDrive = shrek ? new Shrek(() => { }) : new IonDrive(() => { }) ;
 
         let playerPos = new Vector3(-0.8, -1, 0);
         let player = new Player({ radius: 1.4, segments: 1, playerPos: playerPos, ionDrive: ionDrive, bounds: this.state.spacing - 6, scene: this });
@@ -296,10 +295,10 @@ class SimpleScene extends Scene {
                 for (var i = 0; i < this.freqdata.length; i = i + binsize) {
                     let currBin = 0;
 
-                    for (let j = i; j < i+binsize; j++) {
+                    for (let j = i; j < i + binsize; j++) {
                         currBin += this.freqdata[j]
                     }
-                    levels.push( Math.min(currBin / binsize / 256, 1.0));
+                    levels.push(Math.min(currBin / binsize / 256, 1.0));
                 }
                 levels.reverse();
             }

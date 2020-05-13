@@ -359,7 +359,7 @@ const onAnimationFrameHandler = (timeStamp) => {
       changeSpeed(Math.min(newSpeed, MAX_SPEED));
     }
     else if (newSpeed >= INITIAL_SPEED && (time - prevBeat) > 100) {
-      if (lastDecrease - time > 3) {
+      if (time - lastDecrease > 5) {
         newSpeed -= 0.005;
         lastDecrease = time;
         changeSpeed(Math.max(newSpeed, INITIAL_SPEED));
@@ -392,6 +392,10 @@ const onAnimationFrameHandler = (timeStamp) => {
     progText.innerHTML = "PROGRESS: " + progress + "%";
     prevProgress = progress;
   }
+
+  let mph = Math.round(scene.state.speed * 100 / 0.6);
+  const speedtext = document.getElementById('speed');
+  speedtext.innerHTML = "SPEED: " + mph + "MPH";
 
 
   //renderer.render(scene, camera);

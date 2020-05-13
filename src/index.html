@@ -259,7 +259,6 @@
 
         .UIBox4 {
             width: 200px;
-            left: 10%;
             bottom: 10px;
             display: none;
             justify-content: space-between;
@@ -407,12 +406,19 @@
             </button>
         </div>
     </div>
-    <div class="UIBox4" id="progress">
+    <div class="UIBox4" style="left:10%" id="progress">
         <div class="content">
             <p id="percent" style="text-align:right">
 
-            </div>
         </div>
+    </div>
+    </div>
+    <div class="UIBox4" style="right:10%" id="speed">
+        <div class="content">
+            <p id="speed" style="text-align:right">
+
+        </div>
+    </div>
     </div>
     <div id="instructions-content-div" style="display: none">
         <div id="chevron">
@@ -494,6 +500,7 @@
     const box = document.getElementById('upload');
     const score = document.getElementById('displayscore');
     const progess = document.getElementById('progress');
+    const speed = document.getElementById('speed');
     const pausebutton = document.getElementById('pausebutton');
     const pausediv = document.getElementById('pausediv');
     const gameoverBox = document.getElementById('gameover');
@@ -531,6 +538,7 @@
             audio.play();
         }
         progress.style.display = 'flex';
+        speed.style.display = 'flex';
         pausediv.style.display = 'flex';
         pausebutton.style.display = 'flex';
         gameoverBox.style.display = 'none';
@@ -593,18 +601,18 @@
     }
 
     function shrek(skip) {
-      if (skip == undefined) {
-          skip = false;
-      }
-      if (!skip) {
-          let shrekVal = getParameterByName("shrek");
+        if (skip == undefined) {
+            skip = false;
+        }
+        if (!skip) {
+            let shrekVal = getParameterByName("shrek");
 
-          if (history.pushState) {
-              var newurl = shrekVal == null || shrekVal == "false" ? updateQueryStringParameter(window.location.href, "shrek", "true") : updateQueryStringParameter(window.location.href, "shrek", 'false');
-              window.history.pushState({ path: newurl }, '', newurl);
-          }
-          window.location.reload(false)
-      }
+            if (history.pushState) {
+                var newurl = shrekVal == null || shrekVal == "false" ? updateQueryStringParameter(window.location.href, "shrek", "true") : updateQueryStringParameter(window.location.href, "shrek", 'false');
+                window.history.pushState({ path: newurl }, '', newurl);
+            }
+            window.location.reload(false)
+        }
     }
 
     function vibeCheck(skip) {
@@ -660,7 +668,7 @@
         let shrekVal = getParameterByName("shrek");
         let sk = shrekVal == null ? false : true;
         let sk2 = shrekVal == "false";
-        if (sk && !sk2 ) {
+        if (sk && !sk2) {
             // change the audio...
             dfAudio.setAttribute('src', './All Star.mp3');
             customTxt.innerText = "What are you doing in my swamp?!"

@@ -4,7 +4,7 @@ import { PlaneBufferGeometry, MeshBasicMaterial, DoubleSide, Mesh, BoxBufferGeom
 
 class Wall extends Group {
     constructor(data) {
-        let { width, height, segments, color, wallPos, padding, margin, n, size } = data;
+        let { width, height, segments, color, wallPos, padding, margin, n, size, shrek } = data;
         super();
         let wallGeometry = new PlaneBufferGeometry(width, height, segments);
 
@@ -23,7 +23,7 @@ class Wall extends Group {
         }
 
         this.stripNum = n;
-
+        this.shrek = shrek;
 
 
         let heightMinusMargins = height - 2 * margin;
@@ -33,9 +33,37 @@ class Wall extends Group {
 
         let angleSteps = 360.0 / n;
         let colors = [];
-        for (let i = 0; i < n; i++) {
-            let color = new Color(`hsl(${(n - 1 - i) * angleSteps}, 100%, 50%)`)
-            colors.push(color);
+        if (shrek) {
+            let col1 = new Color(0xD3CCA5);
+            let col2 = new Color(0xC3BC95);
+            let col3 = new Color(0x523213);
+            let col4 = new Color(0x795A2D);
+            let col5 = new Color(0xD5DE2E);
+            let col6 = new Color(0xB0C400);
+            for (let i = 0; i < 6; i++) {
+                colors.push(col1);
+            }
+            for (let i = 0; i < 6; i++) {
+                colors.push(col2);
+            }
+            for (let i = 0; i < 6; i++) {
+                colors.push(col3);
+            }
+            for (let i = 0; i < 6; i++) {
+                colors.push(col4);
+            }
+            for (let i = 0; i < 4; i++) {
+                colors.push(col5);
+            }
+            for (let i = 0; i < 4; i++) {
+                colors.push(col6);
+            }
+        }
+        else {
+            for (let i = 0; i < n; i++) {
+                let color = new Color(`hsl(${(n - 1 - i) * angleSteps}, 100%, 50%)`)
+                colors.push(color);
+            }
         }
 
         for (let i = 0; i < n; i++) {

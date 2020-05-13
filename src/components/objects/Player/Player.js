@@ -33,7 +33,12 @@ class Player extends Group {
 
     // add shield mesh
     geometry = new SphereBufferGeometry(radius + 0.7, 16, 16);
-    material = new MeshPhongMaterial({ opacity: 0, transparent: true });
+    if (this.scene.state.shrek) {
+      material = new MeshPhongMaterial({ opacity: 0, color: 0xB0C400, transparent: true });
+    }
+    else {
+      material = new MeshPhongMaterial({ opacity: 0, transparent: true });
+    }
     let shieldMesh = new Mesh(geometry, material);
     this.shieldMesh = shieldMesh;
     this.add(shieldMesh);

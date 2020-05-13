@@ -359,7 +359,7 @@ const onAnimationFrameHandler = (timeStamp) => {
       changeSpeed(Math.min(newSpeed, MAX_SPEED));
     }
     else if (newSpeed >= INITIAL_SPEED && (time - prevBeat) > 100) {
-      if (lastDecrease - time > 10) {
+      if (lastDecrease - time > 3) {
         newSpeed -= 0.005;
         lastDecrease = time;
         changeSpeed(Math.max(newSpeed, INITIAL_SPEED));

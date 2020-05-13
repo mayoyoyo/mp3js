@@ -616,18 +616,16 @@
         window.onToggleShaders(vibeValues);
     }
 
-    document.addEventListener("keypress", (e) => {
-        if (e.code == "KeyV") {
-            vibeCheck();
-        }
-    })
-
     window.onload = () => {
         let vibeCheckVal = getParameterByName("vibe");
         let vc = vibeCheckVal == null ? false: true;
-        let vc2 = vibeCheckVal == "unchecked" 
-        if (vc) {
+        let vc2 = vibeCheckVal == "unchecked"; 
+        if (vc && !vc2) {
+            // change the audio... 
+            dfAudio.setAttribute('src', './Macintosh Plus.mp3');
             vibeCheck(true);
+        } else {
+            dfAudio.setAttribute('src', './default.mp3');
         }
     }
 

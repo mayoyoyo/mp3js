@@ -498,6 +498,7 @@
     const pausediv = document.getElementById('pausediv');
     const gameoverBox = document.getElementById('gameover');
     const instructionsButton = document.getElementById('instructions-button');
+    const instructionsDiv = document.getElementById('instructions-content-div');
 
     customBtn.addEventListener("click", function () {
         realFileBtn.click();
@@ -534,6 +535,7 @@
         pausebutton.style.display = 'flex';
         gameoverBox.style.display = 'none';
         instructionsButton.style.display = 'none';
+        instructionsDiv.style.display = "none";
     }
 
     function pause() {

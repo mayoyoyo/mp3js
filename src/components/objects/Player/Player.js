@@ -137,7 +137,7 @@ class Player extends Group {
     if (this.scene.state.paused) return;
     this.state.left = false;
     if (this.velocity.z < 0) this.velocity.z = 0;
-    let moveForce = new Vector3(0, 0, .023);
+    let moveForce = new Vector3(0, 0, this.scene.state.speed * 0.028 + 0.012);
     this.netForces.add(moveForce);
   }
 
@@ -145,7 +145,7 @@ class Player extends Group {
     if (this.scene.state.paused) return;
     this.state.right = false;
     if (this.velocity.z > 0) this.velocity.z = 0;
-    let moveForce = new Vector3(0, 0, -.023);
+    let moveForce = new Vector3(0, 0, this.scene.state.speed * -0.028 - 0.012);
     this.netForces.add(moveForce);
   }
 

@@ -125,6 +125,7 @@
             cursor: pointer;
             font-size: 20px;
         }
+
         #vibe-button {
             margin-left: 10px;
             padding: 10px;
@@ -223,6 +224,7 @@
                 display: flex;
             }
         }
+
         @media screen and (max-height: 500px) {
             .UIBox2 {
                 width: 200px;
@@ -230,7 +232,7 @@
             }
         }
 
-        @media screen and (max-height: 300px){
+        @media screen and (max-height: 300px) {
             .UIBox2 {
                 position: absolute;
                 width: 150px;
@@ -241,7 +243,7 @@
             }
         }
 
-        @media screen and (max-height: 500px){
+        @media screen and (max-height: 500px) {
             .playbutton {
                 position: absolute;
                 top: 10px;
@@ -254,6 +256,7 @@
                 padding: 0;
             }
         }
+
         .UIBox4 {
             width: 100px;
             left: 30%;
@@ -430,7 +433,7 @@
                     points/damage)<br>
                     1,2,3 &nbsp&nbsp &thinsp; Toggle camera views<br>
                     Esc &nbsp &nbsp &nbsp Pause <br>
-                    V &nbsp &nbsp &nbsp &nbsp &nbspVibe Check
+                    &nbsp V &nbsp&nbsp &nbsp &nbsp Vibe Check
                 </ul>
                 <br><br>
                 <h2 style="text-align:center; color:#FF8F00;"><i class="fas fa-gem"></i> GEMS AND POWERUPS <i
@@ -454,7 +457,9 @@
                     powerups pull gems towards the player. Spheres are now worth +1000!
                 </ul>
 
-                <h6 style="text-align: right;">Developers: Hanson Kang, Johan Ospina, Greg Umali</h6>
+                <h6 style="text-align: right;">Developers: Hanson Kang, Johan Ospina, Greg Umali <br><br>
+                    <a href="https://github.com/mayoyoyo/mp3js" style="color:white; text-align:right">GitHub</a></h6>
+
                 <br>
             </ul>
 
@@ -572,13 +577,13 @@
         if (!results) return null;
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    }  
-    
-    
-    
+    }
+
+
+
 
     function vibeCheck(skip) {
-        if (skip == undefined){
+        if (skip == undefined) {
             skip = false;
         }
 
@@ -592,11 +597,11 @@
 
             if (history.pushState) {
                 var newurl = vibeCheckVal == null || vibeCheckVal == "unchecked" ? updateQueryStringParameter(window.location.href, "vibe", "checked") : updateQueryStringParameter(window.location.href, "vibe", 'unchecked');
-                newurl =  count == null ? updateQueryStringParameter(newurl, "count", "700") : newurl;
-                newurl =  sIntensity == null ? updateQueryStringParameter(newurl, "sIntensity", "1.2") : newurl;
-                newurl =  nIntensity == null ? updateQueryStringParameter(newurl, "nIntensity", "0.2") : newurl;
+                newurl = count == null ? updateQueryStringParameter(newurl, "count", "700") : newurl;
+                newurl = sIntensity == null ? updateQueryStringParameter(newurl, "sIntensity", "1.2") : newurl;
+                newurl = nIntensity == null ? updateQueryStringParameter(newurl, "nIntensity", "0.2") : newurl;
 
-                window.history.pushState({path:newurl},'',newurl);
+                window.history.pushState({ path: newurl }, '', newurl);
             }
         }
 
@@ -605,21 +610,21 @@
         sIntensity = getParameterByName("sIntensity");
         nIntensity = getParameterByName("nIntensity");
 
-        
+
 
         let vibeValues = {
             vibeChecked: vibeCheckVal == "checked" ? true : false,
-            sCount: count == null ? 600: parseFloat(count),
-            sIntensity: sIntensity == null ? 1.2: parseFloat(sIntensity),
-            nIntensity: nIntensity == null ? 0.2: parseFloat(nIntensity)
+            sCount: count == null ? 600 : parseFloat(count),
+            sIntensity: sIntensity == null ? 1.2 : parseFloat(sIntensity),
+            nIntensity: nIntensity == null ? 0.2 : parseFloat(nIntensity)
         }
         window.onToggleShaders(vibeValues);
     }
 
     window.onload = () => {
         let vibeCheckVal = getParameterByName("vibe");
-        let vc = vibeCheckVal == null ? false: true;
-        let vc2 = vibeCheckVal == "unchecked"; 
+        let vc = vibeCheckVal == null ? false : true;
+        let vc2 = vibeCheckVal == "unchecked";
         if (vc && !vc2) {
             // change the audio... 
             dfAudio.setAttribute('src', './Macintosh Plus.mp3');

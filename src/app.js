@@ -152,6 +152,12 @@ addKeyAction(
     event => { }
 );
 
+addKeyAction(
+    SKey,
+    event => { if (HKey.isPressed) shrek() },
+    event => { }
+);
+
 document.addEventListener('keydown', (event) => {
     event.preventDefault();
     keyActions.forEach((action) => {

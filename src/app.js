@@ -125,7 +125,14 @@ boundKeys.forEach(watchKey);
 
 addKeyAction(
     Pause,
-    event => { document.getElementById('pausebutton').click() },
+    event => {
+      if (scene.state.paused) {
+        document.getElementById('playAudio').click();
+      }
+      else {
+        document.getElementById('pausebutton').click();
+      }
+    },
     event => { }
 );
 

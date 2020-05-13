@@ -1,7 +1,7 @@
 // import * as Dat from 'dat.gui';
 import { Scene, Color, MeshBasicMaterial } from 'three';
 import { SphereBufferGeometry, Mesh } from 'three';
-import { IonDrive, Wall, Floor, Player, Orb, Powerup } from 'objects';
+import { IonDrive, Wall, Floor, Player, Orb, Powerup, Shrek } from 'objects';
 import { BasicLights } from 'lights';
 import { Vector3 } from 'three';
 
@@ -35,7 +35,8 @@ class SimpleScene extends Scene {
             speed: 0,
             deltaInt: 0,
             avgFreq: 1,
-            cameraAngle: "ViewOne"
+            cameraAngle: "ViewOne",
+            shrek: false
         };
 
         // audio frequency data
@@ -92,8 +93,9 @@ class SimpleScene extends Scene {
         this.addToUpdateList(floor);
 
         // Add player
-
-        const ionDrive = new IonDrive(() => { });
+        var regex = new RegExp('.*shrek=true.*');
+        var shrek = regex.test(window.location.href);
+        const ionDrive = shrek ? new Shrek(() => { }) : new IonDrive(() => { }) ;
 
         let playerPos = new Vector3(-0.8, -1, 0);
         let player = new Player({ radius: 1.4, segments: 1, playerPos: playerPos, ionDrive: ionDrive, bounds: this.state.spacing - 6, scene: this });

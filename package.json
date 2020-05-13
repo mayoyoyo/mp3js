@@ -18,7 +18,7 @@
     "prebuild": "rimraf ./build && mkdir ./build",
     "build": "npm run prebuild && webpack --mode production --output-public-path '/'",
     "format": "prettier --write '*.js' 'src/**/*.js'",
-    "deploy": "npm run prebuild && webpack --mode production && cp default.mp3 ./build/default.mp3 && cp Macintosh\\ Plus.mp3 ./build/Macintosh\\ Plus.mp3 && gh-pages -d build"
+    "deploy": "npm run prebuild && webpack --mode production && cp default.mp3 ./build/default.mp3 && cp Macintosh\\ Plus.mp3 ./build/Macintosh\\ Plus.mp3 && cp All\\ Star.mp3 ./build/All\\ Star.mp3 && gh-pages -d build"
   },
   "dependencies": {
     "bpm-detective": "^2.0.3",

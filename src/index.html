@@ -592,8 +592,20 @@
         return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
 
+    function shrek(skip) {
+      if (skip == undefined) {
+          skip = false;
+      }
+      if (!skip) {
+          let shrekVal = getParameterByName("shrek");
 
-
+          if (history.pushState) {
+              var newurl = shrekVal == null || shrekVal == "false" ? updateQueryStringParameter(window.location.href, "shrek", "true") : updateQueryStringParameter(window.location.href, "shrek", 'false');
+              window.history.pushState({ path: newurl }, '', newurl);
+          }
+          window.location.reload(false)
+      }
+    }
 
     function vibeCheck(skip) {
         if (skip == undefined) {
@@ -643,6 +655,18 @@
             dfAudio.setAttribute('src', './Macintosh Plus.mp3');
             customTxt.innerText = "リサフランク420 / 現代のコンピュー.mp3"
             vibeCheck(true);
+        } else {
+            dfAudio.setAttribute('src', './default.mp3');
+        }
+
+        let shrekVal = getParameterByName("shrek");
+        let sk = shrekVal == null ? false : true;
+        let sk2 = shrekVal == "false";
+        if (sk && !sk2) {
+            // change the audio...
+            dfAudio.setAttribute('src', './All Star.mp3');
+            customTxt.innerText = "What are you doing in my swamp?!"
+            shrek(true);
         } else {
             dfAudio.setAttribute('src', './default.mp3');
         }

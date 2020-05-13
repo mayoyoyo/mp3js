@@ -92,6 +92,8 @@ function addKeyAction(keySpec, onDown, onUp) {
 const aka = addKeyAction;
 // https://keycode.info
 const VKey = {key: "v", keycode: 75, isPressed: false}
+const SKey = {key: "s", keycode: 83, isPressed: false}
+const HKey = {key: "h", keycode: 72, isPressed: false}
 
 
 const ArrowLeft = { key: "ArrowLeft", keyCode: 37, isPressed: false };
@@ -111,7 +113,9 @@ const boundKeys = [
     ViewThree,
     Dodge,
     Pause,
-    VKey
+    VKey,
+    SKey,
+    HKey
 ];
 
 function watchKey(keyObj) {
@@ -139,6 +143,12 @@ addKeyAction(
 addKeyAction(
     VKey,
     event => { vibeCheck() },
+    event => { }
+);
+
+addKeyAction(
+    HKey,
+    event => { if (SKey.isPressed) shrek() },
     event => { }
 );
 
@@ -399,7 +409,11 @@ const windowResizeHandler = () => {
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
 
+window.onShrek = () => {
+  console.log("WHAT ARE YOU DOING IN MY SWAMP");
+  scene.state.shrek = true;
 
+}
 
 window.onToggleShaders = (vibeVals) => { // bind the context
     composer = new EffectComposer(renderer);

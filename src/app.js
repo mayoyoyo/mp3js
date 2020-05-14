@@ -183,6 +183,21 @@ document.addEventListener('keyup', (event) => {
   })
 });
 
+const INITIAL_SPEED = 0.4;
+const MAX_SPEED = 1.0;
+let prevSpeed = INITIAL_SPEED;
+
+function handlePause() {
+  if (!scene.state.paused) {
+    prevSpeed = scene.state.speed;
+    scene.state.paused = true;
+    changeSpeed(0);
+  } else {
+    scene.state.paused = false;
+    changeSpeed(prevSpeed);
+  }
+}
+
 var audiodata = new AudioData();
 
 var file = document.getElementById("fileInput");
@@ -221,6 +236,7 @@ function uploadAudio(f, isFile) {
   prevInAudio = inAudio;
 
   scene.state.score = 0;
+  prevSpeed = INITIAL_SPEED;
   scene.reset();
 }
 
@@ -251,21 +267,6 @@ function changeSpeed(val) {
   scene.floor.setSpeed(val);
   scene.state.speed = val;
   for (let i = 0; i < scene.orbs.length; i++) scene.orbs[i].state.speed = val;
-}
-
-const INITIAL_SPEED = 0.4;
-const MAX_SPEED = 1.0;
-let prevSpeed = INITIAL_SPEED;
-
-function handlePause() {
-  if (!scene.state.paused) {
-    prevSpeed = scene.state.speed;
-    scene.state.paused = true;
-    changeSpeed(0);
-  } else {
-    scene.state.paused = false;
-    changeSpeed(prevSpeed);
-  }
 }
 
 function gameover() {
@@ -424,9 +425,7 @@ windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
 
 window.onShrek = () => {
-  console.log("WHAT ARE YOU DOING IN MY SWAMP");
   scene.state.shrek = true;
-
 }
 
 window.onToggleShaders = (vibeVals) => { // bind the context

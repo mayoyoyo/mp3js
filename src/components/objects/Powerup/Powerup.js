@@ -3,7 +3,7 @@ import { TorusGeometry, ConeGeometry, MeshPhongMaterial, Mesh } from 'three';
 
 class Powerup extends Group {
   constructor(data) {
-    let { xPos, speed, bounds, type } = data;
+    let { xPos, speed, bounds, type, scene } = data;
     super();
 
     this.state = {
@@ -14,6 +14,7 @@ class Powerup extends Group {
     }
 
     this.radius = 0.5;
+    this.scene = scene;
 
     var geometry;
     switch (type) {
@@ -47,6 +48,9 @@ class Powerup extends Group {
 
   update() {
     // console.log(this.position.x)
+    if (this.scene.state.paused) {
+      return;
+    }
     this.position.x += this.state.speed;
     if (!this.state.visible) {
       this.children[0].material.opacity = 0;

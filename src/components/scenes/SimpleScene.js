@@ -178,13 +178,13 @@ class SimpleScene extends Scene {
         let rand = Math.random();
 
         if (rand < 0.5) {
-            const newPowerup = new Powerup({ xPos: xPos, speed: speed, bounds: bounds, type: "Magnet" });
+            const newPowerup = new Powerup({ xPos: xPos, speed: speed, bounds: bounds, type: "Magnet", scene: this });
             this.powerups.push(newPowerup);
             this.addToUpdateList(newPowerup);
             this.add(newPowerup);
         }
         else {
-            const newPowerup = new Powerup({ xPos: xPos, speed: speed, bounds: bounds, type: "Double" });
+            const newPowerup = new Powerup({ xPos: xPos, speed: speed, bounds: bounds, type: "Double", scene: this });
             this.powerups.push(newPowerup);
             this.addToUpdateList(newPowerup);
             this.add(newPowerup);
